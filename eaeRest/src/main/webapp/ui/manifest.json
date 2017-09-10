@@ -1,0 +1,115 @@
+{
+  "_version": "1.1.0",
+  "sap.app": {
+	"_version": "1.1.0",
+	"id": "org.eae.tools",
+	"type": "application",
+	"i18n": "i18n/i18n.properties",
+	"title": "{{appTitle}}",
+	"description": "{{appDescription}}",
+	"applicationVersion": {
+	  "version": "1.0.0"
+	}
+  },
+  "sap.ui": {
+	"_version": "1.1.0",
+	"technology": "UI5",
+	"deviceTypes": {
+	  "desktop": true,
+	  "tablet": true,
+	  "phone": true
+	},
+	"supportedThemes": [
+		"sap_hcb",
+		"sap_belize"
+	]
+  },
+  "sap.ui5": {
+	"_version": "1.1.0",
+	"rootView": "org.eae.tools.view.App",
+	"dependencies": {
+	  "minUI5Version": "1.48",
+	  "libs": {
+		"sap.m": {},
+		"sap.uxap" : {}
+	  }
+	},
+	"contentDensities": {
+		"compact": true,
+		"cozy": true
+	},	
+	"models": {
+	  "i18n": {
+		"type": "sap.ui.model.resource.ResourceModel",
+		"settings": {
+		  "bundleName": "org.eae.tools.i18n.i18n"
+		}
+	  }
+	},
+	"resources": {
+	  "css": [
+		{
+		  "uri": "css/style.css"
+		}
+	  ]
+	},
+	
+	"routing": {
+	  "config": {
+		"routerClass": "sap.m.routing.Router",
+		"viewType": "XML",
+		"viewPath": "org.eae.tools.view",
+		"controlId": "eaeApp",
+		"controlAggregation": "pages",
+        "bypassed": {
+           "target": "notFound"
+        }
+	  },
+	  "routes": [
+		{
+		  "pattern": "",
+		  "name": "landingPage",
+		  "target": "landing"
+		},
+		{
+			"pattern" : "overview",
+			"name" : "overviewPeriods",
+			"target" : "overview"
+		},
+		{
+			"pattern" : "overview/{periodId}",
+			"name" : "overviewPeriod",
+			"target" : "overviewPeriod"
+		},
+		{
+			"pattern" : "overviewPublishersAccounts",
+			"name" : "overviewPublishers",
+			"target" : "overviewPublishers"
+			
+		}	
+	  ],
+	  "targets": {
+		"landing": {
+		  "viewName": "Landing",
+		  "viewLevel" : 1
+		},
+		"overview" :{
+		  "viewName" : "PeriodsWorlkist",
+		  "viewLevel" : 2
+		},
+		"overviewPeriod" : {
+		  "viewName" : "OverviewPeriod",
+		  "viewLevel" : 3
+		},
+		"overviewPublishers" : {
+		  "viewName" : "PublishersWorklist",
+		  "viewLevel" : 2
+		},
+		"notFound" : {
+			"viewName" : "NotFound",
+			"transition": "show"
+		}
+	  }
+	}
+  }
+}

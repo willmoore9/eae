@@ -1,0 +1,43 @@
+<core:FragmentDefinition 
+	xmlns="sap.m" 
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<Dialog
+		title="{i18n>createPeriod}">
+		<f:SimpleForm
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+				<Label text="{i18n>periodName}" />
+				<Input value="{/ui/createPeriod/name}" />
+				<Label text="{i18n>dateFrom}" />
+				<DatePicker
+					placeholder="Enter Date ..."
+					dateValue="{/ui/createPeriod/from}"
+					class="sapUiSmallMarginBottom"/>
+				<Label text="{i18n>dateTo}" />
+				<DatePicker
+					placeholder="Enter Date ..."
+					dateValue="{/ui/createPeriod/to}"
+					class="sapUiSmallMarginBottom"/>
+			</f:content>
+		</f:SimpleForm>
+		<buttons>
+			<Button text="{i18n>ok}" press="onCreatePeriodPress"></Button>
+			<Button text="{i18n>cancel}" press="onCancelCreatePeriodPress"></Button>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,30 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<ResponsivePopover
+		title="{Name}"
+		class="sapUiPopupWithPadding"
+		placement="Bottom" >
+		<beginButton>
+			<Button text="Action-A" press="handleCloseButton" />
+		</beginButton>
+		<endButton>
+			<Button text="Action-B" press="handleCloseButton" />
+		</endButton>
+		<content>
+			<List id="publishers"
+				enableBusyIndicator="true" headerText="{i18n>selectUser}" growing="false" 
+				items="{
+					path: 'assigned'
+				}">
+				<headerToolbar>
+					<Toolbar>
+						<SearchField liveChange="onPublisherSearch" width="100%"/>
+					</Toolbar>
+				</headerToolbar>
+				<StandardListItem title="{name}" description="{surname}"
+					icon="sap-icon://employee" iconDensityAware="false" iconInset="false" />
+			</List>
+		</content>
+	</ResponsivePopover>
+</core:FragmentDefinition>

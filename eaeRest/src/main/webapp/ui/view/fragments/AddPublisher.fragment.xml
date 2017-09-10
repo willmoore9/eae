@@ -1,0 +1,42 @@
+<core:FragmentDefinition 
+	xmlns="sap.m" 
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<Dialog
+		title="{i18n>createPublisher}">
+		<f:SimpleForm
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+				<Label text="{i18n>name}" />
+				<Input value="{/ui/createPublisher/name}" />
+				<Label text="{i18n>surename}" />
+				<Input value="{/ui/createPublisher/surname}" />
+				<Label text="{i18n>congregation}" />
+				<Input value="{/ui/createPublisher/congregation}" />
+				<Label text="{i18n>email}" />
+				<Input value="{/ui/createPublisher/email}" />
+				<Label text="{i18n>phoneNumber}" />
+				<Input value="{/ui/createPublisher/phoneNumber}" />
+
+			</f:content>
+		</f:SimpleForm>
+		<buttons>
+			<Button text="{i18n>ok}" press="onCreatePublisherPress"></Button>
+			<Button text="{i18n>cancel}" press="onCancelCreatePublisherPress"></Button>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

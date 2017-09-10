@@ -1,0 +1,13 @@
+<mvc:View 
+	controllerName="org.eae.tools.controller.App"
+	xmlns="sap.m" xmlns:unified="sap.ui.unified"
+	xmlns:mvc="sap.ui.core.mvc" displayBlock="true">
+
+	<Shell title="EAE" id="shell" showLogout="true">
+		<App id="eaeApp">
+		</App>
+		
+
+	</Shell>
+
+</mvc:View>

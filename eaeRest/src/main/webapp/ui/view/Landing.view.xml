@@ -1,0 +1,25 @@
+<mvc:View 
+	controllerName="org.eae.tools.controller.Landing"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+		header="{i18n>manageEaeCalTitle}" subheader="{i18n>manageEaeCalTieSubTitle}" press="navigateToTeamCalendar">
+		<tileContent>
+			<TileContent unit="" footer="">
+				<content>
+					<ImageContent src="sap-icon://appointment-2" />
+				</content>
+			</TileContent>
+		</tileContent>
+	</GenericTile>
+	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+		header="{i18n>managePublishersRecords}" press="navigateToPublisherManagement">
+		<tileContent>
+			<TileContent unit="" footer="">
+				<content>
+					<ImageContent src="sap-icon://account" />
+				</content>
+			</TileContent>
+		</tileContent>
+	</GenericTile>
+</mvc:View>
