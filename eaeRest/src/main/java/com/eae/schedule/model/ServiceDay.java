@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +16,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -22,10 +27,15 @@ import javax.persistence.TemporalType;
 import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
 
+
 @Entity
 @Table(name="SERVICE_DAY")
-@NamedEntityGraph(name = "ServiceDay.shifts",
-attributeNodes = @NamedAttributeNode("shifts"))
+@NamedQueries({
+    @NamedQuery(name = "ServiceDay.findDaysInPeriod", query = "select d from ServiceDay d JOIN d.shifts s where d.period.guid = ?1 and s.serviceDay.guid = d.guid")
+})
+@NamedEntityGraphs({
+@NamedEntityGraph(includeAllAttributes=true)
+})
 public class ServiceDay extends BaseObject implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -38,10 +48,9 @@ public class ServiceDay extends BaseObject implements Serializable {
 	@JoinColumn(name="SERVICE_PERIOD_ID")
 	private ServicePeriod period;
 
-//	@OneToMany
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="serviceDay", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="serviceDay", fetch=FetchType.EAGER)
 	@JoinFetch(JoinFetchType.OUTER)
-	private Collection<Shift> shifts;
+	private Set<Shift> shifts = new HashSet<Shift>(0);
 
 	public ServiceDay () {
 	}
@@ -62,11 +71,12 @@ public class ServiceDay extends BaseObject implements Serializable {
 		this.period = period;
 	}
 
-	public Collection<Shift> getShifts() {
+	public Set<Shift> getShifts() {
 		return shifts;
 	}
 
-	public void setShifts(List<Shift> shifts) {
+	public void setShifts(Set<Shift> shifts) {
+		System.out.println("setShifts");
 		this.shifts = shifts;
 	}
 
@@ -75,5 +85,4 @@ public class ServiceDay extends BaseObject implements Serializable {
 		shift.setServiceDay(this);
 		return shift;
 	}
-	
 }

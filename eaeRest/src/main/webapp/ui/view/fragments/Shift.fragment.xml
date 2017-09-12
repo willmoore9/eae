@@ -10,6 +10,11 @@
 		}">
 		<headerToolbar>
 			<Toolbar>
+			<Text text="{parts: [
+									'starts',
+									'ends'
+								],
+								formatter: '.formatShiftTitle'}"></Text>
 			<ToolbarSpacer />
 			<Button icon="sap-icon://account" design="Lite" press="selectPublisherForAdd"/>
 			</Toolbar>

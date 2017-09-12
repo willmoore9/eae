@@ -100,8 +100,5 @@ sap.ui.define([
 		onPublisherSearch : function(oEvent) {
 			console.log("onPublisherSearch" + oEvent);
 		}
-		
-		
-		
 	});
 });

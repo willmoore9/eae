@@ -5,9 +5,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -96,9 +98,8 @@ public class SerivePeriodsController {
     	while(it.hasNext()) {
     		System.out.println(it.next());
     	}
-    	
+
     	List<ServiceDay> serviceDays = this.daysRepo.findServiceDayByPeriod(period, Sort.by("date"));
-//    	List<ServiceDay> serviceDays = this.daysRepo.findServiceDayByPeriodWithShifts(periodId);
     	List<ServiceWeek> serviceWeeks = groupByWeeks(serviceDays);
     	response.setObjects(serviceWeeks);
     	
@@ -112,17 +113,11 @@ public class SerivePeriodsController {
 		ServiceWeek week = new ServiceWeek();
 		
 		for(ServiceDay day : serviceDays) {
+			day.getShifts().isEmpty();
+			System.out.println("day.getShifts().size() = " + day.getShifts().size());
 			calendar.setTime(day.getDate());
-			List<Shift> list = (List<Shift>) day.getShifts();
-			list.isEmpty();
-			
-			Iterator<Shift> iterShifts = list.iterator();
-			while(iterShifts.hasNext()) {
-				Shift shift = iterShifts.next();
-				System.out.println("Shift" + shift.getGuid());
-			}
-//			List<Shift> shifts = this.shiftRepo.findShiftByServiceDay(day,  Sort.by("starts"));
-//			System.out.println("shifts.size():" +shifts.size());
+			// do not like it, but until I find better solution will have to live with N+1 issue :( 
+//			Set<Shift> shifts = this.shiftRepo.findShiftByServiceDay(day,  Sort.by("starts"));
 //			for(Shift s : shifts) {
 //				System.out.println(s.getGuid());
 //			}
