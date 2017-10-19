@@ -35,9 +35,13 @@ public class ServicePeriod extends BaseObject implements Serializable {
 	@Column(name="PERIOD_ENDS")
 	private Date ends;
 	
+	@Basic
+	@Column(name="SHIFT_TEMPLATE")
+	private String shiftTemplate;
+	
 	@OneToMany(mappedBy="period", cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	private List<ServiceDay> serviceDays = new ArrayList<ServiceDay>();
-
+	
 	
 	public ServicePeriod() {
 	}
@@ -72,6 +76,14 @@ public class ServicePeriod extends BaseObject implements Serializable {
 
 	public void setEnds(Date ends) {
 		this.ends = ends;
+	}
+
+	public String getShiftTemplate() {
+		return shiftTemplate;
+	}
+
+	public void setShiftTemplate(String shiftTemplate) {
+		this.shiftTemplate = shiftTemplate;
 	}
 	
 	

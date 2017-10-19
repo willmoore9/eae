@@ -1,7 +1,7 @@
 <mvc:View 
 	controllerName="org.eae.tools.controller.App"
 	xmlns="sap.m" xmlns:unified="sap.ui.unified"
-	xmlns:mvc="sap.ui.core.mvc" displayBlock="true">
+	xmlns:mvc="sap.ui.core.mvc" displayBlock="true" class="sapUiSizeCompact">
 
 	<Shell title="EAE" id="shell" showLogout="true">
 		<App id="eaeApp">

@@ -33,6 +33,14 @@
 					placeholder="Enter Date ..."
 					dateValue="{/ui/createPeriod/to}"
 					class="sapUiSmallMarginBottom"/>
+				<Label text="{i18n>firstShiftStart}" />
+				<Select
+					forceSelection="false"
+					selectedKey="{/ui/createPeriod/shiftTemplate}">
+					<core:Item key="1" text="14:00" />
+					<core:Item key="2" text="14:30" />
+					<core:Item key="3" text="15:00" />
+				</Select>
 			</f:content>
 		</f:SimpleForm>
 		<buttons>

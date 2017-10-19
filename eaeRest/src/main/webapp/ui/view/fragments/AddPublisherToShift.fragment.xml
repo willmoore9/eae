@@ -1,10 +1,10 @@
 <core:FragmentDefinition xmlns="sap.m"
 	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
-	<Dialog title="{i18n>assignedPublisers}" beforeOpen="onBeforeAssignPublishersOpen">
+	<Dialog title="{i18n>assignPublisers}" beforeOpen="onBeforeAssignPublishersOpen">
 		<IconTabBar id="idIconTabBarNoIcons" expanded="{device>/isNoPhone}"
 			class="sapUiResponsiveContentPadding">
 			<items>
-				<IconTabFilter text="{i18n>assignedPublisers}">
+				<IconTabFilter text="{i18n>assignablePublisers}">
 					<List id="assignedPublishers" growing="true" mode="MultiSelect"
 						includeItemInSelection="true" select="onAssignPublisher" items="{
 																path: 'assignedToDate'

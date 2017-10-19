@@ -31,6 +31,7 @@ sap.ui.define([
 				var oCreateData = that.getView().getModel().getProperty("/ui/createPeriod");
 				oCreateData.starts = oCreateData.from.toJSON();
 				oCreateData.ends = oCreateData.to.toJSON();
+				debugger;
 				$.ajax({
 				   headers: { 
 				        'Accept': 'application/json',
