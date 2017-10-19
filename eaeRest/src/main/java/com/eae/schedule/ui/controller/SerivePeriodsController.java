@@ -39,6 +39,9 @@ public class SerivePeriodsController {
 	@Autowired
 	private ShiftRepository shiftRepo;
 	
+	@Autowired
+	private org.springframework.orm.jpa.JpaTransactionManager transactionManager;
+	
     @RequestMapping(name="/", method=RequestMethod.GET)
     public Response<ServicePeriod> getAll() {
     	Response<ServicePeriod> response = new Response<ServicePeriod>();
@@ -48,10 +51,10 @@ public class SerivePeriodsController {
         return response; 
     }
     
-    @RequestMapping(value="/create", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
+    @RequestMapping(path="/create", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
     public Response<ServicePeriod> save(@RequestBody ServicePeriod period) {
     	Response<ServicePeriod> response = new Response<ServicePeriod>();
-    	this.periodRepo.save(period);
+    	period = this.periodRepo.save(period);
     	Calendar from = Calendar.getInstance();
     	from.setTime(period.getStarts());
 
@@ -73,8 +76,12 @@ public class SerivePeriodsController {
     	}
 //    	period.setServiceDays(serviceDays);
     	
-    	this.daysRepo.save(serviceDays);
+//    	this.daysRepo.saveAll(serviceDays);
+    	for(ServiceDay day : serviceDays) {
+    		this.daysRepo.save(day);	
+    	}
     	
+    	this.daysRepo.flush();
     	return response;
     }
     
@@ -85,14 +92,14 @@ public class SerivePeriodsController {
     	serviceDays.add(day);
     }
     
-    @RequestMapping(value="/{periodId}/weeks", method=RequestMethod.GET)
+    @RequestMapping(path="/{periodId}/weeks", method=RequestMethod.GET)
     public Response<ServiceWeek> loadServiceWeeks(@PathVariable(name="periodId", required=true) String periodId) {
     	
     	System.out.println("Period id: " + periodId);
     	Response<ServiceWeek> response = new Response<ServiceWeek>();
     	
     	
-    	ServicePeriod period = this.periodRepo.findOne(periodId).get();
+    	ServicePeriod period = this.periodRepo.findById(periodId).get();
     	Iterator<ServiceDay> it = period.getServiceDays().iterator();
     	
     	while(it.hasNext()) {
@@ -117,7 +124,7 @@ public class SerivePeriodsController {
 			System.out.println("day.getShifts().size() = " + day.getShifts().size());
 			calendar.setTime(day.getDate());
 			// do not like it, but until I find better solution will have to live with N+1 issue :( 
-//			Set<Shift> shifts = this.shiftRepo.findShiftByServiceDay(day,  Sort.by("starts"));
+//			List<Shift> shifts = this.shiftRepo.findShiftByServiceDay(day,  Sort.by("starts"));
 //			for(Shift s : shifts) {
 //				System.out.println(s.getGuid());
 //			}
@@ -134,10 +141,10 @@ public class SerivePeriodsController {
 		return weeks;
 	}
 	
-    @RequestMapping(value="/delete/{periodId}", method=RequestMethod.DELETE)
+    @RequestMapping(path="/delete/{periodId}", method=RequestMethod.DELETE)
     public Response<Object> deletePeriod(@PathVariable(name="periodId", required=true) String periodId) {
     	Response<Object> response = new Response<Object>();
-    	this.periodRepo.delete(periodId);
+    	this.periodRepo.deleteById(periodId);
     	return response;
     }
     

@@ -94,11 +94,40 @@ sap.ui.define([
 		},
 		
 		selectPublisherForAdd : function(oEvent) {
-			
+			var oShiftContext = oEvent.getSource().getBindingContext();
+			this._oCurrentShift = oShiftContext.getModel().getObject(oShiftContext.getPath());
+			if(!this._oAssignToShiftDialog) {
+				this._oAssignToShiftDialog = sap.ui.xmlfragment("createShift", "org.eae.tools.view.fragments.AddPublisherToShift", this);
+				this.getView().addDependent(this._oAssignToShiftDialog);	
+			}
+			this._oAssignToShiftDialog.open();
+		},
+		
+		onBeforeAssignPublishersOpen : function() {
+			var oModel = this.getView().getModel();
+			oModel.fetchData("rest/publishers/", "/Publishers", true);
+		},
+		
+		onCloseAssignPublishersPress : function (oEvent) {
+			this._oAssignToShiftDialog.close();
 		},
 		
 		onPublisherSearch : function(oEvent) {
 			console.log("onPublisherSearch" + oEvent);
+		},
+		
+		onAssignPublisher : function(oEvent) {
+			var oModel = this.getView().getModel();
+			var oPublisherItem = oEvent.getParameter("listItem");
+			var oPublisherContext = oPublisherItem.getBindingContext();
+			var oObj = oPublisherContext.getModel().getObject(oPublisherContext.getPath());
+			oModel.createObject("rest/shifts/assign/" + 
+					this._oCurrentShift.guid + "/" +
+					oObj.guid,
+					{},
+					"POST",
+					"", true);
+	
 		}
 	});
 });

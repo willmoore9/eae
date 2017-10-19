@@ -20,7 +20,7 @@ public class PublishersContoller {
 	@Autowired
 	private PublisherRepository publisherRepo;
 	
-    @RequestMapping(name="/", method=RequestMethod.GET)
+    @RequestMapping(value="/", method=RequestMethod.GET)
     public Response<Publisher> getAll() {
     	Response<Publisher> response = new Response<Publisher>();
     	List<Publisher> periods = (List<Publisher>) this.publisherRepo.findAll();
@@ -37,9 +37,9 @@ public class PublishersContoller {
 	}
 	
 	@RequestMapping(value="/delete/{publisherId}", method=RequestMethod.DELETE)
-    public Response<Object> deletePeriod(@PathVariable(name="publisherId", required=true) String publisherId) {
+    public Response<Object> deletePeriod(@PathVariable(value="publisherId") String publisherId) {
     	Response<Object> response = new Response<Object>();
-    	this.publisherRepo.delete(publisherId);
+    	this.publisherRepo.deleteById(publisherId);
     	return response;
     }
     

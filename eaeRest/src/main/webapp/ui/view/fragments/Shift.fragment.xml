@@ -19,8 +19,7 @@
 			<Button icon="sap-icon://account" design="Lite" press="selectPublisherForAdd"/>
 			</Toolbar>
 		</headerToolbar>
-		<StandardListItem title="{name}" description="{surname}"
-			icon="sap-icon://employee" iconDensityAware="false" iconInset="false" />
+		<StandardListItem title="{name} {surname}" iconDensityAware="false" iconInset="true" />
 	</List>
 
 </core:FragmentDefinition>

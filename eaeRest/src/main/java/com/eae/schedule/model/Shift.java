@@ -18,14 +18,17 @@ import javax.persistence.TemporalType;
 import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="SHIFT")
 public class Shift extends BaseObject implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="SERVICEDAY_GUID", nullable=false)
+	@JsonBackReference
 	private ServiceDay serviceDay;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -36,11 +39,6 @@ public class Shift extends BaseObject implements Serializable {
 	@Column(name="ENDS")
 	private Date ends;
 	
-//	@OneToOne(fetch=FetchType.EAGER, optional=true)
-//	@JoinColumn(name="GUID", updatable=false, insertable=false, referencedColumnName="GUID")
-//	private Publisher shiftLeader;
-
-
 	@OneToMany(fetch=FetchType.EAGER)
 	@JoinTable(
 			name = "SHIFT_PUBLISHER",

@@ -1,0 +1,35 @@
+<core:FragmentDefinition xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog title="{i18n>assignedPublisers}" beforeOpen="onBeforeAssignPublishersOpen">
+		<IconTabBar id="idIconTabBarNoIcons" expanded="{device>/isNoPhone}"
+			class="sapUiResponsiveContentPadding">
+			<items>
+				<IconTabFilter text="{i18n>assignedPublisers}">
+					<List id="assignedPublishers" growing="true" mode="MultiSelect"
+						includeItemInSelection="true" select="onAssignPublisher" items="{
+																path: 'assignedToDate'
+															}">
+
+						<StandardListItem title="{name}" description="{surname}"
+							icon="sap-icon://employee" iconDensityAware="false" iconInset="false" />
+					</List>
+
+				</IconTabFilter>
+				<IconTabFilter text="{i18n>allPublisers}">
+					<List id="allPublishers" growing="true" mode="MultiSelect"
+						includeItemInSelection="true" select="onAssignPublisher" items="{
+																path: '/Publishers'
+															}">
+
+						<StandardListItem title="{name}" description="{surname}"
+							icon="sap-icon://employee" iconDensityAware="false" iconInset="false" />
+					</List>
+
+				</IconTabFilter>
+			</items>
+		</IconTabBar>
+		<buttons>
+			<Button text="{i18n>ok}" press="onCloseAssignPublishersPress"></Button>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>
