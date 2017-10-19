@@ -95,16 +95,9 @@ public class SerivePeriodsController {
     @RequestMapping(path="/{periodId}/weeks", method=RequestMethod.GET)
     public Response<ServiceWeek> loadServiceWeeks(@PathVariable(name="periodId", required=true) String periodId) {
     	
-    	System.out.println("Period id: " + periodId);
     	Response<ServiceWeek> response = new Response<ServiceWeek>();
-    	
-    	
+
     	ServicePeriod period = this.periodRepo.findById(periodId).get();
-    	Iterator<ServiceDay> it = period.getServiceDays().iterator();
-    	
-    	while(it.hasNext()) {
-    		System.out.println(it.next());
-    	}
 
     	List<ServiceDay> serviceDays = this.daysRepo.findServiceDayByPeriod(period, Sort.by("date"));
     	List<ServiceWeek> serviceWeeks = groupByWeeks(serviceDays);
@@ -121,23 +114,14 @@ public class SerivePeriodsController {
 		
 		for(ServiceDay day : serviceDays) {
 			day.getShifts().isEmpty();
-			System.out.println("day.getShifts().size() = " + day.getShifts().size());
 			calendar.setTime(day.getDate());
-			// do not like it, but until I find better solution will have to live with N+1 issue :( 
-//			List<Shift> shifts = this.shiftRepo.findShiftByServiceDay(day,  Sort.by("starts"));
-//			for(Shift s : shifts) {
-//				System.out.println(s.getGuid());
-//			}
-//			day.setShifts(shifts);
 			if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY || weeks.size() == 0) {
 				week = new ServiceWeek();
 				week.setName(calendar.get(Calendar.WEEK_OF_YEAR) + "");
 				weeks.add(week);
 			}
-			
 			week.getWeekDays().add(day);
 		}
-		
 		return weeks;
 	}
 	

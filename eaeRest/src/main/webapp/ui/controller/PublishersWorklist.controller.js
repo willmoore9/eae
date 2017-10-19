@@ -35,7 +35,7 @@ sap.ui.define([
 					"/Publishers", 
 					true
 			).then(function(){
-				debugger;
+//				debugger;
 			}.bind(this));
 			
 			this._oNewPublisher.close();

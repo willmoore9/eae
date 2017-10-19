@@ -48,14 +48,16 @@ public class ShiftsController {
 	
 	
 	@RequestMapping(value="/assign/{shiftId}/{publisherId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
-	public Response<Shift> assignPubisherToShift(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="publisherId") String publisherId) {
-		Response<Shift> response = new Response<Shift>();
+	public Response<Publisher> assignPubisherToShift(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="publisherId") String publisherId) {
+		Response<Publisher> response = new Response<Publisher>();
 		Publisher publisher = pubisherRepo.findById(publisherId).get();
 		
 		Shift shift = shiftRepo.findById(shiftId).get();
 		shift.getAssigned().add(publisher);
 		
 		shiftRepo.saveAndFlush(shift);
+		
+		response.addObject(publisher);
 		
 		return response;
 	}
