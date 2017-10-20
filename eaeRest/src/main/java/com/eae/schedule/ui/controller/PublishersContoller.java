@@ -20,7 +20,7 @@ public class PublishersContoller {
 	@Autowired
 	private PublisherRepository publisherRepo;
 	
-    @RequestMapping(value="/", method=RequestMethod.GET)
+    @RequestMapping(name="/", method=RequestMethod.GET)
     public Response<Publisher> getAll() {
     	Response<Publisher> response = new Response<Publisher>();
     	List<Publisher> periods = (List<Publisher>) this.publisherRepo.findAll();

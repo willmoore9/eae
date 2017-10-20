@@ -5,11 +5,9 @@ sap.ui.define([
 	"use strict";
 	return Controller.extend("org.eae.tools.controller.App", {
 		init: function() {
-			console.log("Landing init");
 		},
 		
 		navigateToTeamCalendar : function() {
-			console.log("navigateToTeamCalendar");
 			
 			var oPlannerView = sap.ui.xmlview("org.eae.tools.view.PlannerView");
 			

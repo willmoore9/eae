@@ -11,7 +11,6 @@ sap.ui.define([
 				var publisherId = oEvent.getParameter("arguments").publisherId;
 				this.loadSericeDays(periodId);
 				objectPage.bindElement("/Publisher/" + periodId);
-				console.log("PublisherCalendar");
 			}.bind(this));
 		},
 		
@@ -29,7 +28,6 @@ sap.ui.define([
 		},
 		
 		formatDayTitle : function(iDate){
-			console.log("formatDayTitle");
 			var oDate = new Date(iDate);
 			var oDateFormat = DateFormat.getDateInstance({
 			    pattern: "E, MMM d"
@@ -39,7 +37,6 @@ sap.ui.define([
 		},
 		
 		formatShiftTitle : function(starts, ends) {
-			console.log("formatShiftTitle");
 			var oStarts = new Date(starts);
 			var oEnds = new Date(ends);
 			var oDateFormat = DateFormat.getDateInstance({

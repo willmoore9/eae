@@ -113,7 +113,6 @@ sap.ui.define([
 		},
 		
 		onPublisherSearch : function(oEvent) {
-			console.log("onPublisherSearch" + oEvent);
 		},
 		
 		onAssignPublisher : function(oEvent) {
@@ -122,7 +121,6 @@ sap.ui.define([
 			var oPublisherContext = oPublisherItem.getBindingContext();
 			var oObj = oPublisherContext.getModel().getObject(oPublisherContext.getPath());
 			var oCurrentShift = this._oCurrentShiftContext.getModel().getObject(this._oCurrentShiftContext.getPath());
-			debugger;
 			oModel.createObject("rest/shifts/assign/" + oCurrentShift.guid + "/" + oObj.guid,
 					{},
 					"POST",

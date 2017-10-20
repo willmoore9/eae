@@ -47,7 +47,6 @@ sap.ui.define([
 		},
 		
 		handleDeletePublisher : function(oEvent) {
-			console.log("handleDeletePublisher");
 			var oCreateData = this.getView().getModel().setProperty("/ui/createPublisher", {});
 		},
 		handleDeletePublisher : function(oEvent) {

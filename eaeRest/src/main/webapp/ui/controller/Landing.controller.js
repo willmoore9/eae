@@ -5,7 +5,6 @@ sap.ui.define([
 	"use strict";
 	return Controller.extend("org.eae.tools.controller.Landing", {
 		init: function() {
-			console.log("Landing init");
 		},
 		
 		navigateToTeamCalendar : function() {
@@ -21,10 +20,9 @@ sap.ui.define([
 		navigateToPersonalCalendarManagement : function() {
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.navTo("publisherCalendar", {
-					periodId : "e43caeed-edf4-4b41-a00b-6629a0b3c5b1",
-					publisherId : "01897d1d-e49e-4b69-8bfc-bfa6362b6760"
+					periodId : "358462b5-651c-4e27-a6ca-1b8a28d21b5b",
+					publisherId : "166e6f2c-256e-449e-8f56-d3275c778641"
 			});
-			
 		}
 	});
 });
