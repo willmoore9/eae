@@ -37,7 +37,7 @@
 					</Column> -->
 				</columns>
 				<items>
-					<ColumnListItem press="onNavigateToPeriod" type="Navigation">
+					<ColumnListItem press="onNavigateToPeriod">
 						<cells>
 							<Text text="{name}" />								
 							<Text text="{surname}" />	
