@@ -86,6 +86,12 @@
 			"name" : "overviewPublishers",
 			"target" : "overviewPublishers"
 			
+		},
+		{
+			"pattern" : "calendar/{publisherId}/{periodId}",
+			"name" : "publisherCalendar",
+			"target" : "publisherCalendar"
+			
 		}	
 	  ],
 	  "targets": {
@@ -103,6 +109,10 @@
 		},
 		"overviewPublishers" : {
 		  "viewName" : "PublishersWorklist",
+		  "viewLevel" : 2
+		},
+		"publisherCalendar" : {
+		  "viewName" : "PublisherCalendar",
 		  "viewLevel" : 2
 		},
 		"notFound" : {

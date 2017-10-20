@@ -22,4 +22,15 @@
 			</TileContent>
 		</tileContent>
 	</GenericTile>
+	
+	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+		header="{i18n>managePersonalCalendar}" press="navigateToPersonalCalendarManagement">
+		<tileContent>
+			<TileContent unit="" footer="">
+				<content>
+					<ImageContent src="sap-icon://appointment" />
+				</content>
+			</TileContent>
+		</tileContent>
+	</GenericTile>	
 </mvc:View>

@@ -1,0 +1,9 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+<HBox>
+<CheckBox text="{parts:[{path:'starts'}, {path:'ends'}], formatter: '.formatShiftTitle'}"></CheckBox>
+
+</HBox>
+
+</core:FragmentDefinition>

@@ -1,0 +1,47 @@
+<mvc:View
+	controllerName="org.eae.tools.controller.PublisherCalendar"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:uxap="sap.uxap"
+	xmlns:semantic="sap.m.semantic" 
+	xmlns:core="sap.ui.core"
+	class="sapUiSizeCompact">
+		<semantic:FullscreenPage id="overviewPubPeriod"
+		navButtonPress="onNavBack" showNavButton="true" title="{i18n>servicePeriodWorklist}">
+			<uxap:ObjectPageLayout id="pubPeriodPage" enableLazyLoading="false" subSectionLayout="TitleOnLeft"
+					  showTitleInHeaderContent="true" showHeaderContent="true"
+					  sections="{weeks}"
+					  >
+				<uxap:headerTitle>
+					<uxap:ObjectPageHeader objectTitle="Publisher Period">
+					
+					<uxap:actions>
+						
+					</uxap:actions>
+					</uxap:ObjectPageHeader>
+				</uxap:headerTitle>
+				<uxap:sections>
+					<uxap:ObjectPageSection title="{parts:['i18n>cw', 'name']}">
+						<uxap:subSections>
+							<uxap:ObjectPageSubSection blocks="{path:'weekDays', templateShareable:true}">
+								<uxap:blocks>
+									<Panel content="{path:'shifts', templateShareable:true}">
+										<headerToolbar>
+											<Toolbar>
+												<Title text="{parts:['date'], formatter:'.formatDayTitle'}"/>
+												<ToolbarSpacer />
+											</Toolbar>
+										</headerToolbar>
+										<content>
+											<core:Fragment fragmentName="org.eae.tools.view.fragments.PublisherShift" type="XML"/>
+										</content>
+									</Panel>
+								</uxap:blocks>
+							</uxap:ObjectPageSubSection>
+						</uxap:subSections>
+					</uxap:ObjectPageSection>
+					
+				</uxap:sections>
+			</uxap:ObjectPageLayout>
+		</semantic:FullscreenPage>
+</mvc:View>

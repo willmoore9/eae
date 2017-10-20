@@ -14,6 +14,7 @@ sap.ui.define([
 			
 			var oJsonModel = new EaeModel({
 				Schedule : {},
+				Publisher : {},
 				Publishers : [],
 				ui: {
 					createPeriod : {

@@ -1,9 +1,11 @@
 package com.eae.schedule.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,25 +41,24 @@ public class Shift extends BaseObject implements Serializable {
 	@Column(name="ENDS")
 	private Date ends;
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
 	@JoinTable(
 			name = "SHIFT_PUBLISHER",
 			joinColumns = { @JoinColumn(name="SHIFT_GUID",referencedColumnName="GUID") },
 			inverseJoinColumns = {@JoinColumn(name="PUBLISHER_GUID", referencedColumnName="GUID")}
 	)
-	@JoinFetch(JoinFetchType.OUTER)
-	private List<Publisher> assigned;
 	
-//	@OneToMany(mappedBy="shift")
-//	private List<Availability> available;
+	@JoinFetch(JoinFetchType.OUTER)
+	private List<Publisher> assigned = new ArrayList<Publisher>();
 
-//	public Publisher getShiftLeader() {
-//		return shiftLeader;
-//	}
-//
-//	public void setShiftLeader(Publisher shiftLeader) {
-//		this.shiftLeader = shiftLeader;
-//	}
+	@OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+	@JoinTable(
+			name = "SHIFT_PUBLISHER_ASSIGN",
+			joinColumns = { @JoinColumn(name="SHIFT_GUID",referencedColumnName="GUID") },
+			inverseJoinColumns = {@JoinColumn(name="PUBLISHER_GUID", referencedColumnName="GUID")}
+	)
+	@JoinFetch(JoinFetchType.OUTER)
+	private List<Publisher> assignable = new ArrayList<Publisher>();
 
 	public List<Publisher> getAssigned() {
 		return assigned;
@@ -89,6 +90,14 @@ public class Shift extends BaseObject implements Serializable {
 
 	public void setEnds(Date ends) {
 		this.ends = ends;
+	}
+
+	public List<Publisher> getAssignable() {
+		return assignable;
+	}
+
+	public void setAssignable(List<Publisher> assignable) {
+		this.assignable = assignable;
 	}
 	
 	

@@ -39,9 +39,6 @@ public class SerivePeriodsController {
 	@Autowired
 	private ShiftRepository shiftRepo;
 	
-	@Autowired
-	private org.springframework.orm.jpa.JpaTransactionManager transactionManager;
-	
     @RequestMapping(name="/", method=RequestMethod.GET)
     public Response<ServicePeriod> getAll() {
     	Response<ServicePeriod> response = new Response<ServicePeriod>();
@@ -78,7 +75,78 @@ public class SerivePeriodsController {
     	
 //    	this.daysRepo.saveAll(serviceDays);
     	for(ServiceDay day : serviceDays) {
-    		this.daysRepo.save(day);	
+
+    		Calendar shiftDay = Calendar.getInstance();
+			shiftDay.setTime(day.getDate());
+			shiftDay.set(Calendar.AM_PM, Calendar.PM);
+    		
+			
+    		if(period.getShiftTemplate() == null || period.getShiftTemplate().equals("1") || period.getShiftTemplate().equals("")) {
+    			
+    			Shift shift = new Shift();
+    			shiftDay.set(Calendar.HOUR, 2);
+    			
+    			shift.setStarts(shiftDay.getTime());
+    			
+    			shiftDay.set(Calendar.HOUR, 4);
+    			shift.setEnds(shiftDay.getTime());
+    			
+    			shift.setServiceDay(day);
+    			day.getShifts().add(shift);
+    			
+    			shift = new Shift();
+    			shiftDay.set(Calendar.HOUR, 4);
+    			shift.setStarts(shiftDay.getTime());
+    			
+    			shiftDay.set(Calendar.HOUR, 6);
+    			shift.setEnds(shiftDay.getTime());
+
+    			shift.setServiceDay(day);
+    			day.getShifts().add(shift);
+    		} else if(period.getShiftTemplate().equals("2")) {
+    			Shift shift = new Shift();
+    			shiftDay.set(Calendar.HOUR, 2);
+    			shiftDay.set(Calendar.MINUTE, 30);
+    			shift.setStarts(shiftDay.getTime());
+    			
+    			shiftDay.set(Calendar.HOUR, 4);
+    			shift.setEnds(shiftDay.getTime());
+    			
+    			shift.setServiceDay(day);
+    			day.getShifts().add(shift);
+    			
+    			shift = new Shift();
+    			shiftDay.set(Calendar.HOUR, 4);
+    			shift.setStarts(shiftDay.getTime());
+    			
+    			shiftDay.set(Calendar.HOUR, 6);
+    			shift.setEnds(shiftDay.getTime());
+
+    			shift.setServiceDay(day);
+    			day.getShifts().add(shift);	
+    		} else if(period.getShiftTemplate().equals("3")) {
+    			Shift shift = new Shift();
+    			shiftDay.set(Calendar.HOUR, 3);
+    			shift.setStarts(shiftDay.getTime());
+    			
+    			shiftDay.set(Calendar.HOUR, 5);
+    			shift.setEnds(shiftDay.getTime());
+    			
+    			shift.setServiceDay(day);
+    			day.getShifts().add(shift);
+    			
+    			shift = new Shift();
+    			shiftDay.set(Calendar.HOUR, 5);
+    			shift.setStarts(shiftDay.getTime());
+    			
+    			shiftDay.set(Calendar.HOUR, 7);
+    			shift.setEnds(shiftDay.getTime());
+
+    			shift.setServiceDay(day);
+    			day.getShifts().add(shift);
+    		}
+    		
+    		this.daysRepo.save(day);
     	}
     	
     	this.daysRepo.flush();
