@@ -2,8 +2,7 @@
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core">
 <HBox>
-<CheckBox text="{parts:[{path:'starts'}, {path:'ends'}], formatter: '.formatShiftTitle'}"></CheckBox>
-
+	<CheckBox text="{parts:[{path:'starts'}, {path:'ends'}], formatter: '.formatShiftTitle'}" select="assignToShift" selected="{path:'assignable', formatter:'.isUserAssignedFormatter'}"></CheckBox>
 </HBox>
 
 </core:FragmentDefinition>

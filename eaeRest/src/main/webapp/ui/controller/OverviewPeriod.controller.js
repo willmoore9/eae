@@ -100,6 +100,7 @@ sap.ui.define([
 				this._oAssignToShiftDialog = sap.ui.xmlfragment("createShift", "org.eae.tools.view.fragments.AddPublisherToShift", this);
 				this.getView().addDependent(this._oAssignToShiftDialog);	
 			}
+			this._oAssignToShiftDialog.setBindingContext(oShiftContext);
 			this._oAssignToShiftDialog.open();
 		},
 		
@@ -124,7 +125,9 @@ sap.ui.define([
 			oModel.createObject("rest/shifts/assign/" + oCurrentShift.guid + "/" + oObj.guid,
 					{},
 					"POST",
-					this._oCurrentShiftContext.getPath() + "/assigned", true);
+					this._oCurrentShiftContext.getPath() + "/assigned", true).then(function(){
+						debugger;
+					});
 	
 		}
 	});

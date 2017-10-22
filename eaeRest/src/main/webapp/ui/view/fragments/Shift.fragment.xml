@@ -3,10 +3,10 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
 	
-	<List id="list" mode="Delete" delete="handleDelete"
+	<List mode="Delete" delete="handleDelete"
 		enableBusyIndicator="true" headerText="{parts:[{path:'starts'}, {path:'ends'}], formatter: '.formatShiftTitle'}" growing="true" 
 		items="{
-			path: 'assigned'
+			path: 'assigned',templateShareable:true
 		}">
 		<headerToolbar>
 			<Toolbar>

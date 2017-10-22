@@ -11,6 +11,9 @@ sap.ui.define([
 				var publisherId = oEvent.getParameter("arguments").publisherId;
 				this.loadSericeDays(periodId);
 				objectPage.bindElement("/Publisher/" + periodId);
+				this.periodUUID = periodId;
+				this.publisherUUID = publisherId;
+				this.s
 			}.bind(this));
 		},
 		
@@ -45,7 +48,28 @@ sap.ui.define([
 
 			return oDateFormat.format(oStarts)  + " - " + oDateFormat.format(oEnds);
 		},
-
+		
+		assignToShift : function(oEvent) {
+			var oModel = this.getView().getModel();
+			var bSelected = oEvent.getParameter("selected");
+			var oSource = oEvent.getSource().getBindingContext();
+			var oShift = oSource.getObject(oSource.getPath());
+//			
+			oModel.createObject("rest/shifts/requestAssign/" + oShift.guid + "/" + this.publisherUUID,
+					{},
+					"POST",
+					oSource.getPath() + "/assignable", true);
+			debugger;
+		},
+		
+		isUserAssignedFormatter : function(aAssigned) {
+			for(var i = 0; i < aAssigned.length; i++) {
+				aAssigned.guid = this.publisherUUID;
+				return true;
+				
+			}
+			return false;
+		}
 		
 	});
 });

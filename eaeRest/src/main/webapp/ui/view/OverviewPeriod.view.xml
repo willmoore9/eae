@@ -4,13 +4,12 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:uxap="sap.uxap"
 	xmlns:semantic="sap.m.semantic" 
-	xmlns:core="sap.ui.core"
-	class="sapUiSizeCompact">
+	xmlns:core="sap.ui.core">
 		<semantic:FullscreenPage id="overviewPeriod"
 		navButtonPress="onNavBack" showNavButton="true" title="{i18n>servicePeriodWorklist}">
 			<uxap:ObjectPageLayout id="periodPage" enableLazyLoading="false" subSectionLayout="TitleOnLeft"
-					  showTitleInHeaderContent="true" showHeaderContent="true"
-					  sections="{weeks}"
+					  showTitleInHeaderContent="true" showHeaderContent="false"
+					  sections="{weeks}" showOnlyHighImportance="true" flexEnabled="true"
 					  >
 				<uxap:headerTitle>
 					<uxap:ObjectPageHeader objectTitle="Period">

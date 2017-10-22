@@ -4,28 +4,23 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:uxap="sap.uxap"
 	xmlns:semantic="sap.m.semantic" 
-	xmlns:core="sap.ui.core"
-	class="sapUiSizeCompact">
+	xmlns:core="sap.ui.core">
 		<semantic:FullscreenPage id="overviewPubPeriod"
 		navButtonPress="onNavBack" showNavButton="true" title="{i18n>servicePeriodWorklist}">
-			<uxap:ObjectPageLayout id="pubPeriodPage" enableLazyLoading="false" subSectionLayout="TitleOnLeft"
+			<uxap:ObjectPageLayout id="pubPeriodPage" enableLazyLoading="false" subSectionLayout="TitleOnTop"
 					  showTitleInHeaderContent="true" showHeaderContent="true"
-					  sections="{weeks}"
+					  sections="{path:'weeks'}"
 					  >
 				<uxap:headerTitle>
-					<uxap:ObjectPageHeader objectTitle="Publisher Period">
-					
-					<uxap:actions>
-						
-					</uxap:actions>
+					<uxap:ObjectPageHeader id="" objectTitle="Publisher Period">
 					</uxap:ObjectPageHeader>
 				</uxap:headerTitle>
 				<uxap:sections>
-					<uxap:ObjectPageSection title="{parts:['i18n>cw', 'name']}">
-						<uxap:subSections>
+					<uxap:ObjectPageSection title="{parts:['i18n>cw', 'name']}" id="currentWeek">
+ 						<uxap:subSections>
 							<uxap:ObjectPageSubSection blocks="{path:'weekDays', templateShareable:true}">
 								<uxap:blocks>
-									<Panel content="{path:'shifts', templateShareable:true}">
+									<Panel content="{path:'shifts', templateShareable:true}" id="currentWeekPanel">
 										<headerToolbar>
 											<Toolbar>
 												<Title text="{parts:['date'], formatter:'.formatDayTitle'}"/>
