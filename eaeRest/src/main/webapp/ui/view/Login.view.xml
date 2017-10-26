@@ -1,0 +1,55 @@
+<mvc:View 
+	controllerName="org.eae.tools.controller.Login"
+	xmlns="sap.m" 
+	xmlns:mvc="sap.ui.core.mvc"	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" displayBlock="true" class="sapUiSizeCompact">
+		<VBox class="sapUiSmallMargin">
+		<f:Form id="FormChange354"
+			editable="true">
+			<f:title>
+				<core:Title text="{i18n>loginTitle}" />
+			</f:title>
+			<f:layout>
+				<f:ResponsiveGridLayout
+					labelSpanXL="3"
+					labelSpanL="3"
+					labelSpanM="3"
+					labelSpanS="12"
+					adjustLabelSpan="false"
+					emptySpanXL="4"
+					emptySpanL="4"
+					emptySpanM="4"
+					emptySpanS="0"
+					columnsXL="1"
+					columnsL="1"
+					columnsM="1"
+					singleContainerFullSize="false" />
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer>
+					<f:formElements>
+						<f:FormElement label="{i18n>username}">
+							<f:fields>
+								<Input id="usernameInput" submit="login"></Input>
+								<CheckBox selected="false" text="{i18n>isAdminUser}" select="userIsAdmin"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="passwordFElement" visible="false" label="{i18n>password}">
+							<f:fields>
+								<Input id="passwordInput" type="Password" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement visible="true" >
+							<f:fields>
+								<Button text="{i18n>submitButton}" press="loginPress"/>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+	
+	
+	
+</mvc:View>

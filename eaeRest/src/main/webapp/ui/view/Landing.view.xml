@@ -24,7 +24,8 @@
 	</GenericTile>
 	
 	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-		header="{i18n>managePersonalCalendar}" press="navigateToPersonalCalendarManagement">
+		header="{i18n>managePersonalCalendar}" subheader="{i18n>managePersonalCalTieSubTitle}" 
+		press="navigateToPersonalCalendarManagement">
 		<tileContent>
 			<TileContent unit="" footer="">
 				<content>

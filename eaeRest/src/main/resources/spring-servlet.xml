@@ -26,22 +26,12 @@
 
 
     <!-- JSON Support -->
-    <bean name="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+    <!-- <bean name="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
     <bean name="jsonTemplate" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
-	<!-- <bean name="friendfaceAppConfig" class="com.sap.cmd.friendface.config.FriendfaceConfig" /> -->
-	
+	 -->
  	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
-	
-<!-- 	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-
-		<property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />
-		<property name="url" value="jdbc:derby://localhost:1527/DefaultDB" />
-		<property name="username" value="sa" />
-		<property name="password" value="sa" />
-	</bean> -->
 	
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
     	<property name="jndiName" value="java:comp/env/jdbc/eaeDB"/>

@@ -33,8 +33,15 @@ sap.ui.define([
 			});
 			
 			this.setModel(oJsonModel);
-			
 			this.getRouter().initialize();
+			oJsonModel.attachRequestFailed(function(oError){
+				console.log(oError);
+				if(oError.getParameter("statusCode") === 401) {
+					this.getRouter().navTo("login");	
+				}
+				
+			}.bind(this));
+			
 		}
 	});
 });

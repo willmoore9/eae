@@ -2,6 +2,42 @@ sap.ui.define([
 "sap/ui/model/json/JSONModel",	
 ], function(JSONModel){
 	return JSONModel.extend("org.eae.tools.common.EaeModel", {
+
+		login : function(user, pass){
+			var oPromise = new Promise(function(resolve, reject){
+				var fnSuccess = function(oData) {
+					resolve(oData);
+				}.bind(this);
+
+				var fnError = function(oParams){
+					var oError = { message : oParams.statusText, statusCode : oParams.status};
+					jQuery.sap.log.fatal("The following problem occurred: " + oParams.statusText + " - " + oParams.status);
+					this.fireRequestFailed(oError);
+					reject();
+				}.bind(this);
+				
+				var _loadData = function(fnSuccess, fnError) {
+					this._ajax({
+						url: 'rest/login',
+						async: true,
+						cache: false,
+						data: {
+							username:user,
+							password:pass,	
+						},
+
+					    type: "POST",
+						success: fnSuccess,
+						error: fnError
+					});
+				}.bind(this);
+					_loadData(fnSuccess, fnError);
+				}.bind(this));
+				
+				return oPromise;
+			
+			
+		},
 		fetchData : function(sURL, sPathToMergeResult, bMerge, oParameters, bAsync, sType, bCache, mHeaders){
 			var pImportCompleted;
 
@@ -25,10 +61,10 @@ sap.ui.define([
 			}.bind(this);
 
 			var fnError = function(oParams){
-				var oError = { message : oParams.textStatus, statusCode : oParams.request.status, statusText : oParams.request.statusText, responseText : oParams.request.responseText};
+				var oError = { message : oParams.request.statusText, statusCode : oParams.request.status};
 				jQuery.sap.log.fatal("The following problem occurred: " + oParams.textStatus, oParams.request.responseText + ","
 							+ oParams.request.status + "," + oParams.request.statusText);
-
+				
 				this.fireRequestCompleted({url : sURL, type : sType, async : bAsync, headers: mHeaders,
 					info : "cache=" + bCache + ";bMerge=" + bMerge, infoObject: {cache : bCache, merge : bMerge}, success: false, errorobject: oError});
 				this.fireRequestFailed(oError);
@@ -41,7 +77,7 @@ sap.ui.define([
 					dataType: 'json',
 					cache: bCache,
 					data: oParameters,
-					headers: mHeaders,
+					headers: {"Authorization": "Basic " + btoa("Chandan:Chandan")},
 					type: sType,
 					success: fnSuccess,
 					error: fnError
@@ -67,16 +103,30 @@ sap.ui.define([
 		
 		removeById : function(sUrl, id) {
 			var oPromise = new Promise(function(resolve, reject){
+				var fnSuccess = function(oData) {
+					if (!oData) {
+						jQuery.sap.log.fatal("The following problem occurred: No data was retrieved by service: " + sURL);
+					}
+					resolve(oData);
+				}.bind(this);
+
+				var fnError = function(oParams){
+					var oError = { message : oParams.statusText, statusCode : oParams.status};
+					jQuery.sap.log.fatal("The following problem occurred: " + oParams.statusText + " - " + oParams.status, oParams.responseText);
+					this.fireRequestFailed(oError);
+					reject();
+				}.bind(this);
+				
 				this._ajax({
 				   headers: { 
 				        'Accept': 'application/json',
-				        'Content-Type': 'application/json' 
+				        'Content-Type': 'application/json',
 				    },
 					url : sUrl,
 					type:"DELETE",
 					dataType: 'json',
-					success: resolve,
-					error: reject
+					success: fnSuccess,
+					error: fnError
 				});
 
 			}.bind(this));
@@ -101,18 +151,16 @@ sap.ui.define([
 					this.setProperty(sPathToMergeResult, oData.objects);	
 				}
 				resolve();
-//				this.fireRequestCompleted({url : sURL, type : sType, async : bAsync, headers: mHeaders,
-//					info : "cache=" + bCache + ";bMerge=" + bMerge, infoObject: {cache : bCache, merge : bMerge}, success: true});
 			}.bind(this);
 
 			var fnError = function(oParams){
-				var oError = { message : oParams.textStatus, statusCode : oParams.request.status, statusText : oParams.request.statusText, responseText : oParams.request.responseText};
+				var oError = { message : oParams.statusText, statusCode : oParams.status};
+				if(oError.statusCode === 401) {
+//					fireUnauthorized();
+				}
 				jQuery.sap.log.fatal("The following problem occurred: " + oParams.textStatus, oParams.request.responseText + ","
 							+ oParams.request.status + "," + oParams.request.statusText);
-
-//				this.fireRequestCompleted({url : sURL, type : sType, async : bAsync, headers: mHeaders,
-//					info : "cache=" + bCache + ";bMerge=" + bMerge, infoObject: {cache : bCache, merge : bMerge}, success: false, errorobject: oError});
-//				this.fireRequestFailed(oError);
+				this.fireRequestFailed(oError);
 				reject();
 			}.bind(this);
 			var _loadData = function(fnSuccess, fnError) {
@@ -124,7 +172,7 @@ sap.ui.define([
 					data: oParameters,
 					headers: { 
 				        'Accept': 'application/json',
-				        'Content-Type': 'application/json' 
+				        'Content-Type': 'application/json'
 				    },
 					type: sType,
 					success: fnSuccess,

@@ -20,8 +20,8 @@ sap.ui.define([
 		navigateToPersonalCalendarManagement : function() {
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.navTo("publisherCalendar", {
-					periodId : "358462b5-651c-4e27-a6ca-1b8a28d21b5b",
-					publisherId : "166e6f2c-256e-449e-8f56-d3275c778641"
+					periodId : "1203f9d8-81a9-4da9-9a43-91fa450c7b10",
+					publisherId : "b719aedd-fc80-402e-848b-671c98405209"
 			});
 		}
 	});
