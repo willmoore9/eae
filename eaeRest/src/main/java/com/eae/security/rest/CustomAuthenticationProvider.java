@@ -3,6 +3,7 @@ package com.eae.security.rest;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,42 +12,51 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import com.eae.schedule.model.Publisher;
+import com.eae.security.service.PublisherService;
+
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider
 {
+
+//		@Autowired
+//		PublisherService publisherService;
 		@Override
 		public Authentication authenticate(Authentication authentication) throws AuthenticationException
 		{
 				String userName = authentication.getName();
 				String password = authentication.getCredentials().toString();
-				if (authorizedUser(userName, password))
+				UserRole role = authorizedUser(userName, password);
+				if (role == UserRole.PUBLISHER)
 				{
 						List<GrantedAuthority> grantedAuths = new ArrayList<>();
-						grantedAuths.add(new GrantedAuthority(){
-
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public String getAuthority() {
-								return "AUTH_USER";
-							}});
+						grantedAuths.add(new PublisherAuthority());
 						Authentication auth = new UsernamePasswordAuthenticationToken(userName, password, grantedAuths);
 						System.out.println(auth.getAuthorities());
 						return auth;
-				}
-				else
-				{
+				} else if(role == UserRole.ADMIN) {
+						List<GrantedAuthority> grantedAuths = new ArrayList<>();
+						grantedAuths.add(new PublisherAuthority());
+						grantedAuths.add(new AdminAuthority());
+						Authentication auth = new UsernamePasswordAuthenticationToken(userName, password, grantedAuths);
+						System.out.println(auth.getAuthorities());
+						return auth;
+					
+				} else {
 						throw new AuthenticationCredentialsNotFoundException("Invalid Credentials!");
 				}
 		}
 
-		private boolean authorizedUser(String userName, String password)
+		private UserRole authorizedUser(String userName, String password)
 		{
+//				Publisher pub = this.publisherService.findPublisherByEmail(userName);
 				if("eae".equals(userName) && "eae".equals(password)) {
-					return true;
+					return UserRole.ADMIN;
+				} else if("vova".equals(userName) ) {
+					return UserRole.PUBLISHER;
 				}
 					
-				return false;
+				return UserRole.ANONYMOUS;
 		}
 
 		@Override

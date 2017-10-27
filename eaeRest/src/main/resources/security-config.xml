@@ -10,21 +10,24 @@
       http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
       http://www.springframework.org/schema/context
       http://www.springframework.org/schema/context/spring-context-4.2.xsd">
- 
-    <sec:http entry-point-ref="customEntryPoint" use-expressions="true">
- 
-        <sec:custom-filter ref="authenticationFilter"
-            before="PRE_AUTH_FILTER" />
- 
-        <sec:intercept-url pattern="/rest/**"
-            access="hasAuthority('AUTH_USER')" />
- 
-        <sec:logout delete-cookies="JSESSIONID" />
- 
+     
+ 	<global-method-security pre-post-annotations="enabled"/>
+    
+     <sec:http entry-point-ref="customEntryPoint" use-expressions="true">
+        <sec:custom-filter ref="authenticationFilter" before="PRE_AUTH_FILTER" />
+        <sec:intercept-url pattern="/rest/publishers/create/*" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/publishers/delete/*" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/periods/create/*" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/periods/delete/*" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/shifts/create/*" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/shifts/delete/*" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/shifts/assign/**" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/shifts/requestAssign/**" access="hasAuthority('PUBLISHER')"/>
+        <sec:logout  delete-cookies="JSESSIONID" />
         <sec:csrf disabled="true" />
     </sec:http>
- 
-    <context:component-scan base-package="com.eae.security.rest" />
+    
+    <context:component-scan base-package="com.eae.security.rest, com.eae.security.service" />
  
     <sec:authentication-manager alias="authenticationManager">
         <authentication-provider ref="customAuthenticationProvider" />

@@ -38,6 +38,8 @@ sap.ui.define([
 				console.log(oError);
 				if(oError.getParameter("statusCode") === 401) {
 					this.getRouter().navTo("login");	
+				} else if(oError.getParameter("statusCode") === 403) {
+					sap.m.MessageToast.show(oError.getParameter("message"));
 				}
 				
 			}.bind(this));

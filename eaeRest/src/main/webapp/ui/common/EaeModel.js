@@ -158,8 +158,8 @@ sap.ui.define([
 				if(oError.statusCode === 401) {
 //					fireUnauthorized();
 				}
-				jQuery.sap.log.fatal("The following problem occurred: " + oParams.textStatus, oParams.request.responseText + ","
-							+ oParams.request.status + "," + oParams.request.statusText);
+				jQuery.sap.log.fatal("The following problem occurred: " + oParams.statusText, oParams.status + ","
+							+ oParams.responseText);
 				this.fireRequestFailed(oError);
 				reject();
 			}.bind(this);
