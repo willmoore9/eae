@@ -13,6 +13,8 @@
      
  	<global-method-security pre-post-annotations="enabled"/>
     
+    <context:component-scan base-package="com.eae.security.rest, com.eae.security.service" />
+    
      <sec:http entry-point-ref="customEntryPoint" use-expressions="true">
         <sec:custom-filter ref="authenticationFilter" before="PRE_AUTH_FILTER" />
         <sec:intercept-url pattern="/rest/publishers/create/*" access="hasAuthority('ADMIN')"/>
@@ -27,10 +29,14 @@
         <sec:csrf disabled="true" />
     </sec:http>
     
-    <context:component-scan base-package="com.eae.security.rest, com.eae.security.service" />
- 
+ 	<beans:bean id="publisherServiceImpl" scope="prototype" class="com.eae.security.service.PublisherServiceImpl"/>
+ 	
+ 	<beans:bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean" >
+    	<beans:property name="jndiName" value="java:comp/env/jdbc/eaeDB"/>
+	</beans:bean>
+    
     <sec:authentication-manager alias="authenticationManager">
-        <authentication-provider ref="customAuthenticationProvider" />
+        <authentication-provider ref="customAuthenticationProvider"/>
     </sec:authentication-manager>
  
     <beans:bean id="authenticationFilter"
@@ -40,6 +46,7 @@
         <beans:property name="authenticationSuccessHandler" ref="customSuccessHandler" />
         <beans:property name="filterProcessesUrl" value="/rest/login"/>
     </beans:bean>
+ 
  
     <beans:bean id="customSuccessHandler"
         class="com.eae.security.rest.CustomSuccessHandler" />

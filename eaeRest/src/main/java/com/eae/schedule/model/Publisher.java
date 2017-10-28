@@ -27,6 +27,9 @@ public class Publisher extends BaseObject implements Serializable {
 	@Column(name="TELEPHONE", length = 56)
 	private String telephone;
 
+	@Column(name="IS_ADMIN")
+	private Boolean isAdmin;
+	
 	public String getName() {
 		return name;
 	}
@@ -65,6 +68,14 @@ public class Publisher extends BaseObject implements Serializable {
 
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
+	}
+
+	public Boolean getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(Boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 	
 	

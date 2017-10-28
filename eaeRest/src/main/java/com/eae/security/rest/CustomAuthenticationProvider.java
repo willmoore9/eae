@@ -19,8 +19,8 @@ import com.eae.security.service.PublisherService;
 public class CustomAuthenticationProvider implements AuthenticationProvider
 {
 
-//		@Autowired
-//		PublisherService publisherService;
+		@Autowired
+		PublisherService publisherService;
 		@Override
 		public Authentication authenticate(Authentication authentication) throws AuthenticationException
 		{
@@ -49,10 +49,17 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
 
 		private UserRole authorizedUser(String userName, String password)
 		{
-//				Publisher pub = this.publisherService.findPublisherByEmail(userName);
-				if("eae".equals(userName) && "eae".equals(password)) {
+				List<Publisher> pubishers = this.publisherService.findPublisherByEmail(userName);
+				
+				if(pubishers.size() == 0) {
+					return UserRole.ANONYMOUS;	
+				}
+				
+				Publisher pub = pubishers.get(0);
+				
+				if(("eae".equals(userName) && "eae".equals(password)) ||  pub.getIsAdmin()) {
 					return UserRole.ADMIN;
-				} else if("vova".equals(userName) ) {
+				} else if(!pub.getIsAdmin()) {
 					return UserRole.PUBLISHER;
 				}
 					
