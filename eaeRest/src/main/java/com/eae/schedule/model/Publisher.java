@@ -28,7 +28,7 @@ public class Publisher extends BaseObject implements Serializable {
 	private String telephone;
 
 	@Column(name="IS_ADMIN")
-	private Boolean isAdmin;
+	private Boolean isAdmin = false;
 	
 	public String getName() {
 		return name;

@@ -10,11 +10,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -35,11 +36,15 @@ public class ServicePeriod extends BaseObject implements Serializable {
 	@Column(name="PERIOD_ENDS")
 	private Date ends;
 	
+	@Column(name="IS_SHARED")
+	private Boolean isShared = false;
+	
 	@Basic
 	@Column(name="SHIFT_TEMPLATE")
 	private String shiftTemplate;
 	
-	@OneToMany(mappedBy="period", cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="period", cascade={CascadeType.REMOVE}, fetch=FetchType.EAGER)
+	@JsonManagedReference
 	private List<ServiceDay> serviceDays = new ArrayList<ServiceDay>();
 	
 	
@@ -84,6 +89,14 @@ public class ServicePeriod extends BaseObject implements Serializable {
 
 	public void setShiftTemplate(String shiftTemplate) {
 		this.shiftTemplate = shiftTemplate;
+	}
+
+	public Boolean getIsShared() {
+		return isShared;
+	}
+
+	public void setIsShared(Boolean isShared) {
+		this.isShared = isShared;
 	}
 	
 	

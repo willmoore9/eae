@@ -11,9 +11,11 @@ sap.ui.define([
 			var model = this.getView().getModel();
 			var username = this.getView().byId("usernameInput").getValue();
 			var pass = this.getView().byId("passwordInput").getValue();
-			model.login(username, pass).then(function(){
+			model.login(username, pass).then(function(data){
 				var oRouter = this.getOwnerComponent().getRouter();
 				oRouter.navTo("");
+				var oComp = this.getOwnerComponent()
+				oComp.readCurrentUserInfo();
 			}.bind(this));
 		},
 		

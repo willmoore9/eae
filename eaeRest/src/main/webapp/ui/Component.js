@@ -14,7 +14,7 @@ sap.ui.define([
 			
 			var oJsonModel = new EaeModel({
 				Schedule : {},
-				Publisher : {},
+				PublisherData : {},
 				Publishers : [],
 				ui: {
 					createPeriod : {
@@ -44,6 +44,21 @@ sap.ui.define([
 				
 			}.bind(this));
 			
+		},
+		
+		onBeforeRendering : function() {
+			console.log("Component - onBeforeRendering");
+			this.readCurrentUserInfo();
+		},
+		
+		readCurrentUserInfo : function() {
+			var oModel = this.getModel();
+			oModel.read("rest/landing").then(function(oData){
+				console.log(oData);
+				
+				this.getModel().setProperty("/PublisherData/Publisher",oData.publisher);
+				this.getModel().setProperty("/PublisherData/Period",oData.currentPeriod);
+			}.bind(this));
 		}
 	});
 });

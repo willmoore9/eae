@@ -3,7 +3,7 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc">
 	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-		header="{i18n>manageEaeCalTitle}" subheader="{i18n>manageEaeCalTieSubTitle}" press="navigateToTeamCalendar">
+		header="{i18n>manageEaeCalTitle}" subheader="{i18n>manageEaeCalTieSubTitle}" press="navigateToTeamCalendar" visible="{= (${/PublisherData/Publisher/isAdmin} &amp;&amp; ${/Publisher/email} !== 'ANONYMOUS')}">
 		<tileContent>
 			<TileContent unit="" footer="">
 				<content>
@@ -13,7 +13,7 @@
 		</tileContent>
 	</GenericTile>
 	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-		header="{i18n>managePublishersRecords}" press="navigateToPublisherManagement">
+		header="{i18n>managePublishersRecords}" press="navigateToPublisherManagement"  visible="{= (${/PublisherData/Publisher/isAdmin} &amp;&amp; ${/PublisherData/Publisher/email} !== 'ANONYMOUS')}">
 		<tileContent>
 			<TileContent unit="" footer="">
 				<content>
@@ -24,8 +24,8 @@
 	</GenericTile>
 	
 	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-		header="{i18n>managePersonalCalendar}" subheader="{i18n>managePersonalCalTieSubTitle}" 
-		press="navigateToPersonalCalendarManagement">
+		header="{parts:[{path:'/PublisherData/Period/starts'},{path:'/PublisherData/Period/ends'}], formatter:'.formatPeriodDates'}" subheader="{i18n>managePersonalCalTieSubTitle}" 
+		press="navigateToPersonalCalendarManagement" visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
 		<tileContent>
 			<TileContent unit="" footer="">
 				<content>

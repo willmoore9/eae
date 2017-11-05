@@ -1,7 +1,7 @@
 sap.ui.define([
      "sap/ui/core/mvc/Controller",
-     "sap/m/Page"
-], function(Controller){
+     "sap/ui/core/format/DateFormat"
+], function(Controller,DateFormat){
 	"use strict";
 	return Controller.extend("org.eae.tools.controller.Landing", {
 		init: function() {
@@ -19,10 +19,21 @@ sap.ui.define([
 		
 		navigateToPersonalCalendarManagement : function() {
 			var oRouter = this.getOwnerComponent().getRouter();
+			var oModel = this.getView().getModel();
 			oRouter.navTo("publisherCalendar", {
-					periodId : "1203f9d8-81a9-4da9-9a43-91fa450c7b10",
-					publisherId : "b719aedd-fc80-402e-848b-671c98405209"
+					periodId : oModel.getProperty("/PublisherData/Period/guid"),
+					publisherId : oModel.getProperty("/PublisherData/Publisher/guid")
 			});
+		},
+		
+		formatPeriodDates : function(starts, ends) {
+			console.log(starts, ends);
+			var oDateFormat = DateFormat.getDateInstance({
+			    pattern: "MMM d"
+			});
+
+
+			return oDateFormat.format(new Date(starts)) + " - " + oDateFormat.format(new Date(ends));
 		}
 	});
 });

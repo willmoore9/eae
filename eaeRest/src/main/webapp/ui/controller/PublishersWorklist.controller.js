@@ -29,6 +29,7 @@ sap.ui.define([
 		onCreatePublisherPress : function() {
 			var oModel = this.getView().getModel();
 			var oParams = oModel.getProperty("/ui/createPublisher");
+			debugger;
 			oModel.createObject("rest/publishers/create/",
 					JSON.stringify(oParams),
 					"POST",
@@ -47,9 +48,6 @@ sap.ui.define([
 		},
 		
 		handleDeletePublisher : function(oEvent) {
-			var oCreateData = this.getView().getModel().setProperty("/ui/createPublisher", {});
-		},
-		handleDeletePublisher : function(oEvent) {
 			var guidToDelete = oEvent.getParameter("listItem").getBindingContext().getProperty("guid");
 			var oModel = this.getView().getModel();
 			oModel.removeById("rest/publishers/delete/" + guidToDelete).then(function(){
@@ -59,6 +57,6 @@ sap.ui.define([
 		
 		refreshTable : function() {
 			this.getView().getModel().fetchData("rest/publishers", "/Publishers", true);
-		},
+		}
 	});
 });

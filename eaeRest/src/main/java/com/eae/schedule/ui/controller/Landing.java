@@ -21,41 +21,15 @@ import com.eae.schedule.ui.model.LandingDTO;
 import com.eae.schedule.ui.model.Response;
 
 @RestController
-@RequestMapping("/publishers")
-public class PublishersContoller {
-	
-	@Autowired
-	private PublisherRepository publisherRepo;
+@RequestMapping("/landing")
+public class Landing {
 	
 	@Autowired
 	private ServicePeriodRepository periodRepo;
 	
     @RequestMapping(name="/", method=RequestMethod.GET)
-    public Response<Publisher> getAll() {
-    	Response<Publisher> response = new Response<Publisher>();
-    	List<Publisher> periods = (List<Publisher>) this.publisherRepo.findAll();
-    	response.setObjects(periods);
-        return response; 
-    }
-    
-	@RequestMapping(value="/create", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
-	public Response<Publisher> createPublisher(@RequestBody Publisher publisher) {
-		Response<Publisher> response = new Response<Publisher>();
-		publisher = this.publisherRepo.save(publisher);
-		response.addObject(publisher);
-		return response;
-	}
-	
-	@RequestMapping(value="/delete/{publisherId}", method=RequestMethod.DELETE)
-    public Response<Object> deletePeriod(@PathVariable(value="publisherId") String publisherId) {
-    	Response<Object> response = new Response<Object>();
-    	this.publisherRepo.deleteById(publisherId);
-    	return response;
-    }
-	
-	@RequestMapping(value="/whoAmI", method=RequestMethod.GET)
-	public LandingDTO findCurrentUser() {
-		LandingDTO landingData = new LandingDTO();
+    public LandingDTO getLandPublisher() {
+    	LandingDTO landingData = new LandingDTO();
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Object currentPrincipal = authentication.getPrincipal();
 		
@@ -73,7 +47,7 @@ public class PublishersContoller {
 			landingData.setPublisher(annonymous);
 		}
 		
-		return landingData;
-	}
+		return landingData; 
+    }
     
 }

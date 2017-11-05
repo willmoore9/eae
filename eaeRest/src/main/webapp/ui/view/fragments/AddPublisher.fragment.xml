@@ -31,6 +31,8 @@
 				<Input value="{/ui/createPublisher/email}" />
 				<Label text="{i18n>phoneNumber}" />
 				<Input value="{/ui/createPublisher/phoneNumber}" />
+				<Label text="{i18n>isAdmin}" />
+				<CheckBox selected="{/ui/createPublisher/isAdmin}" />
 
 			</f:content>
 		</f:SimpleForm>

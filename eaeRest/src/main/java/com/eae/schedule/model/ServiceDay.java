@@ -19,6 +19,7 @@ import javax.persistence.TemporalType;
 import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
@@ -34,9 +35,10 @@ public class ServiceDay extends BaseObject implements Serializable {
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(referencedColumnName="GUID")
+	@JsonBackReference
 	private ServicePeriod period;
 
-	@OneToMany(mappedBy="serviceDay", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="serviceDay", fetch=FetchType.EAGER, cascade={CascadeType.REMOVE})
 	@JoinFetch(JoinFetchType.OUTER)
 	@JsonManagedReference
 	private List<Shift> shifts = new ArrayList<Shift>();

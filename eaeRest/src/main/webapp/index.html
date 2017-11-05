@@ -17,10 +17,15 @@
 	</script>
 	<script>
 	    sap.ui.getCore().attachInit(function () {
-	        new sap.ui.core.ComponentContainer({
+ 	        new sap.ui.core.ComponentContainer({
 	           name : "org.eae.tools"
-	        }).placeAt("content");
+	        }).placeAt("content"); 
 	
+/* 			new sap.m.Shell({
+				app: new sap.ui.core.ComponentContainer({
+					name: "org.eae.tools"
+				})
+			}).placeAt("content"); */
 	     });
 	</script>
 </head>

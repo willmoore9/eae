@@ -10,7 +10,7 @@ sap.ui.define([
 				var periodId = oEvent.getParameter("arguments").periodId;
 				var publisherId = oEvent.getParameter("arguments").publisherId;
 				this.loadSericeDays(periodId);
-				objectPage.bindElement("/Publisher/" + periodId);
+				objectPage.bindElement("/PublisherData/Publisher/" + periodId);
 				this.periodUUID = periodId;
 				this.publisherUUID = publisherId;
 				this.s
@@ -26,8 +26,8 @@ sap.ui.define([
 		
 		loadSericeDays : function(periodId) {
 			var oModel = this.getView().getModel();
-			oModel.setProperty("/Publisher/" + periodId, {});
-			oModel.fetchData("rest/periods/" + periodId + "/weeks", "/Publisher/" + periodId + "/weeks", true);
+			oModel.setProperty("/PublisherData/Publisher/" + periodId, {});
+			oModel.fetchData("rest/periods/" + periodId + "/weeks", "/PublisherData/Publisher/" + periodId + "/weeks", true);
 		},
 		
 		formatDayTitle : function(iDate){

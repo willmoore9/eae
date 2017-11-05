@@ -26,19 +26,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
 		{
 				String userName = authentication.getName();
 				String password = authentication.getCredentials().toString();
-				UserRole role = authorizedUser(userName, password);
-				if (role == UserRole.PUBLISHER)
+				Publisher role = authorizedUser(userName, password);
+				if (role != null && !role.getIsAdmin())
 				{
 						List<GrantedAuthority> grantedAuths = new ArrayList<>();
 						grantedAuths.add(new PublisherAuthority());
-						Authentication auth = new UsernamePasswordAuthenticationToken(userName, password, grantedAuths);
-						System.out.println(auth.getAuthorities());
+						Authentication auth = new UsernamePasswordAuthenticationToken(role, userName + ":" + password, grantedAuths);
 						return auth;
-				} else if(role == UserRole.ADMIN) {
+				} else if(role != null && role.getIsAdmin()) {
 						List<GrantedAuthority> grantedAuths = new ArrayList<>();
 						grantedAuths.add(new PublisherAuthority());
 						grantedAuths.add(new AdminAuthority());
-						Authentication auth = new UsernamePasswordAuthenticationToken(userName, password, grantedAuths);
+						Authentication auth = new UsernamePasswordAuthenticationToken(role, userName + ":" + password, grantedAuths);
 						System.out.println(auth.getAuthorities());
 						return auth;
 					
@@ -47,23 +46,21 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
 				}
 		}
 
-		private UserRole authorizedUser(String userName, String password)
+		private Publisher authorizedUser(String userName, String password)
 		{
-				List<Publisher> pubishers = this.publisherService.findPublisherByEmail(userName);
+			Publisher pub = null;
+			if("eae".equals(userName) && "eae".equals(password)) {
+				pub = new Publisher();
+				pub.setIsAdmin(true);
+			}
+			
+			List<Publisher> pubishers = this.publisherService.findPublisherByEmail(userName);
+			if(pubishers.size() > 0) {
+				pub = pubishers.get(0);
 				
-				if(pubishers.size() == 0) {
-					return UserRole.ANONYMOUS;	
-				}
-				
-				Publisher pub = pubishers.get(0);
-				
-				if(("eae".equals(userName) && "eae".equals(password)) ||  pub.getIsAdmin()) {
-					return UserRole.ADMIN;
-				} else if(!pub.getIsAdmin()) {
-					return UserRole.PUBLISHER;
-				}
-					
-				return UserRole.ANONYMOUS;
+			}
+			
+			return pub;
 		}
 
 		@Override
