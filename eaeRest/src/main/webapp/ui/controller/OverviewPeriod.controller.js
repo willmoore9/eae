@@ -11,6 +11,7 @@ sap.ui.define([
 				var periodId = oEvent.getParameter("arguments").periodId;
 				this.loadSericeDays(periodId);
 				objectPage.bindElement("/Schedule/" + periodId);
+				
 			}.bind(this));
 
 		},
@@ -23,7 +24,12 @@ sap.ui.define([
 		loadSericeDays : function(periodId) {
 			var oModel = this.getView().getModel();
 			oModel.setProperty("/Schedule/" + periodId, {});
-			oModel.fetchData("rest/periods/" + periodId + "/weeks", "/Schedule/" + periodId + "/weeks", true);
+		    oModel.fetchData("rest/periods/" + periodId + "/weeks", "/Schedule/" + periodId + "/weeks", true, {}, true).
+		    then(function(){
+		    	oModel.read("rest/periods/read/" + periodId).then(function(data){
+		    		oModel.setProperty("/Schedule/" + periodId + "/info", data)
+		    	});
+		    });
 		},
 		
 		formatDayTitle : function(iDate){
@@ -126,9 +132,33 @@ sap.ui.define([
 					{},
 					"POST",
 					this._oCurrentShiftContext.getPath() + "/assigned", true).then(function(){
-						debugger;
 					});
 	
+		},
+		onSharePeriod : function(oEvent) {
+			var oModel = this.getView().getModel();
+			var oPage = oEvent.getSource();
+			var oBC = oPage.getBindingContext();
+			var oPeriodGuid = oBC.getModel().getProperty(oBC.getPath());
+			var periodGuid = oPeriodGuid.info.guid;
+			oModel.read("rest/periods/share/" + periodGuid).then(function(data){
+				oModel.setProperty("/Schedule/" + periodGuid + "/info", data)
+			}).catch(function(){
+				console.log("error share");
+			});;
+		},
+		
+		onUnsharePeriod : function(oEvent) {
+			var oModel = this.getView().getModel();
+			var oPage = oEvent.getSource();
+			var oBC = oPage.getBindingContext();
+			var oPeriodGuid = oBC.getModel().getProperty(oBC.getPath());
+			var periodGuid = oPeriodGuid.info.guid;
+			oModel.read("rest/periods/unshare/" + periodGuid).then(function(data){
+				oModel.setProperty("/Schedule/" + periodGuid + "/info", data)
+			}).catch(function(){
+				console.log("error unshare");
+			});
 		}
 	});
 });

@@ -4,16 +4,30 @@ sap.ui.define([
 ], function(Controller){
 	"use strict";
 	return Controller.extend("org.eae.tools.controller.App", {
-		init: function() {
+		onInit: function() {
 		},
 		
-		navigateToTeamCalendar : function() {
-			
-			var oPlannerView = sap.ui.xmlview("org.eae.tools.view.PlannerView");
-			
-			var oNav = this.getView().byId("eaeNav");
-			oNav.addPage(oPlannerView);
-			oNav.to(oPlannerView.getId());
+		
+		handleUserItemPressed : function(oEvent){
+			var oButton = oEvent.getSource();
+			// create action sheet only once
+			if (!this._actionSheet) {//sap.ui.xmlfragment("createShift", "org.eae.tools.view.fragments.AddShift", this);
+				this._actionSheet = sap.ui.xmlfragment(
+					"org.eae.tools.view.fragments.UserIconActionSheet",
+					this
+				);
+				this.getView().addDependent(this._actionSheet);
+			}
+
+			this._actionSheet.openBy(oButton);
+		},
+		
+		onLogoutPress: function() {
+			sap.m.URLHelper.redirect("logout");
+		},
+		onLoginPress: function() {
+			sap.m.URLHelper.redirect("#login");
 		}
+		
 	});
 });

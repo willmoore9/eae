@@ -147,11 +147,12 @@ public class SerivePeriodsController {
     			shift.setServiceDay(day);
     			day.getShifts().add(shift);
     		}
-    		
-    		this.daysRepo.save(day);
+    		period.getServiceDays().add(day);
+//    		this.daysRepo.save(day);
     	}
     	
-    	this.daysRepo.flush();
+//    	this.daysRepo.flush();
+    	this.periodRepo.save(period);
     	return response;
     }
     
@@ -170,17 +171,18 @@ public class SerivePeriodsController {
     	ServicePeriod period = this.periodRepo.findById(periodId).get();
 
     	List<ServiceDay> serviceDays = this.daysRepo.findServiceDayByPeriod(period, Sort.by("date"));
-    	List<ServiceWeek> serviceWeeks = groupByWeeks(serviceDays);
+    	List<ServiceWeek> serviceWeeks = groupByWeeks(serviceDays, period);
     	response.setObjects(serviceWeeks);
     	
     	return response;
     }
 
-	private List<ServiceWeek> groupByWeeks(List<ServiceDay> serviceDays) {
+	private List<ServiceWeek> groupByWeeks(List<ServiceDay> serviceDays, ServicePeriod period) {
 		Calendar calendar = Calendar.getInstance();
 		
 		List<ServiceWeek> weeks = new ArrayList<ServiceWeek>();
 		ServiceWeek week = new ServiceWeek();
+		week.setPeriod(period);
 		
 		for(ServiceDay day : serviceDays) {
 			day.getShifts().isEmpty();
@@ -202,6 +204,30 @@ public class SerivePeriodsController {
     	return response;
     }
     
+    @RequestMapping(path="/read/{periodId}", method=RequestMethod.GET)
+    public ServicePeriod readPeriod(@PathVariable(name="periodId", required=true) String periodId) {
+    	ServicePeriod period = this.periodRepo.findById(periodId).get();
+    	return period;
+    }
     
-
+    @RequestMapping(path="/share/{periodId}", method=RequestMethod.GET)
+    public ServicePeriod sharePeriod(@PathVariable(name="periodId", required=true) String periodId) {
+    	List<ServicePeriod> sharedPeriods = periodRepo.findServicePeriodByIsShared(true);
+    	for(ServicePeriod servicePeriod : sharedPeriods) {
+    		servicePeriod.setIsShared(false);
+    		this.periodRepo.save(servicePeriod);	
+    	}
+    	ServicePeriod period = this.periodRepo.findById(periodId).get();
+    	period.setIsShared(true);
+    	this.periodRepo.save(period);
+    	return period;
+    }   
+    
+    @RequestMapping(path="/unshare/{periodId}", method=RequestMethod.GET)
+    public ServicePeriod unshare(@PathVariable(name="periodId", required=true) String periodId) {
+    	ServicePeriod period = this.periodRepo.findById(periodId).get();
+    	period.setIsShared(false);
+    	this.periodRepo.save(period);
+    	return period;
+    }
 }

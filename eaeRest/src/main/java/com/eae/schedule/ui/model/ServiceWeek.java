@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.eae.schedule.model.ServiceDay;
+import com.eae.schedule.model.ServicePeriod;
 
 public class ServiceWeek implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private ServicePeriod period;
+	
 	private String name;
 	
 	private List<ServiceDay> weekDays;
@@ -32,5 +35,13 @@ public class ServiceWeek implements Serializable {
 
 	public void setWeekDays(List<ServiceDay> weekDays) {
 		this.weekDays = weekDays;
+	}
+
+	public ServicePeriod getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(ServicePeriod period) {
+		this.period = period;
 	}
 }

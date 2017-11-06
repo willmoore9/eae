@@ -77,7 +77,6 @@ sap.ui.define([
 					dataType: 'json',
 					cache: bCache,
 					data: oParameters,
-					headers: {"Authorization": "Basic " + btoa("Chandan:Chandan")},
 					type: sType,
 					success: fnSuccess,
 					error: fnError
@@ -92,10 +91,10 @@ sap.ui.define([
 					_loadData(resolve, fnReject);
 				});
 
-				this.pSequentialImportCompleted = this.pSequentialImportCompleted.then(function() {
+//				this.pSequentialImportCompleted = this.pSequentialImportCompleted.then(function() {
 					//must always resolve
 					return pImportCompleted.then(fnSuccess, fnError).catch(function() {});
-				});
+//				});
 			} else {
 				_loadData(fnSuccess, fnError);
 			}

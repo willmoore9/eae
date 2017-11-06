@@ -29,14 +29,13 @@ sap.ui.define([
 		onCreatePublisherPress : function() {
 			var oModel = this.getView().getModel();
 			var oParams = oModel.getProperty("/ui/createPublisher");
-			debugger;
 			oModel.createObject("rest/publishers/create/",
 					JSON.stringify(oParams),
 					"POST",
 					"/Publishers", 
 					true
 			).then(function(){
-//				debugger;
+				console.log("Created publishe. Do nothing");
 			}.bind(this));
 			
 			this._oNewPublisher.close();

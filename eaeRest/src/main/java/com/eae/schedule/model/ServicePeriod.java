@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
@@ -44,7 +45,7 @@ public class ServicePeriod extends BaseObject implements Serializable {
 	private String shiftTemplate;
 	
 	@OneToMany(mappedBy="period", cascade={CascadeType.REMOVE}, fetch=FetchType.EAGER)
-	@JsonManagedReference
+	@JsonIgnore
 	private List<ServiceDay> serviceDays = new ArrayList<ServiceDay>();
 	
 	

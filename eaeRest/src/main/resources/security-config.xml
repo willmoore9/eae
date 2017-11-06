@@ -21,11 +21,12 @@
         <sec:intercept-url pattern="/rest/publishers/delete/*" access="hasAuthority('ADMIN')"/>
         <sec:intercept-url pattern="/rest/periods/create/*" access="hasAuthority('ADMIN')"/>
         <sec:intercept-url pattern="/rest/periods/delete/*" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/periods/read/*" access="hasAuthority('ADMIN')"/>
         <sec:intercept-url pattern="/rest/shifts/create/*" access="hasAuthority('ADMIN')"/>
         <sec:intercept-url pattern="/rest/shifts/delete/*" access="hasAuthority('ADMIN')"/>
         <sec:intercept-url pattern="/rest/shifts/assign/**" access="hasAuthority('ADMIN')"/>
         <sec:intercept-url pattern="/rest/shifts/requestAssign/**" access="hasAuthority('PUBLISHER')"/>
-        <sec:logout  delete-cookies="JSESSIONID" />
+        <logout logout-url="/logout" delete-cookies="JSESSIONID" logout-success-url="/#login" />
         <sec:csrf disabled="true" />
     </sec:http>
     

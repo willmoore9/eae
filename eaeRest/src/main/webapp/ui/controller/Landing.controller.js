@@ -4,7 +4,11 @@ sap.ui.define([
 ], function(Controller,DateFormat){
 	"use strict";
 	return Controller.extend("org.eae.tools.controller.Landing", {
-		init: function() {
+		onInit : function(){
+			var oRouter = this.getOwnerComponent().getRouter();
+			oRouter.getRoute("landingPage").attachPatternMatched(function(oEvent){
+				this.getOwnerComponent().readCurrentUserInfo();
+			}.bind(this));
 		},
 		
 		navigateToTeamCalendar : function() {

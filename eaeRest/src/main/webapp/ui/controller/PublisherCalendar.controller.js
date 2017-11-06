@@ -59,7 +59,6 @@ sap.ui.define([
 					{},
 					"POST",
 					oSource.getPath() + "/assignable", true);
-			debugger;
 		},
 		
 		isUserAssignedFormatter : function(aAssigned) {

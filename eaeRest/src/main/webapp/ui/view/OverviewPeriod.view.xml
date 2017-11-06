@@ -15,7 +15,8 @@
 					<uxap:ObjectPageHeader objectTitle="Period">
 					
 					<uxap:actions>
-						<uxap:ObjectPageHeaderActionButton icon="sap-icon://share-2" text="Share As Tile" type="Emphasized"/>
+						<uxap:ObjectPageHeaderActionButton icon="sap-icon://share-2" text="{i18n>share}" hideText="false" type="Emphasized" press="onSharePeriod" visible="{= !${info/isShared}}"/>
+						<uxap:ObjectPageHeaderActionButton icon="sap-icon://share-2" text="{i18n>unshare}" hideText="false" press="onUnsharePeriod"  visible="{= ${info/isShared}}"/>
 					</uxap:actions>
 					</uxap:ObjectPageHeader>
 				</uxap:headerTitle>

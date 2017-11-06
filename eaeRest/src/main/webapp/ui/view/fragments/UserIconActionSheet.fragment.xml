@@ -1,0 +1,12 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<ActionSheet
+		showCancelButton="true"
+		placement="Bottom">
+		<buttons>
+			<Button text="{i18n>logout}" press="onLogoutPress" />
+			<Button text="{i18n>login}" press="onLoginPress" />
+		</buttons>
+	</ActionSheet>
+</core:FragmentDefinition>
