@@ -15,11 +15,6 @@
 		<spring.security.version>4.2.3.RELEASE</spring.security.version>
 	</properties>
 	<dependencies>
-<!-- 		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<version>${persistence-api.version}</version>
-		</dependency> -->
  		<dependency>
 		    <groupId>org.eclipse.persistence</groupId>
 		    <artifactId>org.eclipse.persistence.jpa</artifactId>
@@ -50,19 +45,19 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
 			<version>2.0.0.RELEASE</version>
-<!-- 			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-			</exclusions> -->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-log4j12</artifactId>
+		    <version>1.7.25</version>
+		</dependency>
+
          <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
@@ -99,14 +94,6 @@
 			<version>1.1.0.Final</version>
 		</dependency>
 
-		<!-- <dependency> <groupId>io.springfox</groupId> <artifactId>springfox-swagger2</artifactId> 
-			<version>2.5.0</version> </dependency> <dependency> <groupId>io.springfox</groupId> 
-			<artifactId>springfox-swagger-ui</artifactId> <version>2.5.0</version> </dependency> -->
-<!-- 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-bean-validators</artifactId>
-			<version>2.5.0</version>
-		</dependency> -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>

@@ -63,9 +63,9 @@ sap.ui.define([
 		
 		isUserAssignedFormatter : function(aAssigned) {
 			for(var i = 0; i < aAssigned.length; i++) {
-				aAssigned.guid = this.publisherUUID;
-				return true;
-				
+				if(aAssigned[i].guid == this.publisherUUID){
+					return true;					
+				}
 			}
 			return false;
 		}
