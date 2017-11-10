@@ -1,3 +1,6 @@
 /target/
-/Users/
-/derby.log
+Users
+derby.log
+.settings
+.classpath
+.project
