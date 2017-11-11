@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="PUBLISHER")
 public class Publisher extends BaseObject implements Serializable {
@@ -23,6 +25,10 @@ public class Publisher extends BaseObject implements Serializable {
 	
 	@Column(name="EMAIL", length = 56)
 	private String email;
+	
+	@Column(name="PASSWORD", length = 56)
+	@JsonIgnore
+	private String password;
 	
 	@Column(name="TELEPHONE", length = 56)
 	private String telephone;
@@ -76,6 +82,14 @@ public class Publisher extends BaseObject implements Serializable {
 
 	public void setIsAdmin(Boolean isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	

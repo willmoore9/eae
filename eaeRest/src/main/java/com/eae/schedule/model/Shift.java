@@ -59,6 +59,8 @@ public class Shift extends BaseObject implements Serializable {
 	)
 	@JoinFetch(JoinFetchType.OUTER)
 	private List<Publisher> assignable = new ArrayList<Publisher>();
+	
+	private Publisher shiftLeader;
 
 	public List<Publisher> getAssigned() {
 		return assigned;
@@ -99,7 +101,13 @@ public class Shift extends BaseObject implements Serializable {
 	public void setAssignable(List<Publisher> assignable) {
 		this.assignable = assignable;
 	}
-	
-	
+
+	public Publisher getShiftLeader() {
+		return shiftLeader;
+	}
+
+	public void setShiftLeader(Publisher shiftLeader) {
+		this.shiftLeader = shiftLeader;
+	}
 	
 }

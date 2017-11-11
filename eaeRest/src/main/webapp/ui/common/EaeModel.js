@@ -202,6 +202,26 @@ sap.ui.define([
 				});				
 			}.bind(this));
 			return oPromise;
+		},
+		
+		post : function(sURL, sType, oParams) {
+			var oPromise = new Promise(function(fnSuccess, fnError) {
+				this._ajax({
+					url: sURL,
+					async: true,
+					dataType: 'json',
+					cache: false,
+					headers: { 
+				        'Accept': 'application/json',
+				        'Content-Type': 'application/json'
+				    },
+					type: sType,
+					data: oParams,
+					success: fnSuccess,
+					error: fnError
+				});				
+			}.bind(this));
+			return oPromise;
 		}
 	})
 }, true);

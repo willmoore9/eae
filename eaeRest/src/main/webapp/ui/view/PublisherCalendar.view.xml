@@ -8,11 +8,11 @@
 		<semantic:FullscreenPage id="overviewPubPeriod"
 		navButtonPress="onNavBack" showNavButton="true" title="{i18n>servicePeriodWorklist}">
 			<uxap:ObjectPageLayout id="pubPeriodPage" enableLazyLoading="false" subSectionLayout="TitleOnTop"
-					  showTitleInHeaderContent="true" showHeaderContent="true"
+					  showTitleInHeaderContent="true" showHeaderContent="false"
 					  sections="{path:'weeks'}"
 					  >
 				<uxap:headerTitle>
-					<uxap:ObjectPageHeader id="" objectTitle="Publisher Period">
+					<uxap:ObjectPageHeader objectTitle="{path:'/PublisherData/Period', formatter:'.formatHeaderTitle'}">
 					</uxap:ObjectPageHeader>
 				</uxap:headerTitle>
 				<uxap:sections>
@@ -23,7 +23,7 @@
 									<Panel content="{path:'shifts', templateShareable:true}" id="currentWeekPanel">
 										<headerToolbar>
 											<Toolbar>
-												<Title text="{parts:['date'], formatter:'.formatDayTitle'}"/>
+												<Title text="{parts:['date'], formatter:'.formatUtils.formatDayTitle'}"/>
 												<ToolbarSpacer />
 											</Toolbar>
 										</headerToolbar>

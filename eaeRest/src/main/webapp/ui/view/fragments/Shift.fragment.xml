@@ -3,8 +3,8 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
 	
-	<List mode="Delete" delete="handleDelete"
-		enableBusyIndicator="true" headerText="{parts:[{path:'starts'}, {path:'ends'}], formatter: '.formatShiftTitle'}" growing="true" 
+	<List mode="Delete" delete="onDeletePublisherFromShiftDelete"
+		enableBusyIndicator="true" headerText="{parts:[{path:'starts'}, {path:'ends'}], formatter: '.formatUtils.formatShiftTitle'}" growing="true" 
 		items="{
 			path: 'assigned',templateShareable:true
 		}">
@@ -14,12 +14,13 @@
 									'starts',
 									'ends'
 								],
-								formatter: '.formatShiftTitle'}"></Text>
+								formatter: '.formatUtils.formatShiftTitle'}"></Text>
 			<ToolbarSpacer />
 			<Button icon="sap-icon://account" design="Lite" press="selectPublisherForAdd"/>
 			</Toolbar>
 		</headerToolbar>
-		<StandardListItem title="{name} {surname}" iconDensityAware="false" iconInset="true" />
+		<StandardListItem title="{name} {surname}" iconDensityAware="false"  press="onShiftPublisherPress" type="Active" />
+		
 	</List>
 
 </core:FragmentDefinition>

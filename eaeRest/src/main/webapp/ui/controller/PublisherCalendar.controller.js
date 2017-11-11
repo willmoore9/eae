@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-	"sap/ui/core/format/DateFormat"
-], function(Controller, DateFormat){
+	"org/eae/tools/utils/FormatUtils"
+], function(Controller, FormatUtils){
 	return Controller.extend("org.eae.tools.controller.PublisherCalendar", {
+		formatUtils : FormatUtils,
 		onInit : function(){
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("publisherCalendar").attachPatternMatched(function(oEvent){
@@ -68,6 +69,13 @@ sap.ui.define([
 				}
 			}
 			return false;
+		},
+		
+		formatHeaderTitle : function(obj) {
+			if(obj) {
+				return FormatUtils.formatPeriodDates(obj.starts, obj.ends);	
+			}
+			return "";
 		}
 		
 	});

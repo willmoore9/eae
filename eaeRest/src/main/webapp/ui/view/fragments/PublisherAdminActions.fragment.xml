@@ -1,0 +1,13 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<ActionSheet
+		showCancelButton="true"
+		placement="Bottom">
+		<buttons>
+			<Button text="{i18n>makeShiftLeader}" press="onMakeShiftLeader" icon="sap-icon://manager" />
+			<Button text="{i18n>call}" press="onCall" icon="sap-icon://call" />
+			<Button text="{i18n>sendEmail}" press="onEmail" icon="sap-icon://email" />
+		</buttons>
+	</ActionSheet>
+</core:FragmentDefinition>

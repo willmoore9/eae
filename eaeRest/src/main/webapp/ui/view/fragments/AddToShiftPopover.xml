@@ -22,8 +22,7 @@
 						<SearchField liveChange="onPublisherSearch" width="100%"/>
 					</Toolbar>
 				</headerToolbar>
-				<StandardListItem title="{name}" description="{surname}"
-					icon="sap-icon://employee" iconDensityAware="false" iconInset="false" />
+				<StandardListItem title="{surname} {name}" iconDensityAware="false" iconInset="false" />
 			</List>
 		</content>
 	</ResponsivePopover>

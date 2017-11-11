@@ -1,9 +1,10 @@
 sap.ui.define([
      "sap/ui/core/mvc/Controller",
-     "sap/ui/core/format/DateFormat"
-], function(Controller){
+     "org/eae/tools/utils/FormatUtils"
+], function(Controller, FormatUtils){
 	"use strict";
 	return Controller.extend("org.eae.tools.controller.OverviewPeriod", {
+		formatUtils : FormatUtils,
 		onInit: function() {
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("overviewPeriod").attachPatternMatched(function(oEvent){
@@ -22,6 +23,12 @@ sap.ui.define([
 		},
 		
 		loadSericeDays : function(periodId) {
+			if(periodId === undefined) {
+				periodId = this._sPeriod;
+			} else {
+				this._sPeriod = periodId;	
+			}
+			
 			var oModel = this.getView().getModel();
 			oModel.setProperty("/Schedule/" + periodId, {});
 		    oModel.fetchData("rest/periods/" + periodId + "/weeks", "/Schedule/" + periodId + "/weeks", true, {}, true).
@@ -30,15 +37,6 @@ sap.ui.define([
 		    		oModel.setProperty("/Schedule/" + periodId + "/info", data)
 		    	});
 		    });
-		},
-		
-		formatDayTitle : function(iDate){
-			var oDate = new Date(iDate);
-			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-			    pattern: "E, MMM d"
-			});
-
-			return oDateFormat.format(oDate);
 		},
 		
 		onAddShiftPress : function(oEvent) {
@@ -89,15 +87,15 @@ sap.ui.define([
 			return dateTime.toJSON();
 		},
 		
-		formatShiftTitle : function(starts, ends) {
-			var oStarts = new Date(starts);
-			var oEnds = new Date(ends);
-			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-			    pattern: "HH:mm"
-			});
-
-			return oDateFormat.format(oStarts)  + " - " + oDateFormat.format(oEnds);
-		},
+//		formatShiftTitle : function(starts, ends) {
+//			var oStarts = new Date(starts);
+//			var oEnds = new Date(ends);
+//			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+//			    pattern: "HH:mm"
+//			});
+//
+//			return oDateFormat.format(oStarts)  + " - " + oDateFormat.format(oEnds);
+//		},
 		
 		selectPublisherForAdd : function(oEvent) {
 			var oShiftContext = oEvent.getSource().getBindingContext();
@@ -110,8 +108,11 @@ sap.ui.define([
 			this._oAssignToShiftDialog.open();
 		},
 		
-		onBeforeAssignPublishersOpen : function() {
+		onBeforeAssignPublishersOpen : function(oEvent) {
 			var oModel = this.getView().getModel();
+			var oShiftBindingContext = oEvent.getSource().getBindingContext();
+			var oShift = oShiftBindingContext.getModel().getObject(oShiftBindingContext.getPath());
+			oModel.fetchData("rest/shifts/assignableToShift/" + oShift.guid, oShiftBindingContext.getPath() + "/assignable", true, {}, true);
 			oModel.fetchData("rest/publishers/", "/Publishers", true);
 		},
 		
@@ -159,6 +160,42 @@ sap.ui.define([
 			}).catch(function(){
 				console.log("error unshare");
 			});
+		},
+		
+		onShiftPublisherPress : function(oEvent) {
+			if(!this._oPublisherActions) {
+				this._oPublisherActions = sap.ui.xmlfragment("publisherAdminActions", "org.eae.tools.view.fragments.PublisherAdminActions", this);
+				this.getView().addDependent(this._oPublisherActions);	
+			}
+			this._oPublisherActions.openBy(oEvent.getSource());
+		},
+		
+		onDeletePublisherFromShiftDelete : function(oEvent) {
+			console.log(oEvent.getParameters());
+			var oModel = this.getView().getModel();
+			var oRemovedListItem = oEvent.getParameter("listItem");
+			var oBindingContextP = oRemovedListItem.getBindingContext();
+			var oBindingContextS = oEvent.getSource().getBindingContext();
+			var oPublisherObj = oBindingContextP.getModel().getObject(oBindingContextP.getPath());
+			var oShiftObj = oBindingContextS.getModel().getObject(oBindingContextS.getPath());
+			var oShift = {
+				shiftBinding : oBindingContextS,
+			};
+			
+			oModel.post("rest/shifts/unassign/" + oShiftObj.guid + "/" + oPublisherObj.guid,
+					"POST",
+					"").then(function(aResults){
+						var oUpdatedShift = aResults.objects[0]; 
+						this.shiftBinding.getModel().setProperty(this.shiftBinding.getPath(), oUpdatedShift);
+						
+					}.bind(oShift));
+		},
+		
+		formatHeaderTitle : function(obj) {
+			if(obj) {
+				return FormatUtils.formatPeriodDates(obj.starts, obj.ends);	
+			}
+			return "";
 		}
 	});
 });

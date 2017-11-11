@@ -1,6 +1,10 @@
 package com.eae.schedule.ui.controller;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,6 +66,29 @@ public class ShiftsController {
 		return response;
 	}
 	
+	@RequestMapping(value="/unassign/{shiftId}/{publisherId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
+	public Response<Shift> unAssignPubisherToShift(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="publisherId") String publisherId) {
+		Response<Shift> response = new Response<Shift>();
+
+		Shift shift = shiftRepo.findById(shiftId).get();
+		List<Publisher> assignedPublisher = shift.getAssigned();
+		
+		for(Publisher publisherToUnassign : assignedPublisher) {
+			if(publisherToUnassign.getGuid().equals(publisherId)) {
+				response.setSuccessful(true);
+				response.addObject(shift);
+				assignedPublisher.remove(publisherToUnassign);
+				break;
+			}
+		}
+		
+		shiftRepo.saveAndFlush(shift);
+		
+		response.addObject(shift);
+		
+		return response;
+	}
+	
 	@RequestMapping(value="/requestAssign/{shiftId}/{publisherId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
 	public Response<Publisher> requestAssignmentPubisherToShift(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="publisherId") String publisherId) {
 		Response<Publisher> response = new Response<Publisher>();
@@ -73,6 +100,32 @@ public class ShiftsController {
 		shiftRepo.saveAndFlush(shift);
 		
 		response.addObject(publisher);
+		
+		return response;
+	}
+	
+	
+	@RequestMapping(value="/assignableToShift/{shiftId}", method=RequestMethod.GET, produces={"application/json"})
+	public Response<Publisher> requestAssignmentPubisherToShift(@PathVariable(value="shiftId") String shiftId) {
+		Response<Publisher> response = new Response<Publisher>();
+		
+		Shift shift = shiftRepo.findById(shiftId).get();
+		List<Publisher> assignedPublishers = shift.getAssigned();
+		List<Publisher> assignablePublishers = shift.getAssignable();
+		
+		for(Publisher assignable : assignablePublishers) {
+			boolean isAlreadyAssigned = false;
+			
+			for(Publisher assigned : assignedPublishers) {
+				if(assignable.getGuid().equals(assigned.getGuid())) {
+					isAlreadyAssigned = true;
+				}
+			}
+			
+			if(!isAlreadyAssigned) {
+				response.addObject(assignable);
+			}
+		}
 		
 		return response;
 	}	

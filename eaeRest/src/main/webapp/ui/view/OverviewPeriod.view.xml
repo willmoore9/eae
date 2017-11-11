@@ -12,7 +12,7 @@
 					  sections="{weeks}" showOnlyHighImportance="true" flexEnabled="true"
 					  >
 				<uxap:headerTitle>
-					<uxap:ObjectPageHeader objectTitle="Period">
+					<uxap:ObjectPageHeader objectTitle="{path:'info', formatter:'.formatHeaderTitle'}">
 					
 					<uxap:actions>
 						<uxap:ObjectPageHeaderActionButton icon="sap-icon://share-2" text="{i18n>share}" hideText="false" type="Emphasized" press="onSharePeriod" visible="{= !${info/isShared}}"/>
@@ -28,7 +28,7 @@
 									<Panel content="{path:'shifts', templateShareable:true}">
 										<headerToolbar>
 											<Toolbar>
-												<Title text="{parts:['date'], formatter:'.formatDayTitle'}"/>
+												<Title text="{parts:['date'], formatter:'.formatUtils.formatDayTitle'}"/>
 												<ToolbarSpacer />
 												<Button icon="sap-icon://add" press="onAddShiftPress"/>
 											</Toolbar>
