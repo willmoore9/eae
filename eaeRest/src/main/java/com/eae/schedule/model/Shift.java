@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -60,6 +61,8 @@ public class Shift extends BaseObject implements Serializable {
 	@JoinFetch(JoinFetchType.OUTER)
 	private List<Publisher> assignable = new ArrayList<Publisher>();
 	
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(referencedColumnName="GUID")
 	private Publisher shiftLeader;
 
 	public List<Publisher> getAssigned() {
