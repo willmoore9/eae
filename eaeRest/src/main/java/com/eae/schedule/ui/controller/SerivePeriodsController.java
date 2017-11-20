@@ -1,12 +1,16 @@
 package com.eae.schedule.ui.controller;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.TimeZone;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -30,7 +34,8 @@ import com.eae.schedule.ui.model.ServiceWeek;
 @RestController
 @RequestMapping("/periods")
 public class SerivePeriodsController {
-
+	Logger log = Logger.getLogger(SerivePeriodsController.class.getName());
+	
 	@Autowired
 	private ServicePeriodRepository periodRepo;
 
@@ -54,12 +59,12 @@ public class SerivePeriodsController {
     public Response<ServicePeriod> save(@RequestBody ServicePeriod period) {
     	Response<ServicePeriod> response = new Response<ServicePeriod>();
     	period = this.periodRepo.save(period);
-    	Calendar from = Calendar.getInstance();
+    	Calendar from = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.systemDefault()));
     	from.setTime(period.getStarts());
 
     	Calendar to = Calendar.getInstance();
     	to.setTime(period.getEnds());
-    	
+    	log.log(Level.DEBUG, "create period");
     	if(from.after(to)) {
     		response.setStatus("500");
     		response.setSuccessful(false);
@@ -80,68 +85,67 @@ public class SerivePeriodsController {
 
     		Calendar shiftDay = Calendar.getInstance();
 			shiftDay.setTime(day.getDate());
-			shiftDay.set(Calendar.AM_PM, Calendar.PM);
     		
 			
     		if(period.getShiftTemplate() == null || period.getShiftTemplate().equals("1") || period.getShiftTemplate().equals("")) {
     			
     			Shift shift = new Shift();
-    			shiftDay.set(Calendar.HOUR, 2);
+    			shiftDay.set(Calendar.HOUR_OF_DAY, 14);
     			
     			shift.setStarts(shiftDay.getTime());
     			
-    			shiftDay.set(Calendar.HOUR, 4);
+    			shiftDay.set(Calendar.HOUR_OF_DAY, 16);
     			shift.setEnds(shiftDay.getTime());
     			
     			shift.setServiceDay(day);
     			day.getShifts().add(shift);
     			
     			shift = new Shift();
-    			shiftDay.set(Calendar.HOUR, 4);
+    			shiftDay.set(Calendar.HOUR_OF_DAY, 16);
     			shift.setStarts(shiftDay.getTime());
     			
-    			shiftDay.set(Calendar.HOUR, 6);
+    			shiftDay.set(Calendar.HOUR_OF_DAY, 18);
     			shift.setEnds(shiftDay.getTime());
 
     			shift.setServiceDay(day);
     			day.getShifts().add(shift);
     		} else if(period.getShiftTemplate().equals("2")) {
     			Shift shift = new Shift();
-    			shiftDay.set(Calendar.HOUR, 2);
+    			shiftDay.set(Calendar.HOUR_OF_DAY, 14);
     			shiftDay.set(Calendar.MINUTE, 30);
     			shift.setStarts(shiftDay.getTime());
     			
-    			shiftDay.set(Calendar.HOUR, 4);
+    			shiftDay.set(Calendar.HOUR_OF_DAY, 16);
     			shift.setEnds(shiftDay.getTime());
     			
     			shift.setServiceDay(day);
     			day.getShifts().add(shift);
     			
     			shift = new Shift();
-    			shiftDay.set(Calendar.HOUR, 4);
+    			shiftDay.set(Calendar.HOUR_OF_DAY, 16);
     			shift.setStarts(shiftDay.getTime());
     			
-    			shiftDay.set(Calendar.HOUR, 6);
+    			shiftDay.set(Calendar.HOUR_OF_DAY, 18);
     			shift.setEnds(shiftDay.getTime());
 
     			shift.setServiceDay(day);
     			day.getShifts().add(shift);	
     		} else if(period.getShiftTemplate().equals("3")) {
     			Shift shift = new Shift();
-    			shiftDay.set(Calendar.HOUR, 3);
+    			shiftDay.set(Calendar.HOUR_OF_DAY, 15);
     			shift.setStarts(shiftDay.getTime());
     			
-    			shiftDay.set(Calendar.HOUR, 5);
+    			shiftDay.set(Calendar.HOUR_OF_DAY, 17);
     			shift.setEnds(shiftDay.getTime());
     			
     			shift.setServiceDay(day);
     			day.getShifts().add(shift);
     			
     			shift = new Shift();
-    			shiftDay.set(Calendar.HOUR, 5);
+    			shiftDay.set(Calendar.HOUR, 17);
     			shift.setStarts(shiftDay.getTime());
     			
-    			shiftDay.set(Calendar.HOUR, 7);
+    			shiftDay.set(Calendar.HOUR, 19);
     			shift.setEnds(shiftDay.getTime());
 
     			shift.setServiceDay(day);
