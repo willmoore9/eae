@@ -26,6 +26,6 @@ gulp.task(
                 namespace: 'org.eae.tools',
                 fileName: 'Component-preload.js'
             }))
-            .pipe(gulp.dest('.'));
+            .pipe(gulp.dest('./src/main/webapp/ui/'));
     }
 )

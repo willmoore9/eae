@@ -56,6 +56,16 @@ sap.ui.define([
 		
 		refreshTable : function() {
 			this.getView().getModel().fetchData("rest/publishers", "/Publishers", true);
+		},
+		
+		onDownloadPublishersPress : function () {
+			var oModel = this.getView().getModel();
+			sap.m.URLHelper.redirect("rest/publishers/download");
+			
+		},
+		
+		onImportPublishersSuccess : function() {
+			this.refreshTable();
 		}
 	});
 });

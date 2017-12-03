@@ -109,6 +109,11 @@ sap.ui.define([
 		},
 		
 		onBeforeAssignPublishersOpen : function(oEvent) {
+			var oAssignedPublishers = sap.ui.getCore().byId("createShift--assignedPublishers");
+			oAssignedPublishers.removeSelections();
+			var oAllPublishers = sap.ui.getCore().byId("createShift--allPublishers");
+			oAllPublishers.removeSelections();
+
 			var oModel = this.getView().getModel();
 			var oShiftBindingContext = oEvent.getSource().getBindingContext();
 			var oShift = oShiftBindingContext.getModel().getObject(oShiftBindingContext.getPath());

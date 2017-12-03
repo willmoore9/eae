@@ -30,6 +30,12 @@ sap.ui.define([
 			});
 		},
 		
+		navigateToCuurentSchedule : function() {
+			var oRouter = this.getOwnerComponent().getRouter();
+			var oModel = this.getView().getModel();
+			oRouter.navTo("currentWeekSchedule");			
+		},
+		
 		formatPeriodDates : function(starts, ends) {
 			console.log(starts, ends);
 			var oDateFormat = DateFormat.getDateInstance({

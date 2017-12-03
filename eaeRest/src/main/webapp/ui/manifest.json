@@ -93,6 +93,11 @@
 			"target" : "publisherCalendar"
 		},
 		{
+			"pattern" : "currentWeek",
+			"name" : "currentWeekSchedule",
+			"target" : "currentWeekSchedule"
+		},
+		{
 			"pattern" : "login",
 			"name" : "login",
 			"target" : "login"
@@ -118,6 +123,10 @@
 		},
 		"publisherCalendar" : {
 		  "viewName" : "PublisherCalendar",
+		  "viewLevel" : 2
+		},
+		"currentWeekSchedule" : {
+		  "viewName" : "ScheduleOverview",
 		  "viewLevel" : 2
 		},
 		"login" : {

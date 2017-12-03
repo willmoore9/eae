@@ -34,4 +34,16 @@
 			</TileContent>
 		</tileContent>
 	</GenericTile>	
+		
+	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+		header="{i18n>currentWeek}" subheader="{i18n>shiftSchedule}" 
+		press="navigateToCuurentSchedule" visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
+		<tileContent>
+			<TileContent unit="" footer="">
+				<content>
+					<ImageContent src="sap-icon://appointment" />
+				</content>
+			</TileContent>
+		</tileContent>
+	</GenericTile>		
 </mvc:View>

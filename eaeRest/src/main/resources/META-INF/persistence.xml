@@ -8,6 +8,7 @@
 		<class>com.eae.schedule.model.ServiceDay</class>
 		<class>com.eae.schedule.model.ServicePeriod</class>
 		<class>com.eae.schedule.model.Shift</class>
+		<class>com.eae.schedule.model.CartPoint</class>
 		<!-- <class>com.eae.schedule.model.Availability</class> -->
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>

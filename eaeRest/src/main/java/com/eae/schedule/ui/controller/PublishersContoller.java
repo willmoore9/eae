@@ -1,8 +1,13 @@
 package com.eae.schedule.ui.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -19,6 +24,7 @@ import com.eae.schedule.repo.PublisherRepository;
 import com.eae.schedule.repo.ServicePeriodRepository;
 import com.eae.schedule.ui.model.LandingDTO;
 import com.eae.schedule.ui.model.Response;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/publishers")
@@ -75,5 +81,31 @@ public class PublishersContoller {
 		
 		return landingData;
 	}
+	
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> downloadPublishers() throws Exception {
+
+	    List<Publisher> periods = (List<Publisher>) this.publisherRepo.findAll();
+	    ObjectMapper mapper = new ObjectMapper();
+	    byte[] output = mapper.writeValueAsBytes(periods);
+
+	    HttpHeaders responseHeaders = new HttpHeaders();
+	    responseHeaders.set("charset", "utf-8");
+	    responseHeaders.setContentType(MediaType.valueOf("text/json"));
+	    responseHeaders.setContentLength(output.length);
+	    responseHeaders.set("Content-disposition", "attachment; filename=filename.json");
+
+	    return new ResponseEntity<byte[]>(output, responseHeaders, HttpStatus.OK);
+	}
     
+	@RequestMapping(value = "/upload", method = RequestMethod.POST, consumes={"application/json"})
+	public HttpStatus upload(@RequestBody ArrayList<Publisher> pubishers) {
+		try {
+			this.publisherRepo.saveAll(pubishers);
+		} catch (Exception e) {
+			return HttpStatus.INTERNAL_SERVER_ERROR; 
+		
+		}
+        return HttpStatus.OK; 
+	}
 }

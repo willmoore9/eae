@@ -1,5 +1,5 @@
 <mvc:View controllerName="org.eae.tools.controller.PublishersWorklist"
-	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m">
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m" xmlns:u="sap.ui.unified">
 	<semantic:FullscreenPage id="publishersWorklist"
 		navButtonPress="onNavBack" showNavButton="true" title="{i18n>managePublishersRecords}">
 		<semantic:content>
@@ -14,6 +14,21 @@
 						<Title id="tableHeader" text="{worklistView>/worklistTableTitle}" />
 						<ToolbarSpacer />
 						<Button style="Lite" icon="sap-icon://add" press="onAddPublisherPress"></Button>
+							
+<u:FileUploader
+			id="fileUploader"
+			name="myFileUpload"
+			tooltip="Upload your file to the local server"
+			uploadOnChange="true"
+			iconOnly="true"
+			uploadUrl="rest/publishers/upload"
+			useMultipart="false"
+			sendXHR="true"
+			uploadComplete="onImportPublishersSuccess"
+			buttonOnly="true"
+			icon="sap-icon://upload"
+			/>
+						<Button style="Lite" icon="sap-icon://download" press="onDownloadPublishersPress"></Button>
 						<SearchField id="searchField" search="onSearch"
 							tooltip="{i18n>worklistSearchTooltip}" width="auto" />
 					</Toolbar>

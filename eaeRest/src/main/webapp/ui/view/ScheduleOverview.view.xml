@@ -1,0 +1,41 @@
+<mvc:View
+	controllerName="org.eae.tools.controller.ScheduleOverview"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:uxap="sap.uxap"
+	xmlns:semantic="sap.m.semantic" 
+	xmlns:core="sap.ui.core">
+		<semantic:FullscreenPage id="currentWeekSchedule"
+		navButtonPress="onNavBack" showNavButton="true" title="{i18n>overviewShedule}">
+			<uxap:ObjectPageLayout id="currentWeekSchedulePage" enableLazyLoading="false" subSectionLayout="TitleOnTop"
+					  showTitleInHeaderContent="true" showHeaderContent="false"
+					  >
+				<uxap:headerTitle>
+					<uxap:ObjectPageHeader objectTitle="Current Schedule">
+					</uxap:ObjectPageHeader>
+				</uxap:headerTitle>
+				<uxap:sections>
+					<uxap:ObjectPageSection title="{parts:['i18n>cw', 'name']}" id="currentWeekNumber">
+ 						<uxap:subSections>
+							<uxap:ObjectPageSubSection blocks="{path:'weekDays', templateShareable:true}">
+								<uxap:blocks>
+									<Panel content="{path:'shifts', templateShareable:true}" id="currentWeekPanel">
+										<headerToolbar>
+											<Toolbar>
+												<Title text="{parts:['date'], formatter:'.formatUtils.formatDayTitle'}"/>
+												<ToolbarSpacer />
+											</Toolbar>
+										</headerToolbar>
+										<content>
+											<core:Fragment fragmentName="org.eae.tools.view.fragments.PublisherShift" type="XML"/>
+										</content>
+									</Panel>
+								</uxap:blocks>
+							</uxap:ObjectPageSubSection>
+						</uxap:subSections>
+					</uxap:ObjectPageSection>
+					
+				</uxap:sections>
+			</uxap:ObjectPageLayout>
+		</semantic:FullscreenPage>
+</mvc:View>
