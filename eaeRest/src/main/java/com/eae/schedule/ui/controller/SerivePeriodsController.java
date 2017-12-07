@@ -41,11 +41,7 @@ public class SerivePeriodsController {
 
 	@Autowired
 	private ServiceDayRepository daysRepo;
-	
 
-	@Autowired
-	private ShiftRepository shiftRepo;
-	
     @RequestMapping(name="/", method=RequestMethod.GET)
     public Response<ServicePeriod> getAll() {
     	Response<ServicePeriod> response = new Response<ServicePeriod>();
@@ -229,6 +225,14 @@ public class SerivePeriodsController {
     
     @RequestMapping(path="/unshare/{periodId}", method=RequestMethod.GET)
     public ServicePeriod unshare(@PathVariable(name="periodId", required=true) String periodId) {
+    	ServicePeriod period = this.periodRepo.findById(periodId).get();
+    	period.setIsShared(false);
+    	this.periodRepo.save(period);
+    	return period;
+    }
+    
+    @RequestMapping(path="/readWeek/{periodId}/{from}/{to}", method=RequestMethod.GET)
+    public ServicePeriod readWeek(@PathVariable(name="periodId", required=true) String periodId,@PathVariable(name="from", required=true) String from, @PathVariable(name="to", required=true) String to){
     	ServicePeriod period = this.periodRepo.findById(periodId).get();
     	period.setIsShared(false);
     	this.periodRepo.save(period);

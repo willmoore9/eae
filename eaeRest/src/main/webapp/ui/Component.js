@@ -18,7 +18,9 @@ sap.ui.define([
 				Publishers : [],
 				ui: {
 					createPeriod : {
-						name:"",
+						cartPoint : {
+							guid:""
+						}
 						
 					},
 					createShift : {

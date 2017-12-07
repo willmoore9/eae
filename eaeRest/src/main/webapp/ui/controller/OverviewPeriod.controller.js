@@ -233,6 +233,28 @@ sap.ui.define([
 	
 		},
 		
+		onAssignCarrier : function(oEvent) {
+			var oModel = this.getView().getModel();
+			debugger;
+			oModel.post("rest/shifts/assignTrolleyCarrier/" + this._AdminActins_Shift + "/" + this._AdminActins_Publisher,
+					"POST"
+					).then(function(){
+						sap.ui.getCore().byId(this._AdminAction_LineItemId).setInfo("#");
+					}.bind(this));
+	
+		},
+		
+		onUnassignCarrier : function(oEvent) {
+			var oModel = this.getView().getModel();
+			debugger;
+			oModel.post("rest/shifts/unassignTrolleyCarrier/" + this._AdminActins_Shift + "/" + this._AdminActins_Publisher,
+					"POST"
+					).then(function(){
+						sap.ui.getCore().byId(this._AdminAction_LineItemId).setInfo("");
+					}.bind(this));
+	
+		},
+		
 		buildPublishersInShift : function(sId, oContext) {
 			var oPublisherPath = oContext.getPath();
 			var oPublisher = oContext.getModel().getObject(oPublisherPath);
@@ -243,10 +265,12 @@ sap.ui.define([
 			var oShift = oContext.getObject(aPathParts.join("/"));
 			return new sap.m.StandardListItem(sId, {
 				title:"{name} {surname}",
+				infoState: "Error",
 				iconDensityAware:false,
 				press: this.onShiftPublisherPress.bind(this),
 				type:"Active",
-				highlight: (oShift.shiftLeader != null && oShift.shiftLeader.guid === oPublisher.guid) ? "Success": "None"
+				highlight: (oShift.shiftLeader != null && oShift.shiftLeader.guid === oPublisher.guid) ? "Success": "None",
+				info: (oShift.trolleyCarrier != null && oShift.trolleyCarrier.guid === oPublisher.guid) ? "#": ""
 			});
 		}
 	});

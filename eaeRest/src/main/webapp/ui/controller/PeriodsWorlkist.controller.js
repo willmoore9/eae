@@ -109,6 +109,10 @@ sap.ui.define([
 			oModel.removeById("rest/periods/delete/" + this._oSelected.getBindingContext().getProperty("guid")).then(function(){
 				this.refreshTable();
 			}.bind(this));
+		},
+		
+		beforeOpenAddServicePeriod : function() {
+			this.getView().getModel().fetchData("rest/cartLocations", "/CartLocations", true);
 		}
 	});
 });

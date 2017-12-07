@@ -44,6 +44,12 @@ sap.ui.define([
 
 
 			return oDateFormat.format(new Date(starts)) + " - " + oDateFormat.format(new Date(ends));
+		},
+		
+		manageCartPlaces : function() {
+			var oRouter = this.getOwnerComponent().getRouter();
+			var oModel = this.getView().getModel();
+			oRouter.navTo("cartPlaceWorklist");	
 		}
 	});
 });

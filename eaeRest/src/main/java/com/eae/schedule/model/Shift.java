@@ -65,6 +65,10 @@ public class Shift extends BaseObject implements Serializable {
 	@JoinColumn(referencedColumnName="GUID")
 	private Publisher shiftLeader;
 
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(referencedColumnName="GUID")
+	private Publisher trolleyCarrier;
+	
 	public List<Publisher> getAssigned() {
 		return assigned;
 	}
@@ -112,5 +116,12 @@ public class Shift extends BaseObject implements Serializable {
 	public void setShiftLeader(Publisher shiftLeader) {
 		this.shiftLeader = shiftLeader;
 	}
-	
+
+	public Publisher getTrolleyCarrier() {
+		return trolleyCarrier;
+	}
+
+	public void setTrolleyCarrier(Publisher trolleyCarrier) {
+		this.trolleyCarrier = trolleyCarrier;
+	}
 }

@@ -93,7 +93,7 @@ public class PublishersContoller {
 	    responseHeaders.set("charset", "utf-8");
 	    responseHeaders.setContentType(MediaType.valueOf("text/json"));
 	    responseHeaders.setContentLength(output.length);
-	    responseHeaders.set("Content-disposition", "attachment; filename=filename.json");
+	    responseHeaders.set("Content-disposition", "attachment; filename=Publishers.json");
 
 	    return new ResponseEntity<byte[]>(output, responseHeaders, HttpStatus.OK);
 	}

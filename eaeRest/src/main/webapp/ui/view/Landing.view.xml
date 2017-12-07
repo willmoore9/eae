@@ -34,10 +34,22 @@
 			</TileContent>
 		</tileContent>
 	</GenericTile>	
+
+	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+		header="{i18n>manageCartLocations}"
+		press="manageCartPlaces" visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
+		<tileContent>
+			<TileContent unit="" footer="">
+				<content>
+					<ImageContent src="sap-icon://map-2" />
+				</content>
+			</TileContent>
+		</tileContent>
+	</GenericTile>	
 		
 	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
 		header="{i18n>currentWeek}" subheader="{i18n>shiftSchedule}" 
-		press="navigateToCuurentSchedule" visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
+		press="navigateToCuurentSchedule" visible="{= (${/PublisherData/Publisher/isAdmin} &amp;&amp; ${/Publisher/email} !== 'ANONYMOUS')}">
 		<tileContent>
 			<TileContent unit="" footer="">
 				<content>
@@ -45,5 +57,6 @@
 				</content>
 			</TileContent>
 		</tileContent>
-	</GenericTile>		
+	</GenericTile>	
+	
 </mvc:View>

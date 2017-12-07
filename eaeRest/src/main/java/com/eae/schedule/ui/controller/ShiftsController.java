@@ -148,9 +148,35 @@ public class ShiftsController {
 	public Response<Shift> unassignToAsLeader(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="publisherId") String publisherId)  {
 		Response<Shift> response = new Response<Shift>();
 		
-		Publisher publisher = pubisherRepo.findById(publisherId).get();
 		Shift shift = shiftRepo.findById(shiftId).get();
 		shift.setShiftLeader(null);
+		shiftRepo.saveAndFlush(shift);
+		
+		response.addObject(shift);
+		
+		return response;
+	}
+	
+	@RequestMapping(value="/assignTrolleyCarrier/{shiftId}/{publisherId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
+	public Response<Shift> assignTrolleyCarrier(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="publisherId") String publisherId)  {
+		Response<Shift> response = new Response<Shift>();
+		
+		Publisher publisher = pubisherRepo.findById(publisherId).get();
+		Shift shift = shiftRepo.findById(shiftId).get();
+		shift.setTrolleyCarrier(publisher);
+		shiftRepo.saveAndFlush(shift);
+		
+		response.addObject(shift);
+		
+		return response;
+	}
+	
+	@RequestMapping(value="/unassignTrolleyCarrier/{shiftId}/{publisherId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
+	public Response<Shift> unassignTrolleyCarrier(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="publisherId") String publisherId)  {
+		Response<Shift> response = new Response<Shift>();
+		
+		Shift shift = shiftRepo.findById(shiftId).get();
+		shift.setTrolleyCarrier(null);
 		shiftRepo.saveAndFlush(shift);
 		
 		response.addObject(shift);

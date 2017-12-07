@@ -15,22 +15,20 @@
 						<ToolbarSpacer />
 						<Button style="Lite" icon="sap-icon://add" press="onAddPublisherPress"></Button>
 							
-<u:FileUploader
-			id="fileUploader"
-			name="myFileUpload"
-			tooltip="Upload your file to the local server"
-			uploadOnChange="true"
-			iconOnly="true"
-			uploadUrl="rest/publishers/upload"
-			useMultipart="false"
-			sendXHR="true"
-			uploadComplete="onImportPublishersSuccess"
-			buttonOnly="true"
-			icon="sap-icon://upload"
-			/>
+						<u:FileUploader
+									id="fileUploader"
+									name="uploadJSON"
+									tooltip="{i18n>uploadPublishers}"
+									uploadOnChange="true"
+									iconOnly="true"
+									uploadUrl="rest/publishers/upload"
+									useMultipart="false"
+									sendXHR="true"
+									uploadComplete="onImportPublishersSuccess"
+									buttonOnly="true"
+									icon="sap-icon://upload"
+									/>
 						<Button style="Lite" icon="sap-icon://download" press="onDownloadPublishersPress"></Button>
-						<SearchField id="searchField" search="onSearch"
-							tooltip="{i18n>worklistSearchTooltip}" width="auto" />
 					</Toolbar>
 				</headerToolbar>
 				<columns>

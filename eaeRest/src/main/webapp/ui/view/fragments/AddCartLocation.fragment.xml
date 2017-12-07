@@ -1,0 +1,39 @@
+<core:FragmentDefinition 
+	xmlns="sap.m" 
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<Dialog
+		title="{i18n>createCartLocation}">
+		<f:SimpleForm
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+				<Label text="{i18n>name}" />
+				<Input value="{/ui/createCartLocation/name}" />
+				<Label text="{i18n>description}" />
+				<Input value="{/ui/createCartLocation/description}" />
+				<Label text="{i18n>address}" />
+				<Input value="{/ui/createCartLocation/address}" />
+
+
+			</f:content>
+		</f:SimpleForm>
+		<buttons>
+			<Button text="{i18n>ok}" press="onCreateCartLocationPress"></Button>
+			<Button text="{i18n>cancel}" press="onCancelCartLocationPress"></Button>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>
