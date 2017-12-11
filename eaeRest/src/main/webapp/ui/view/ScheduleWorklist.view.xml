@@ -1,0 +1,38 @@
+<mvc:View controllerName="org.eae.tools.controller.ScheduleWorklist"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m">
+	<semantic:FullscreenPage id="scheduleWorklist"
+		navButtonPress="onNavBack" showNavButton="true" title="{i18n>manageCartSchedules}">
+		<semantic:content>
+			<Table id="table" class="sapUiResponsiveMargin sapUiNoMarginTop"
+				growing="true" growingScrollToLoad="true" width="auto" 	mode="SingleSelectLeft"
+				selectionChange="onSelectedSchedule" 
+				items="{
+							path: '/CartSchedules'
+						}">
+				<headerToolbar>
+					<Toolbar>
+						<ToolbarSpacer />
+						<Button style="Lite" icon="sap-icon://add" press="onAddSchedule"></Button>
+						<Button style="Lite" icon="sap-icon://delete" press="onDeleteSchedulePress"></Button>
+					</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column id="cartNameCol">
+						<Text id="cartName" text="{i18n>cartName}" />
+					</Column>
+					<Column id="periodNameCol">
+						<Text id="periodName" text="{i18n>periodName}" />
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem press="onNavigateToSchedule">
+						<cells>
+							<Text text="{cart/name}" />						
+							<Text text="{period/name}" />
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</semantic:content>
+	</semantic:FullscreenPage>
+</mvc:View>

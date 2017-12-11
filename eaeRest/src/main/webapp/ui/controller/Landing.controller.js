@@ -50,6 +50,12 @@ sap.ui.define([
 			var oRouter = this.getOwnerComponent().getRouter();
 			var oModel = this.getView().getModel();
 			oRouter.navTo("cartPlaceWorklist");	
+		},
+		
+		navigateToScheduleManage : function(){
+			var oRouter = this.getOwnerComponent().getRouter();
+			var oModel = this.getView().getModel();
+			oRouter.navTo("scheduleWorklist");	
 		}
 	});
 });

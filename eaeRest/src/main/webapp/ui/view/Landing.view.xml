@@ -3,7 +3,7 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc">
 	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-		header="{i18n>manageEaeCalTitle}" subheader="{i18n>manageEaeCalTieSubTitle}" press="navigateToTeamCalendar" visible="{= (${/PublisherData/Publisher/isAdmin} &amp;&amp; ${/Publisher/email} !== 'ANONYMOUS')}">
+		header="{i18n>manageEaeCalTitle}" press="navigateToTeamCalendar" visible="{= (${/PublisherData/Publisher/isAdmin} &amp;&amp; ${/Publisher/email} !== 'ANONYMOUS')}">
 		<tileContent>
 			<TileContent unit="" footer="">
 				<content>
@@ -37,7 +37,7 @@
 
 	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
 		header="{i18n>manageCartLocations}"
-		press="manageCartPlaces" visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
+		press="manageCartPlaces" visible="{= (${/PublisherData/Publisher/isAdmin} &amp;&amp; ${/Publisher/email} !== 'ANONYMOUS')}">
 		<tileContent>
 			<TileContent unit="" footer="">
 				<content>
@@ -50,6 +50,18 @@
 	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
 		header="{i18n>currentWeek}" subheader="{i18n>shiftSchedule}" 
 		press="navigateToCuurentSchedule" visible="{= (${/PublisherData/Publisher/isAdmin} &amp;&amp; ${/Publisher/email} !== 'ANONYMOUS')}">
+		<tileContent>
+			<TileContent unit="" footer="">
+				<content>
+					<ImageContent src="sap-icon://appointment" />
+				</content>
+			</TileContent>
+		</tileContent>
+	</GenericTile>	
+
+	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+		header="{i18n>manageSchedulesTitle}" subheader="{i18n>manageSchedulesSubTitle}" 
+		press="navigateToScheduleManage" visible="{= (${/PublisherData/Publisher/isAdmin} &amp;&amp; ${/Publisher/email} !== 'ANONYMOUS')}">
 		<tileContent>
 			<TileContent unit="" footer="">
 				<content>

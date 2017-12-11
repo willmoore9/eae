@@ -1,0 +1,25 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	
+	<List mode="Active" 
+		enableBusyIndicator="true" headerText="{parts:[{path:'starts'}, {path:'ends'}], formatter: '.formatUtils.formatShiftTitle'}" growing="true" 
+		items="{
+			path: 'assignments',templateShareable:true
+		}">
+		<headerToolbar>
+			<Toolbar>
+			<Text text="{parts: [
+									'starts',
+									'ends'
+								],
+								formatter: '.formatUtils.formatShiftTitle'}"></Text>
+			<ToolbarSpacer />
+			</Toolbar>
+		</headerToolbar>
+		<StandardListItem title="{publisher/name} {publisher/surname}" iconDensityAware="false" type="Active"/>
+		
+	</List>
+
+</core:FragmentDefinition>

@@ -104,6 +104,11 @@
 			"target" : "currentWeekSchedule"
 		},
 		{
+			"pattern" : "schedules",
+			"name" : "scheduleWorklist",
+			"target" : "scheduleWorklist"
+		},
+		{
 			"pattern" : "login",
 			"name" : "login",
 			"target" : "login"
@@ -139,7 +144,10 @@
 		  "viewName" : "CartPlaceWorklist",
 		  "viewLevel" : 2
 		},
-		
+		"scheduleWorklist" : {
+		  "viewName" : "ScheduleWorklist",
+		  "viewLevel" : 2
+		},		
 		"login" : {
 		  "viewName" : "Login",
 		  "viewLevel" : 2

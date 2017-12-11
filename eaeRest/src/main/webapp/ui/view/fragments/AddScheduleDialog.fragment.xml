@@ -1,0 +1,46 @@
+<core:FragmentDefinition 
+	xmlns="sap.m" 
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<Dialog
+		title="{i18n>createCartSchedule}" beforeOpen="onBeforeAddScheduleOpen">
+		<f:SimpleForm
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+				<Label text="{i18n>cartName}" />
+				<ComboBox
+					items="{
+						path: '/Periods'
+					}" selectedKey="{/ui/createCartSchedule/period/guid}">
+					<core:ListItem key="{guid}" text="{name}" />
+				</ComboBox>
+				<Label text="{i18n>servicePeriod}" />
+				<ComboBox
+					items="{
+						path: '/CartLocations'
+					}" selectedKey="{/ui/createCartSchedule/cart/guid}">
+					<core:ListItem key="{guid}" text="{name}"/>
+				</ComboBox>
+
+			</f:content>
+		</f:SimpleForm>
+		<buttons>
+			<Button text="{i18n>ok}" press="onOkAddDialogPress"></Button>
+			<Button text="{i18n>cancel}" press="onCancelAddDialogPress"></Button>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

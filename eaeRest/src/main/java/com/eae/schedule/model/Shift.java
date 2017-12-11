@@ -42,39 +42,33 @@ public class Shift extends BaseObject implements Serializable {
 	@Column(name="ENDS")
 	private Date ends;
 	
-	@OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
-	@JoinTable(
-			name = "SHIFT_PUBLISHER",
-			joinColumns = { @JoinColumn(name="SHIFT_GUID",referencedColumnName="GUID") },
-			inverseJoinColumns = {@JoinColumn(name="PUBLISHER_GUID", referencedColumnName="GUID")}
-	)
-	
-	@JoinFetch(JoinFetchType.OUTER)
-	private List<Publisher> assigned = new ArrayList<Publisher>();
+	@OneToMany(mappedBy="shift", cascade={CascadeType.REMOVE}, fetch=FetchType.EAGER)
+	private List<PublisherAssignment> assignments = new ArrayList<PublisherAssignment>();
 
-	@OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
-	@JoinTable(
-			name = "SHIFT_PUBLISHER_ASSIGN",
-			joinColumns = { @JoinColumn(name="SHIFT_GUID",referencedColumnName="GUID") },
-			inverseJoinColumns = {@JoinColumn(name="PUBLISHER_GUID", referencedColumnName="GUID")}
-	)
-	@JoinFetch(JoinFetchType.OUTER)
-	private List<Publisher> assignable = new ArrayList<Publisher>();
+//	@OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+//	@JoinTable(
+//			name = "SHIFT_PUBLISHER_ASSIGN",
+//			joinColumns = { @JoinColumn(name="SHIFT_GUID",referencedColumnName="GUID") },
+//			inverseJoinColumns = {@JoinColumn(name="PUBLISHER_GUID", referencedColumnName="GUID")}
+//	)
+//	@JoinFetch(JoinFetchType.OUTER)
+//	private List<Publisher> assignable = new ArrayList<Publisher>();
 	
-	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(referencedColumnName="GUID")
-	private Publisher shiftLeader;
+//	@OneToOne(fetch=FetchType.EAGER)
+//	@JoinColumn(referencedColumnName="GUID")
+//	private Publisher shiftLeader;
+//
+//	@OneToOne(fetch=FetchType.EAGER)
+//	@JoinColumn(referencedColumnName="GUID")
+//	private Publisher trolleyCarrier;
+	
 
-	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(referencedColumnName="GUID")
-	private Publisher trolleyCarrier;
-	
-	public List<Publisher> getAssigned() {
-		return assigned;
+	public List<PublisherAssignment> getAssignments() {
+		return assignments;
 	}
 
-	public void setAssigned(List<Publisher> assigned) {
-		this.assigned = assigned;
+	public void setAssignments(List<PublisherAssignment> assignments) {
+		this.assignments = assignments;
 	}
 
 	public ServiceDay getServiceDay() {
@@ -101,27 +95,27 @@ public class Shift extends BaseObject implements Serializable {
 		this.ends = ends;
 	}
 
-	public List<Publisher> getAssignable() {
-		return assignable;
-	}
-
-	public void setAssignable(List<Publisher> assignable) {
-		this.assignable = assignable;
-	}
-
-	public Publisher getShiftLeader() {
-		return shiftLeader;
-	}
-
-	public void setShiftLeader(Publisher shiftLeader) {
-		this.shiftLeader = shiftLeader;
-	}
-
-	public Publisher getTrolleyCarrier() {
-		return trolleyCarrier;
-	}
-
-	public void setTrolleyCarrier(Publisher trolleyCarrier) {
-		this.trolleyCarrier = trolleyCarrier;
-	}
+//	public List<Publisher> getAssignable() {
+//		return assignable;
+//	}
+//
+//	public void setAssignable(List<Publisher> assignable) {
+//		this.assignable = assignable;
+//	}
+//
+//	public Publisher getShiftLeader() {
+//		return shiftLeader;
+//	}
+//
+//	public void setShiftLeader(Publisher shiftLeader) {
+//		this.shiftLeader = shiftLeader;
+//	}
+//
+//	public Publisher getTrolleyCarrier() {
+//		return trolleyCarrier;
+//	}
+//
+//	public void setTrolleyCarrier(Publisher trolleyCarrier) {
+//		this.trolleyCarrier = trolleyCarrier;
+//	}
 }

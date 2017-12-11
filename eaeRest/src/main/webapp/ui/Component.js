@@ -28,6 +28,17 @@ sap.ui.define([
 					},
 					createPublisher : {
 						serviceDayId : ""
+					},
+					createCartSchedule : {
+						period : {
+							guid : ""
+						},
+						cart : {
+							guid : ""
+						}
+					},
+					createCartLocation : {
+						
 					}
 					
 				}

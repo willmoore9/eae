@@ -34,7 +34,7 @@
 											</Toolbar>
 										</headerToolbar>
 										<content>
-											<core:Fragment fragmentName="org.eae.tools.view.fragments.Shift" type="XML"/>
+											<core:Fragment fragmentName="org.eae.tools.view.fragments.ShiftAvailability" type="XML"/>
 										</content>
 									</Panel>
 								</uxap:blocks>
