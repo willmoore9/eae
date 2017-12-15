@@ -25,7 +25,8 @@
         <sec:intercept-url pattern="/rest/shifts/create/*" access="hasAuthority('ADMIN')"/>
         <sec:intercept-url pattern="/rest/shifts/delete/*" access="hasAuthority('ADMIN')"/>
         <sec:intercept-url pattern="/rest/shifts/assign/**" access="hasAuthority('ADMIN')"/>
-        <sec:intercept-url pattern="/rest/shifts/requestAssign/**" access="hasAuthority('PUBLISHER')"/>
+        <sec:intercept-url pattern="/rest/shifts/addRequestAssign/**" access="hasAuthority('PUBLISHER')"/>
+        <sec:intercept-url pattern="/rest/shifts/removeRequestAssign/**" access="hasAuthority('PUBLISHER')"/>
         <logout logout-url="/logout" delete-cookies="JSESSIONID" logout-success-url="/#login" />
         <sec:csrf disabled="true" />
     </sec:http>

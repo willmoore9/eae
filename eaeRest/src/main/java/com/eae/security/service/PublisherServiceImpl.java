@@ -29,6 +29,11 @@ public class PublisherServiceImpl implements PublisherService {
 		return publishers;
 	}
 	
+	@Override
+	public void saveTechUser(Publisher user) {
+		this.getEntityManagerFactory().createEntityManager().persist(user);
+	}
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected EntityManagerFactory getEntityManagerFactory()
 	{

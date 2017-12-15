@@ -10,10 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -42,26 +40,9 @@ public class Shift extends BaseObject implements Serializable {
 	@Column(name="ENDS")
 	private Date ends;
 	
-	@OneToMany(mappedBy="shift", cascade={CascadeType.REMOVE}, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="shift", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+	@JoinFetch(JoinFetchType.OUTER)
 	private List<PublisherAssignment> assignments = new ArrayList<PublisherAssignment>();
-
-//	@OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
-//	@JoinTable(
-//			name = "SHIFT_PUBLISHER_ASSIGN",
-//			joinColumns = { @JoinColumn(name="SHIFT_GUID",referencedColumnName="GUID") },
-//			inverseJoinColumns = {@JoinColumn(name="PUBLISHER_GUID", referencedColumnName="GUID")}
-//	)
-//	@JoinFetch(JoinFetchType.OUTER)
-//	private List<Publisher> assignable = new ArrayList<Publisher>();
-	
-//	@OneToOne(fetch=FetchType.EAGER)
-//	@JoinColumn(referencedColumnName="GUID")
-//	private Publisher shiftLeader;
-//
-//	@OneToOne(fetch=FetchType.EAGER)
-//	@JoinColumn(referencedColumnName="GUID")
-//	private Publisher trolleyCarrier;
-	
 
 	public List<PublisherAssignment> getAssignments() {
 		return assignments;

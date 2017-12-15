@@ -20,12 +20,20 @@ public class PublisherAssignment extends BaseObject implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
+	public PublisherAssignment() {
+	}
+	
+	public PublisherAssignment(String guid) {
+		this.setGuid(guid);
+	}
+	
+	
 	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
 	@JoinColumn(referencedColumnName="GUID")
 	@JsonBackReference
 	private Shift shift;
 	
-	@OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinTable(
 			name = "SHIFT_PUBLISHER_ASSIGN",
 			joinColumns = { @JoinColumn(name="SHIFT_GUID",referencedColumnName="GUID") },
@@ -33,7 +41,7 @@ public class PublisherAssignment extends BaseObject implements Serializable{
 	)
 	private Publisher publisher;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
+	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.PERSIST})
 	private CartSchedule schedule;
 
 	@Column(name = "IS_SHIFT_LEADER", nullable = false)

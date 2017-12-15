@@ -147,7 +147,7 @@ sap.ui.define([
 					oArray.push(oData.objects[0]);
 					this.setProperty(sPathToMergeResult, oArray);
 				} else {
-					this.setProperty(sPathToMergeResult, oData.objects);	
+					this.setProperty(sPathToMergeResult, oData.objects.length == 1 ?oData.objects[0] : oData.objects);	
 				}
 				resolve();
 			}.bind(this);

@@ -1,16 +1,16 @@
 <core:FragmentDefinition xmlns="sap.m"
 	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
-	<Dialog title="{i18n>assignPublisers}" beforeOpen="onBeforeAssignPublishersOpen">
+	<Dialog title="{i18n>assignPublisers}" afterOpen="onBeforeAssignPublishersOpen" afterClose="onAfterAssignPublishersClose">
 		<IconTabBar expanded="{device>/isNoPhone}"
 			class="sapUiResponsiveContentPadding">
 			<items>
 				<IconTabFilter text="{i18n>assignablePublisers}">
 					<List id="assignedPublishers" growing="true" mode="MultiSelect"
 						includeItemInSelection="true" select="onAssignPublisher" items="{
-																path: 'assignable'
+																path: '/AssignedToShiftTemp'
 															}">
 
-						<StandardListItem title="{name}" description="{surname}"
+ 						<StandardListItem title="{name}" description="{surname}"
 							icon="sap-icon://employee" iconDensityAware="false" iconInset="false" />
 					</List>
 

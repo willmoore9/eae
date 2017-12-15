@@ -23,23 +23,13 @@ sap.ui.define([
 				this._oAddDialog = sap.ui.xmlfragment("createSchedule", "org.eae.tools.view.fragments.AddScheduleDialog", this);
 				this.getView().addDependent(this._oAddDialog);	
 			}
-			
 
 			this._oAddDialog.open();
-		},
-		
-		handleDeleteSchedule: function(oEvent) {
-//			var guidToDelete = oEvent.getParameter("listItem").getBindingContext().getProperty("guid");
-//			var oModel = this.getView().getModel();
-//			oModel.removeById("rest/cartLocations/delete/" + guidToDelete).then(function(){
-//				this.refreshTable();
-//			}.bind(this))
 		},
 		
 		onOkAddDialogPress:function(oEvent) {
 			var oModel = this.getView().getModel();
 			var oParams = oModel.getProperty("/ui/createCartSchedule");
-			debugger;
 			oModel.createObject("rest/cartSchedule/create/",
 					JSON.stringify(oParams),
 					"POST",
@@ -86,6 +76,17 @@ sap.ui.define([
 				this._oSelected = undefined;
 			}
 		},
+		
+		onNavigateToSchedule : function(oEvent) {
+			var oItem, oCtx;
+			oItem = oEvent.getSource();
+			oCtx = oItem.getBindingContext();
+			var oRouter = this.getOwnerComponent().getRouter();
+			oRouter.navTo("overviewSchedule",{
+				scheduleId : oCtx.getProperty("guid"),
+				periodId : oCtx.getProperty("period/guid"),
+			});
+		}
 
 	});
 });

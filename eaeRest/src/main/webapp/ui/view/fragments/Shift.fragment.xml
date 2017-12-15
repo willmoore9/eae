@@ -6,7 +6,7 @@
 	<List mode="Delete" delete="onDeletePublisherFromShiftDelete"
 		enableBusyIndicator="true" headerText="{parts:[{path:'starts'}, {path:'ends'}], formatter: '.formatUtils.formatShiftTitle'}" growing="true" 
 		items="{
-			path: 'assigned',templateShareable:true, factory:'.buildPublishersInShift'
+			path: 'assignments',templateShareable:true, factory:'.buildPublishersInShift'
 		}">
 		<headerToolbar>
 			<Toolbar>
@@ -19,8 +19,6 @@
 			<Button icon="sap-icon://account" design="Lite" press="selectPublisherForAdd"/>
 			</Toolbar>
 		</headerToolbar>
-		<!-- <StandardListItem title="{name} {surname}" iconDensityAware="false"  press="onShiftPublisherPress" type="Active"/> -->
-		
 	</List>
 
 </core:FragmentDefinition>

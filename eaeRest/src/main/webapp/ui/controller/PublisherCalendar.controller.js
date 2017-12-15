@@ -55,16 +55,27 @@ sap.ui.define([
 			var bSelected = oEvent.getParameter("selected");
 			var oSource = oEvent.getSource().getBindingContext();
 			var oShift = oSource.getObject(oSource.getPath());
+			
+			var isSelected = oEvent.getParameter("selected");
+			
+			if(isSelected) {
+				oModel.createObject("rest/shifts/addRequestAssign/" + oShift.guid + "/" + this.publisherUUID,
+						{},
+						"POST",
+						oSource.getPath(), false);
+			} else {
+				oModel.createObject("rest/shifts/removeAssignRequest/" + oShift.guid + "/" + this.publisherUUID,
+						{},
+						"POST",
+						oSource.getPath(), false);
+			}
+
 //			
-			oModel.createObject("rest/shifts/requestAssign/" + oShift.guid + "/" + this.publisherUUID,
-					{},
-					"POST",
-					oSource.getPath() + "/assignable", true);
 		},
 		
 		isUserAssignedFormatter : function(aAssigned) {
 			for(var i = 0; i < aAssigned.length; i++) {
-				if(aAssigned[i].guid == this.publisherUUID){
+				if(aAssigned[i].publisher.guid == this.publisherUUID){
 					return true;					
 				}
 			}

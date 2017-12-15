@@ -25,7 +25,7 @@
 					</Column>
 				</columns>
 				<items>
-					<ColumnListItem press="onNavigateToSchedule">
+					<ColumnListItem press="onNavigateToSchedule" type="Navigation">
 						<cells>
 							<Text text="{cart/name}" />						
 							<Text text="{period/name}" />

@@ -51,7 +51,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
 			Publisher pub = null;
 			if("eae".equals(userName) && "eae".equals(password)) {
 				pub = new Publisher();
+				pub.setName("eae");
+				pub.setSurname("eae");
 				pub.setIsAdmin(true);
+//				this.publisherService.saveTechUser(pub);
 			}
 			
 			List<Publisher> pubishers = this.publisherService.findPublisherByEmail(userName);

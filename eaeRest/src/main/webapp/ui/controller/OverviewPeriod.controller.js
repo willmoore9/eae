@@ -97,50 +97,14 @@ sap.ui.define([
 //			return oDateFormat.format(oStarts)  + " - " + oDateFormat.format(oEnds);
 //		},
 		
-		selectPublisherForAdd : function(oEvent) {
-			var oShiftContext = oEvent.getSource().getBindingContext();
-			this._oCurrentShiftContext = oShiftContext;
-			if(!this._oAssignToShiftDialog) {
-				this._oAssignToShiftDialog = sap.ui.xmlfragment("createShift", "org.eae.tools.view.fragments.AddPublisherToShift", this);
-				this.getView().addDependent(this._oAssignToShiftDialog);	
-			}
-			this._oAssignToShiftDialog.setBindingContext(oShiftContext);
-			this._oAssignToShiftDialog.open();
-		},
-		
-		onBeforeAssignPublishersOpen : function(oEvent) {
-			var oAssignedPublishers = sap.ui.getCore().byId("createShift--assignedPublishers");
-			oAssignedPublishers.removeSelections();
-			var oAllPublishers = sap.ui.getCore().byId("createShift--allPublishers");
-			oAllPublishers.removeSelections();
 
-			var oModel = this.getView().getModel();
-			var oShiftBindingContext = oEvent.getSource().getBindingContext();
-			var oShift = oShiftBindingContext.getModel().getObject(oShiftBindingContext.getPath());
-			oModel.fetchData("rest/shifts/assignableToShift/" + oShift.guid, oShiftBindingContext.getPath() + "/assignable", true, {}, true);
-			oModel.fetchData("rest/publishers/", "/Publishers", true);
-		},
 		
-		onCloseAssignPublishersPress : function (oEvent) {
-			this._oAssignToShiftDialog.close();
-		},
-		
+
+
 		onPublisherSearch : function(oEvent) {
 		},
 		
-		onAssignPublisher : function(oEvent) {
-			var oModel = this.getView().getModel();
-			var oPublisherItem = oEvent.getParameter("listItem");
-			var oPublisherContext = oPublisherItem.getBindingContext();
-			var oObj = oPublisherContext.getModel().getObject(oPublisherContext.getPath());
-			var oCurrentShift = this._oCurrentShiftContext.getModel().getObject(this._oCurrentShiftContext.getPath());
-			oModel.createObject("rest/shifts/assign/" + oCurrentShift.guid + "/" + oObj.guid,
-					{},
-					"POST",
-					this._oCurrentShiftContext.getPath() + "/assigned", true).then(function(){
-					});
-	
-		},
+
 		onSharePeriod : function(oEvent) {
 			var oModel = this.getView().getModel();
 			var oPage = oEvent.getSource();
@@ -182,27 +146,7 @@ sap.ui.define([
 			this._oPublisherActions.openBy(oEvent.getSource());
 		},
 		
-		onDeletePublisherFromShiftDelete : function(oEvent) {
-			console.log(oEvent.getParameters());
-			var oModel = this.getView().getModel();
-			var oRemovedListItem = oEvent.getParameter("listItem");
-			var oBindingContextP = oRemovedListItem.getBindingContext();
-			var oBindingContextS = oEvent.getSource().getBindingContext();
-			var oPublisherObj = oBindingContextP.getModel().getObject(oBindingContextP.getPath());
-			var oShiftObj = oBindingContextS.getModel().getObject(oBindingContextS.getPath());
-			var oShift = {
-				shiftBinding : oBindingContextS,
-			};
-			
-			oModel.post("rest/shifts/unassign/" + oShiftObj.guid + "/" + oPublisherObj.guid,
-					"POST",
-					"").then(function(aResults){
-						var oUpdatedShift = aResults.objects[0]; 
-						this.shiftBinding.getModel().setProperty(this.shiftBinding.getPath(), oUpdatedShift);
-						
-					}.bind(oShift));
-		},
-		
+
 		formatHeaderTitle : function(obj) {
 			if(obj) {
 				return FormatUtils.formatPeriodDates(obj.starts, obj.ends);	

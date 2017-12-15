@@ -21,14 +21,14 @@
 			columnsM="1"
 			singleContainerFullSize="false" >
 			<f:content>
-				<Label text="{i18n>cartName}" />
+				<Label text="{i18n>servicePeriod}" />
 				<ComboBox
 					items="{
 						path: '/Periods'
 					}" selectedKey="{/ui/createCartSchedule/period/guid}">
 					<core:ListItem key="{guid}" text="{name}" />
 				</ComboBox>
-				<Label text="{i18n>servicePeriod}" />
+				<Label text="{i18n>cartName}" />
 				<ComboBox
 					items="{
 						path: '/CartLocations'

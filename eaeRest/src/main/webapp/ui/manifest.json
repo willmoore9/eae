@@ -99,9 +99,9 @@
 			"target" : "publisherCalendar"
 		},
 		{
-			"pattern" : "currentWeek",
-			"name" : "currentWeekSchedule",
-			"target" : "currentWeekSchedule"
+			"pattern" : "schedule/{scheduleId}/period/{periodId}",
+			"name" : "overviewSchedule",
+			"target" : "overviewSchedule"
 		},
 		{
 			"pattern" : "schedules",
@@ -136,7 +136,7 @@
 		  "viewName" : "PublisherCalendar",
 		  "viewLevel" : 2
 		},
-		"currentWeekSchedule" : {
+		"overviewSchedule" : {
 		  "viewName" : "ScheduleOverview",
 		  "viewLevel" : 2
 		},

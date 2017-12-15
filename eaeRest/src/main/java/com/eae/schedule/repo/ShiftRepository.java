@@ -11,4 +11,5 @@ import com.eae.schedule.model.Shift;
 
 public interface ShiftRepository extends JpaRepository<Shift, String> {
 	List<Shift> findShiftByServiceDay(ServiceDay day, Sort sort);
+	List<Shift> findShiftBy(ServiceDay day, Sort sort);
 }

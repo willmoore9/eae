@@ -33,6 +33,7 @@ public class CartScheduleController {
 	public Response<CartSchedule> createPublisher(@RequestBody CartSchedule cartPoint) {
 		Response<CartSchedule> response = new Response<CartSchedule>();
 		cartScheduleRepo.save(cartPoint);
+		cartPoint = cartScheduleRepo.findById(cartPoint.getGuid()).get();
 		response.addObject(cartPoint);
 		return response;
 	}

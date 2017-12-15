@@ -14,6 +14,14 @@ public class Publisher extends BaseObject implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	public Publisher() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Publisher(String guid) {
+		this.setGuid(guid);
+	}
+	
 	@Column(name="NAME",length = 56)
 	private String name;
 	
