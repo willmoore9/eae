@@ -147,7 +147,6 @@ sap.ui.define([
 		
 		onAssignAsLeader : function(oEvent) {
 			var oModel = this.getView().getModel();
-			debugger;
 			oModel.post("rest/shifts/assignShiftLeader/" + this._AdminActins_Shift + "/assignment/" + this._AdminActins_Publisher,
 					"POST"
 					).then(function(){
@@ -158,7 +157,6 @@ sap.ui.define([
 		
 		onUnassignAsLeader : function(oEvent) {
 			var oModel = this.getView().getModel();
-			debugger;
 			oModel.post("rest/shifts/unassignShiftLeader/" + this._AdminActins_Shift + "/assignment/" + this._AdminActins_Publisher,
 					"POST"
 					).then(function(){
@@ -169,7 +167,6 @@ sap.ui.define([
 		
 		onAssignCarrier : function(oEvent) {
 			var oModel = this.getView().getModel();
-			debugger;
 			oModel.post("rest/shifts/assignTrolleyCarrier/" + this._AdminActins_Shift + "/assignment/" + this._AdminActins_Publisher,
 					"POST"
 					).then(function(){
@@ -180,7 +177,6 @@ sap.ui.define([
 		
 		onUnassignCarrier : function(oEvent) {
 			var oModel = this.getView().getModel();
-			debugger;
 			oModel.post("rest/shifts/unassignTrolleyCarrier/" + this._AdminActins_Shift + "/assignment/" + this._AdminActins_Publisher,
 					"POST"
 					).then(function(){
@@ -194,7 +190,6 @@ sap.ui.define([
 				this._oPublisherActions = sap.ui.xmlfragment("publisherAdminActions", "org.eae.tools.view.fragments.PublisherAdminActions", this);
 				this.getView().addDependent(this._oPublisherActions);	
 			}
-			debugger;
 			var oPubBc = oEvent.getSource().getBindingContext();
 			var oShiftBc = oEvent.getSource().getParent().getBindingContext();
 			
