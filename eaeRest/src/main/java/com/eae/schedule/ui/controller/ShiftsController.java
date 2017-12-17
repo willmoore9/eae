@@ -15,6 +15,7 @@ import com.eae.schedule.model.PublisherAssignment;
 import com.eae.schedule.model.ServiceDay;
 import com.eae.schedule.model.Shift;
 import com.eae.schedule.repo.CartScheduleRepository;
+import com.eae.schedule.repo.PublisherAssignmentRepository;
 import com.eae.schedule.repo.PublisherRepository;
 import com.eae.schedule.repo.ServiceDayRepository;
 import com.eae.schedule.repo.ShiftRepository;
@@ -37,6 +38,9 @@ public class ShiftsController {
 	
 	@Autowired
 	private CartScheduleRepository cartScheduleRepo;
+	
+	@Autowired
+	private PublisherAssignmentRepository publisherAssignmentRepo;
 	
 	@RequestMapping(value="/create/{serviceDayId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
 	public Response<Shift> createShiftInDay(@PathVariable(value="serviceDayId") String serviceDayId, @RequestBody Shift shift) {
@@ -114,6 +118,10 @@ public class ShiftsController {
 		for(PublisherAssignment assigmentToCancel : assignedPublisher) {
 			if(assigmentToCancel.getPublisher().getGuid().equals(publisherId) && assigmentToCancel.getSchedule().getGuid().equals(scheduleId)) {
 				assigmentToCancel.setSchedule(null);
+				
+				if(!assigmentToCancel.getIsSelfAssigned()) {
+					assignedPublisher.remove(assigmentToCancel);
+				}
 				response.setSuccessful(true);
 				response.addObject(shift);
 				break;
@@ -147,13 +155,14 @@ public class ShiftsController {
 		return response;
 	}
 	
-	@RequestMapping(value="/addRequestAssign/{shiftId}/{publisherId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
+	@RequestMapping(value="/addAssignRequest/{shiftId}/{publisherId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
 	public Response<Shift> requestAssignmentPubisherToShift(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="publisherId") String publisherId) {
 		Response<Shift> response = new Response<Shift>();
 		Publisher publisher = pubisherRepo.findById(publisherId).get();
 		
 		Shift shift = shiftRepo.findById(shiftId).get();
 		PublisherAssignment assignement = new PublisherAssignment();
+		assignement.setIsSelfAssigned(true);
 		assignement.setShift(shift);
 		assignement.setPublisher(publisher);	
 		shift.getAssignments().add(assignement);
@@ -181,57 +190,54 @@ public class ShiftsController {
 		return response;
 	}
 	
-	@RequestMapping(value="/assignShiftLeader/{shiftId}/{publisherId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
-	public Response<Shift> assignToAsLeader(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="publisherId") String publisherId)  {
+	@RequestMapping(value="/assignShiftLeader/{shiftId}/assignment/{assignmentId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
+	public Response<Shift> assignToAsLeader(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="assignmentId") String assignmentId)  {
 		Response<Shift> response = new Response<Shift>();
+		PublisherAssignment assignement = publisherAssignmentRepo.findById(assignmentId).get();
+		assignement.setIsShiftLeader(true);
+		publisherAssignmentRepo.save(assignement);
 		
-		Publisher publisher = pubisherRepo.findById(publisherId).get();
 		Shift shift = shiftRepo.findById(shiftId).get();
-//		shift.setShiftLeader(publisher);
-		shiftRepo.saveAndFlush(shift);
-		
 		response.addObject(shift);
-		
 		return response;
 	}
 	
-	@RequestMapping(value="/unassignShiftLeader/{shiftId}/{publisherId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
-	public Response<Shift> unassignToAsLeader(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="publisherId") String publisherId)  {
+	@RequestMapping(value="/unassignShiftLeader/{shiftId}/assignment/{assignmentId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
+	public Response<Shift> unassignToAsLeader(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="assignmentId") String assignmentId)  {
 		Response<Shift> response = new Response<Shift>();
 		
+		PublisherAssignment assignemnt = publisherAssignmentRepo.findById(assignmentId).get();
+		assignemnt.setIsShiftLeader(false);
+		publisherAssignmentRepo.save(assignemnt);
+		
 		Shift shift = shiftRepo.findById(shiftId).get();
-//		shift.setShiftLeader(null);
-		shiftRepo.saveAndFlush(shift);
-		
 		response.addObject(shift);
-		
 		return response;
 	}
 	
-	@RequestMapping(value="/assignTrolleyCarrier/{shiftId}/{publisherId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
-	public Response<Shift> assignTrolleyCarrier(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="publisherId") String publisherId)  {
+	@RequestMapping(value="/assignTrolleyCarrier/{shiftId}/assignment/{assignmentId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
+	public Response<Shift> assignTrolleyCarrier(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="assignmentId") String assignmentId)  {
 		Response<Shift> response = new Response<Shift>();
 		
-		Publisher publisher = pubisherRepo.findById(publisherId).get();
+		PublisherAssignment assignemnt = publisherAssignmentRepo.findById(assignmentId).get();
+		assignemnt.setIsCartCarrier(true);
+		publisherAssignmentRepo.save(assignemnt);
+		
 		Shift shift = shiftRepo.findById(shiftId).get();
-//		shift.setTrolleyCarrier(publisher);
-		shiftRepo.saveAndFlush(shift);
-		
 		response.addObject(shift);
-		
 		return response;
 	}
 	
-	@RequestMapping(value="/unassignTrolleyCarrier/{shiftId}/{publisherId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
-	public Response<Shift> unassignTrolleyCarrier(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="publisherId") String publisherId)  {
+	@RequestMapping(value="/unassignTrolleyCarrier/{shiftId}/assignment/{assignmentId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
+	public Response<Shift> unassignTrolleyCarrier(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="assignmentId") String assignmentId)  {
 		Response<Shift> response = new Response<Shift>();
 		
+		PublisherAssignment assignemnt = publisherAssignmentRepo.findById(assignmentId).get();
+		assignemnt.setIsCartCarrier(false);
+		publisherAssignmentRepo.save(assignemnt);
+		
 		Shift shift = shiftRepo.findById(shiftId).get();
-//		shift.setTrolleyCarrier(null);
-		shiftRepo.saveAndFlush(shift);
-		
 		response.addObject(shift);
-		
 		return response;
 	}
 }

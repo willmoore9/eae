@@ -19,7 +19,7 @@ sap.ui.define([
 			
 		onNavBack : function(oEvent) {
 			var oRouter = this.getOwnerComponent().getRouter();
-			oRouter.navTo("landingPage");
+			oRouter.navTo("scheduleWorklist");
 		},
 		
 		loadSericeDays : function(periodId) {
@@ -45,23 +45,17 @@ sap.ui.define([
 			}
 			return "";
 		},
-		buildPublishersInShift : function(sId, oContext) {
-			var oPublisherPath = oContext.getPath();
-			var oAssignment = oContext.getModel().getObject(oPublisherPath);
-			var aPathParts = oPublisherPath.split("/");
 
-			aPathParts.splice(aPathParts.length-2, 2);
+		formatShiftAssignmentVisibility : function(oSchedule) {
+			if(!oSchedule) {
+				return false;
+			} 
 			
-			var oShift = oContext.getObject(aPathParts.join("/"));
+			if(oSchedule.guid === this._sScheduleId) {
+				return true;
+			}
 			
-			return new sap.m.StandardListItem(sId, {
-				title:"{publisher/name} {publisher/surname}",
-				infoState: "Error",
-				iconDensityAware:false,
-				press: this.onShiftPublisherPress.bind(this),
-				type:"Active",
-				visible : (oAssignment != null && oAssignment.schedule != null && oAssignment.schedule.guid === this._sScheduleId)
-			});
+			return false;
 		},
 		
 		onShiftPublisherPress : function(oEvent) {
@@ -148,7 +142,67 @@ sap.ui.define([
 		
 		onCloseAssignPublishersPress : function (oEvent) {
 			this._oAssignToShiftDialog.close();
-		}
+		},
+		
+		
+		onAssignAsLeader : function(oEvent) {
+			var oModel = this.getView().getModel();
+			debugger;
+			oModel.post("rest/shifts/assignShiftLeader/" + this._AdminActins_Shift + "/assignment/" + this._AdminActins_Publisher,
+					"POST"
+					).then(function(){
+						sap.ui.getCore().byId(this._AdminAction_LineItemId).setHighlight(sap.ui.core.MessageType.Success);
+					}.bind(this));
+	
+		},
+		
+		onUnassignAsLeader : function(oEvent) {
+			var oModel = this.getView().getModel();
+			debugger;
+			oModel.post("rest/shifts/unassignShiftLeader/" + this._AdminActins_Shift + "/assignment/" + this._AdminActins_Publisher,
+					"POST"
+					).then(function(){
+						sap.ui.getCore().byId(this._AdminAction_LineItemId).setHighlight(sap.ui.core.MessageType.None);
+					}.bind(this));
+	
+		},
+		
+		onAssignCarrier : function(oEvent) {
+			var oModel = this.getView().getModel();
+			debugger;
+			oModel.post("rest/shifts/assignTrolleyCarrier/" + this._AdminActins_Shift + "/assignment/" + this._AdminActins_Publisher,
+					"POST"
+					).then(function(){
+						sap.ui.getCore().byId(this._AdminAction_LineItemId).setInfo("#");
+					}.bind(this));
+	
+		},
+		
+		onUnassignCarrier : function(oEvent) {
+			var oModel = this.getView().getModel();
+			debugger;
+			oModel.post("rest/shifts/unassignTrolleyCarrier/" + this._AdminActins_Shift + "/assignment/" + this._AdminActins_Publisher,
+					"POST"
+					).then(function(){
+						sap.ui.getCore().byId(this._AdminAction_LineItemId).setInfo("");
+					}.bind(this));
+	
+		},
+		
+		onShiftPublisherPress : function(oEvent) {
+			if(!this._oPublisherActions) {
+				this._oPublisherActions = sap.ui.xmlfragment("publisherAdminActions", "org.eae.tools.view.fragments.PublisherAdminActions", this);
+				this.getView().addDependent(this._oPublisherActions);	
+			}
+			debugger;
+			var oPubBc = oEvent.getSource().getBindingContext();
+			var oShiftBc = oEvent.getSource().getParent().getBindingContext();
+			
+			this._AdminActins_Publisher = oPubBc.getModel().getObject(oPubBc.getPath()).guid;
+			this._AdminActins_Shift = oShiftBc.getModel().getObject(oShiftBc.getPath()).guid;
+			this._AdminAction_LineItemId = oEvent.getSource().getId();
+			this._oPublisherActions.openBy(oEvent.getSource());
+		},
 		
 	});
 });

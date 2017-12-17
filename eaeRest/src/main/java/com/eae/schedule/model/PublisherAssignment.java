@@ -50,8 +50,11 @@ public class PublisherAssignment extends BaseObject implements Serializable{
 	@Column(name = "IS_CART_CARRIER", nullable = false)
 	private Boolean isCartCarrier = false;;
 	
-	@Column(name = "IS_BOOKED", nullable = false)
-	private Boolean isBooked = false;;
+	/**
+	 * If true then user assigned himself, if false then admin assigned
+	 */
+	@Column(name = "IS_SELF_ASSIGNED", nullable = false)
+	private Boolean isSelfAssigned = false;;
 	
 	public Shift getShift() {
 		return shift;
@@ -93,11 +96,13 @@ public class PublisherAssignment extends BaseObject implements Serializable{
 		this.isCartCarrier = isCartCarrier;
 	}
 
-	public Boolean getIsBooked() {
-		return isBooked;
+	public Boolean getIsSelfAssigned() {
+		return isSelfAssigned;
 	}
 
-	public void setIsBooked(Boolean isBooked) {
-		this.isBooked = isBooked;
+	public void setIsSelfAssigned(Boolean isSelfAssigned) {
+		this.isSelfAssigned = isSelfAssigned;
 	}
+
+
 }

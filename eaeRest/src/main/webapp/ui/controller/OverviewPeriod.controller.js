@@ -131,20 +131,7 @@ sap.ui.define([
 			});
 		},
 		
-		onShiftPublisherPress : function(oEvent) {
-			if(!this._oPublisherActions) {
-				this._oPublisherActions = sap.ui.xmlfragment("publisherAdminActions", "org.eae.tools.view.fragments.PublisherAdminActions", this);
-				this.getView().addDependent(this._oPublisherActions);	
-			}
-			
-			var oPubBc = oEvent.getSource().getBindingContext();
-			var oShiftBc = oEvent.getSource().getParent().getBindingContext();
-			
-			this._AdminActins_Publisher = oPubBc.getModel().getObject(oPubBc.getPath()).guid;
-			this._AdminActins_Shift = oShiftBc.getModel().getObject(oShiftBc.getPath()).guid;
-			this._AdminAction_LineItemId = oEvent.getSource().getId();
-			this._oPublisherActions.openBy(oEvent.getSource());
-		},
+
 		
 
 		formatHeaderTitle : function(obj) {
@@ -154,50 +141,7 @@ sap.ui.define([
 			return "";
 		},
 		
-		onAssignAsLeader : function(oEvent) {
-			var oModel = this.getView().getModel();
-			debugger;
-			oModel.post("rest/shifts/assignShiftLeader/" + this._AdminActins_Shift + "/" + this._AdminActins_Publisher,
-					"POST"
-					).then(function(){
-						sap.ui.getCore().byId(this._AdminAction_LineItemId).setHighlight(sap.ui.core.MessageType.Success);
-					}.bind(this));
-	
-		},
 		
-		
-		onUnassignAsLeader : function(oEvent) {
-			var oModel = this.getView().getModel();
-			debugger;
-			oModel.post("rest/shifts/unassignShiftLeader/" + this._AdminActins_Shift + "/" + this._AdminActins_Publisher,
-					"POST"
-					).then(function(){
-						sap.ui.getCore().byId(this._AdminAction_LineItemId).setHighlight(sap.ui.core.MessageType.None);
-					}.bind(this));
-	
-		},
-		
-		onAssignCarrier : function(oEvent) {
-			var oModel = this.getView().getModel();
-			debugger;
-			oModel.post("rest/shifts/assignTrolleyCarrier/" + this._AdminActins_Shift + "/" + this._AdminActins_Publisher,
-					"POST"
-					).then(function(){
-						sap.ui.getCore().byId(this._AdminAction_LineItemId).setInfo("#");
-					}.bind(this));
-	
-		},
-		
-		onUnassignCarrier : function(oEvent) {
-			var oModel = this.getView().getModel();
-			debugger;
-			oModel.post("rest/shifts/unassignTrolleyCarrier/" + this._AdminActins_Shift + "/" + this._AdminActins_Publisher,
-					"POST"
-					).then(function(){
-						sap.ui.getCore().byId(this._AdminAction_LineItemId).setInfo("");
-					}.bind(this));
-	
-		},
 		
 		buildPublishersInShift : function(sId, oContext) {
 			var oPublisherPath = oContext.getPath();

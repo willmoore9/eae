@@ -59,7 +59,7 @@ sap.ui.define([
 			var isSelected = oEvent.getParameter("selected");
 			
 			if(isSelected) {
-				oModel.createObject("rest/shifts/addRequestAssign/" + oShift.guid + "/" + this.publisherUUID,
+				oModel.createObject("rest/shifts/addAssignRequest/" + oShift.guid + "/" + this.publisherUUID,
 						{},
 						"POST",
 						oSource.getPath(), false);
