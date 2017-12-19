@@ -37,7 +37,14 @@ sap.ui.define([
 					true
 			).then(function(){
 				console.log("Created publishe. Do nothing");
-				var oCreateData = this.getView().getModel().setProperty("/ui/createCartSchedule", {});
+				var oCreateData = this.getView().getModel().setProperty("/ui/createCartSchedule", {
+					period : {
+						guid : ""
+					},
+					cart : {
+						guid : ""
+					}
+				});
 			}.bind(this));
 			
 			this._oAddDialog.close();
