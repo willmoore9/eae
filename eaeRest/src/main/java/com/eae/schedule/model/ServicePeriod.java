@@ -14,8 +14,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
@@ -44,10 +46,13 @@ public class ServicePeriod extends BaseObject implements Serializable {
 	@Column(name="SHIFT_TEMPLATE")
 	private String shiftTemplate;
 	
-	@OneToMany(mappedBy="period", cascade={CascadeType.REMOVE}, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="period", cascade={CascadeType.DETACH}, fetch=FetchType.EAGER)
 	@JsonIgnore
 	private List<ServiceDay> serviceDays = new ArrayList<ServiceDay>();
-	
+
+	@Transient
+	@JsonInclude
+	private Integer timeOffset; 
 	
 	public ServicePeriod() {
 	}
@@ -99,6 +104,12 @@ public class ServicePeriod extends BaseObject implements Serializable {
 	public void setIsShared(Boolean isShared) {
 		this.isShared = isShared;
 	}
-	
-	
+
+	public Integer getTimeOffset() {
+		return timeOffset;
+	}
+
+	public void setTimeOffset(Integer timeOffset) {
+		this.timeOffset = timeOffset;
+	}
 }

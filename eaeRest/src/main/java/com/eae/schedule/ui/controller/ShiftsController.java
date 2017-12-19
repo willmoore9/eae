@@ -240,4 +240,11 @@ public class ShiftsController {
 		response.addObject(shift);
 		return response;
 	}
+	
+	@RequestMapping(value="/delete/{shiftId}", method=RequestMethod.DELETE)
+    public Response<Object> deleteShift(@PathVariable(value="shiftId") String shiftId) {
+    	Response<Object> response = new Response<Object>();
+    	this.shiftRepo.deleteById(shiftId);
+    	return response;
+    }
 }

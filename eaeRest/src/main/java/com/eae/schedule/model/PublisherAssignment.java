@@ -41,7 +41,7 @@ public class PublisherAssignment extends BaseObject implements Serializable{
 	)
 	private Publisher publisher;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.PERSIST})
+	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.DETACH})
 	private CartSchedule schedule;
 
 	@Column(name = "IS_SHIFT_LEADER", nullable = false)

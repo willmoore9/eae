@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eae.schedule.model.CartSchedule;
 import com.eae.schedule.model.Publisher;
 import com.eae.schedule.model.ServicePeriod;
+import com.eae.schedule.repo.CartPointRepository;
+import com.eae.schedule.repo.CartScheduleRepository;
 import com.eae.schedule.repo.PublisherRepository;
 import com.eae.schedule.repo.ServicePeriodRepository;
 import com.eae.schedule.ui.model.LandingDTO;
@@ -26,6 +29,9 @@ public class Landing {
 	
 	@Autowired
 	private ServicePeriodRepository periodRepo;
+	
+	@Autowired
+	private CartScheduleRepository cartScheduleRepo;
 	
     @RequestMapping(name="/", method=RequestMethod.GET)
     public LandingDTO getLandPublisher() {
@@ -47,6 +53,9 @@ public class Landing {
 			landingData.setPublisher(annonymous);
 		}
 		
+		List<CartSchedule> sharedSchedules = cartScheduleRepo.findCartScheduleByIsShared(true);
+		
+		landingData.setSharedSchedules(sharedSchedules);
 		return landingData; 
     }
     

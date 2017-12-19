@@ -1,23 +1,19 @@
 <mvc:View
-	controllerName="org.eae.tools.controller.ScheduleOverview"
+	controllerName="org.eae.tools.controller.CartSchedule"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:uxap="sap.uxap"
 	xmlns:semantic="sap.m.semantic" 
 	xmlns:core="sap.ui.core">
-		<semantic:FullscreenPage id="overviewSchedule"
-		navButtonPress="onNavBack" showNavButton="true" title="{i18n>servicePeriodWorklist}">
-			<uxap:ObjectPageLayout id="schedulePage" enableLazyLoading="false" subSectionLayout="TitleOnLeft"
+		<semantic:FullscreenPage id="cartSchedule"
+		navButtonPress="onNavBack" showNavButton="true" title="{i18n>shiftSchedule}">
+			<uxap:ObjectPageLayout id="cartSchedulePage" enableLazyLoading="false" subSectionLayout="TitleOnLeft"
 					  showTitleInHeaderContent="true" showHeaderContent="false"
 					  sections="{weeks}" showOnlyHighImportance="true" flexEnabled="true"
 					  >
 				<uxap:headerTitle>
-					<uxap:ObjectPageHeader objectTitle="{path:'info', formatter:'.formatHeaderTitle'}">
+					<uxap:ObjectPageHeader objectTitle="{path:'info', formatter:'.formatHeaderTitle'}" objectSubtitle="{cartSchedule/cart/name}">
 					
-					<uxap:actions>
-						<uxap:ObjectPageHeaderActionButton id="sharePerdiodButton" icon="sap-icon://share-2" text="{i18n>share}" hideText="false" type="Emphasized" press="onShareSchedule" visible="{= !${cartSchedule/isShared}}"/>
-						<uxap:ObjectPageHeaderActionButton id="unsharePerdiodButton" icon="sap-icon://share-2" text="{i18n>unshare}" hideText="false" press="onUnshareSchedule"  visible="{= ${cartSchedule/isShared}}"/>
-					</uxap:actions>
 					</uxap:ObjectPageHeader>
 				</uxap:headerTitle>
 				<uxap:sections>
@@ -30,11 +26,10 @@
 											<Toolbar>
 												<Title text="{parts:['date'], formatter:'.formatUtils.formatDayTitle'}"/>
 												<ToolbarSpacer />
-												<Button icon="sap-icon://add" press="onAddShiftPress"/>
 											</Toolbar>
 										</headerToolbar>
 										<content>
-											<core:Fragment fragmentName="org.eae.tools.view.fragments.Shift" type="XML"/>
+											<core:Fragment fragmentName="org.eae.tools.view.fragments.ShiftView" type="XML"/>
 										</content>
 									</Panel>
 								</uxap:blocks>

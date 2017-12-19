@@ -104,6 +104,11 @@
 			"target" : "overviewSchedule"
 		},
 		{
+			"pattern" : "cartSchedule/{scheduleId}/period/{periodId}",
+			"name" : "cartSchedule",
+			"target" : "cartSchedule"
+		},
+		{
 			"pattern" : "schedules",
 			"name" : "scheduleWorklist",
 			"target" : "scheduleWorklist"
@@ -147,7 +152,11 @@
 		"scheduleWorklist" : {
 		  "viewName" : "ScheduleWorklist",
 		  "viewLevel" : 2
-		},		
+		},	
+		"cartSchedule" : {
+		  "viewName" : "CartSchedule",
+		  "viewLevel" : 2
+		},
 		"login" : {
 		  "viewName" : "Login",
 		  "viewLevel" : 2

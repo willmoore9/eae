@@ -74,14 +74,11 @@ public class SerivePeriodsController {
     		this.prepareServiceDay(period, serviceDays, serviceDay.getTime());
     		serviceDay.add(Calendar.DAY_OF_MONTH, 1);
     	}
-//    	period.setServiceDays(serviceDays);
-    	
-//    	this.daysRepo.saveAll(serviceDays);
+
     	for(ServiceDay day : serviceDays) {
 
     		Calendar shiftDay = Calendar.getInstance();
 			shiftDay.setTime(day.getDate());
-    		
 			
     		if(period.getShiftTemplate() == null || period.getShiftTemplate().equals("1") || period.getShiftTemplate().equals("")) {
     			
@@ -148,10 +145,8 @@ public class SerivePeriodsController {
     			day.getShifts().add(shift);
     		}
     		period.getServiceDays().add(day);
-//    		this.daysRepo.save(day);
     	}
     	
-//    	this.daysRepo.flush();
     	this.periodRepo.save(period);
     	return response;
     }

@@ -160,6 +160,10 @@ sap.ui.define([
 				highlight: (oShift.shiftLeader != null && oShift.shiftLeader.guid === oPublisher.guid) ? "Success": "None",
 				info: (oShift.trolleyCarrier != null && oShift.trolleyCarrier.guid === oPublisher.guid) ? "#": ""
 			});
+		},
+		
+		removeShift : function(oEvent) {
+			debugger;
 		}
 	});
 });

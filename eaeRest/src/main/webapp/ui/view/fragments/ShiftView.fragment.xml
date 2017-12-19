@@ -3,7 +3,7 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
 	
-	<List mode="Delete" delete="onDeletePublisherFromShiftDelete"
+	<List
 		enableBusyIndicator="true" headerText="{parts:[{path:'starts'}, {path:'ends'}], formatter: '.formatUtils.formatShiftTitle'}" growing="true" 
 		items="{
 			path: 'assignments',templateShareable:true
@@ -16,8 +16,6 @@
 								],
 								formatter: '.formatUtils.formatShiftTitle'}"></Text>
 			<ToolbarSpacer />
-			<!-- <Button icon="sap-icon://delete" design="Lite" press="removeShift"/> -->
-			<Button icon="sap-icon://account" design="Lite" press="selectPublisherForAdd"/>
 			</Toolbar>
 		</headerToolbar>
 		<items>

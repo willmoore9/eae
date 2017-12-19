@@ -38,7 +38,7 @@ public class ServiceDay extends BaseObject implements Serializable {
 	@JsonBackReference
 	private ServicePeriod period;
 
-	@OneToMany(mappedBy="serviceDay", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="serviceDay", fetch=FetchType.EAGER, cascade={CascadeType.DETACH})
 	@JoinFetch(JoinFetchType.OUTER)
 	@JsonManagedReference
 	private List<Shift> shifts = new ArrayList<Shift>();

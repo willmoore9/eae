@@ -14,9 +14,12 @@ sap.ui.define([
 				this.loadSericeDays(periodId);
 				objectPage.bindElement("/Schedule/" + periodId);
 				
+//				this.getView().byId("sharePeridodButton").bindProperty("visible", "{= ${/CartSchedules/" + scheduleId + "/isShared}}");
+//				this.getView().byId("unSharePeridodButton").bindProperty("visible", "/CartSchedules/" + scheduleId + "/isShared");
+				
 			}.bind(this));
 		},
-			
+		
 		onNavBack : function(oEvent) {
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.navTo("scheduleWorklist");
@@ -34,9 +37,13 @@ sap.ui.define([
 		    oModel.fetchData("rest/periods/" + periodId + "/weeks", "/Schedule/" + periodId + "/weeks", true, {}, true).
 		    then(function(){
 		    	oModel.read("rest/periods/read/" + periodId).then(function(data){
-		    		oModel.setProperty("/Schedule/" + periodId + "/info", data)
+		    		oModel.setProperty("/Schedule/" + periodId + "/info", data);
 		    	});
-		    });
+		    	
+		    	oModel.read("rest/cartSchedule/read/" + this._sScheduleId).then(function(data){
+		    		oModel.setProperty("/Schedule/" + periodId + "/cartSchedule", data);
+		    	})
+		    }.bind(this));
 		},
 		
 		formatHeaderTitle : function(obj) {
@@ -198,6 +205,31 @@ sap.ui.define([
 			this._AdminAction_LineItemId = oEvent.getSource().getId();
 			this._oPublisherActions.openBy(oEvent.getSource());
 		},
+		onShareSchedule : function() {
+			var oModel = this.getView().getModel();
+			oModel.read("rest/cartSchedule/share/" + this._sScheduleId).then(function(data) {
+	    		oModel.setProperty("/Schedule/" + this._sPeriod + "/cartSchedule", data);
+			}.bind(this));
+		},
 		
+		onUnshareSchedule : function() {
+			var oModel = this.getView().getModel();
+			oModel.read("rest/cartSchedule/unshare/" + this._sScheduleId).then(function(data) {
+	    		oModel.setProperty("/Schedule/" + this._sPeriod + "/cartSchedule", data);
+			}.bind(this));;
+		},
+		
+		removeShift : function(oEvent) {
+			var oModel = this.getView().getModel();
+			var oShiftControl = oEvent.getSource();
+			var oContext = oShiftControl.getBindingContext();
+			var sGuid = oContext.getModel().getObject(oContext.getPath());
+			debugger;
+			oModel.removeById("rest/shifts/delete/" + sGuid).then(function(){
+				this.loadSericeDays();
+			}.bind(this));
+			
+			
+		}
 	});
 });

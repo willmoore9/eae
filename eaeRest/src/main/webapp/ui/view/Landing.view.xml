@@ -1,9 +1,48 @@
 <mvc:View 
 	controllerName="org.eae.tools.controller.Landing"
 	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc">
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	>
+	<Page showHeader="false">
+	
+	<Panel headerText="{i18n>myTiles}" visible="{= !!${/PublisherData/Period} }">	
+		<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+			header="{i18n>myAvaiability}" subheader="{i18n>managePersonalCalTieSubTitle}" 
+			press="navigateToPersonalCalendarManagement" visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
+			<tileContent>
+				<TileContent unit="" footer="{parts:[{path:'/PublisherData/Period/starts'},{path:'/PublisherData/Period/ends'}], formatter:'.formatPeriodDates'}">
+					<content>
+						<ImageContent src="sap-icon://appointment" />
+					</content>
+				</TileContent>
+			</tileContent>
+		</GenericTile>	
+		
+	</Panel>
+	<Panel headerText="{i18n>schedulesTiles}" id="scheduleTiles" content="{/PublisherData/SharedSchedules}" visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
+		
+		<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+			header="{cart/name}" subheader="{i18n>shiftSchedule}" 
+			press="navigateToCuurentSchedule">
+			<tileContent>
+				<TileContent unit="" footer="{parts:[{path:'period/starts'},{path:'period/ends'}], formatter:'.formatPeriodDates'}">
+					<content>
+						<ImageContent src="sap-icon://appointment" />
+					</content>
+				</TileContent>
+			</tileContent>
+			<customData>
+				<core:CustomData key="period" value="{period/guid}" />
+				<core:CustomData key="schedule" value="{guid}" />
+			</customData>
+		</GenericTile>	
+	</Panel>
+	
+	<Panel headerText="{i18n>adminTiles}" visible="{= (${/PublisherData/Publisher/isAdmin} &amp;&amp; ${/PublisherData/Publisher/email} !== 'ANONYMOUS')}">
+	
 	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-		header="{i18n>manageEaeCalTitle}" press="navigateToTeamCalendar" visible="{= (${/PublisherData/Publisher/isAdmin} &amp;&amp; ${/Publisher/email} !== 'ANONYMOUS')}">
+		header="{i18n>manageEaeCalTitle}" press="navigateToTeamCalendar" >
 		<tileContent>
 			<TileContent unit="" footer="">
 				<content>
@@ -13,7 +52,7 @@
 		</tileContent>
 	</GenericTile>
 	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-		header="{i18n>managePublishersRecords}" press="navigateToPublisherManagement"  visible="{= (${/PublisherData/Publisher/isAdmin} &amp;&amp; ${/PublisherData/Publisher/email} !== 'ANONYMOUS')}">
+		header="{i18n>managePublishersRecords}" press="navigateToPublisherManagement">
 		<tileContent>
 			<TileContent unit="" footer="">
 				<content>
@@ -22,22 +61,11 @@
 			</TileContent>
 		</tileContent>
 	</GenericTile>
-	
-	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-		header="{parts:[{path:'/PublisherData/Period/starts'},{path:'/PublisherData/Period/ends'}], formatter:'.formatPeriodDates'}" subheader="{i18n>managePersonalCalTieSubTitle}" 
-		press="navigateToPersonalCalendarManagement" visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
-		<tileContent>
-			<TileContent unit="" footer="">
-				<content>
-					<ImageContent src="sap-icon://appointment" />
-				</content>
-			</TileContent>
-		</tileContent>
-	</GenericTile>	
+
 
 	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
 		header="{i18n>manageCartLocations}"
-		press="manageCartPlaces" visible="{= (${/PublisherData/Publisher/isAdmin} &amp;&amp; ${/Publisher/email} !== 'ANONYMOUS')}">
+		press="manageCartPlaces">
 		<tileContent>
 			<TileContent unit="" footer="">
 				<content>
@@ -46,22 +74,10 @@
 			</TileContent>
 		</tileContent>
 	</GenericTile>	
-		
-	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-		header="{i18n>currentWeek}" subheader="{i18n>shiftSchedule}" 
-		press="navigateToCuurentSchedule" visible="{= (${/PublisherData/Publisher/isAdmin} &amp;&amp; ${/Publisher/email} !== 'ANONYMOUS')}">
-		<tileContent>
-			<TileContent unit="" footer="">
-				<content>
-					<ImageContent src="sap-icon://appointment" />
-				</content>
-			</TileContent>
-		</tileContent>
-	</GenericTile>	
 
 	<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
 		header="{i18n>manageSchedulesTitle}" subheader="{i18n>manageSchedulesSubTitle}" 
-		press="navigateToScheduleManage" visible="{= (${/PublisherData/Publisher/isAdmin} &amp;&amp; ${/Publisher/email} !== 'ANONYMOUS')}">
+		press="navigateToScheduleManage">
 		<tileContent>
 			<TileContent unit="" footer="">
 				<content>
@@ -70,5 +86,6 @@
 			</TileContent>
 		</tileContent>
 	</GenericTile>	
-	
+	</Panel>
+	</Page>
 </mvc:View>

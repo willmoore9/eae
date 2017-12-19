@@ -67,6 +67,11 @@ sap.ui.define([
 			oModel.read("rest/landing").then(function(oData){
 				this.getModel().setProperty("/PublisherData/Publisher",oData.publisher);
 				this.getModel().setProperty("/PublisherData/Period",oData.currentPeriod);
+				this.getModel().setProperty("/PublisherData/SharedSchedules",oData.sharedSchedules);
+			}.bind(this)).catch(function(data){
+				if(data.status === 401) {
+					this.getRouter().navTo("login");
+				}
 			}.bind(this));
 		}
 	});

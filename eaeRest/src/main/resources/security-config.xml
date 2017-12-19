@@ -15,22 +15,23 @@
     
     <context:component-scan base-package="com.eae.security.rest, com.eae.security.service" />
     
-     <sec:http entry-point-ref="customEntryPoint" use-expressions="true">
+     <sec:http entry-point-ref="customEntryPoint" use-expressions="true" >
         <sec:custom-filter ref="authenticationFilter" before="PRE_AUTH_FILTER" />
-        <sec:intercept-url pattern="/rest/publishers/create/*" access="hasAuthority('ADMIN')"/>
-        <sec:intercept-url pattern="/rest/publishers/delete/*" access="hasAuthority('ADMIN')"/>
-        <sec:intercept-url pattern="/rest/periods/create/*" access="hasAuthority('ADMIN')"/>
-        <sec:intercept-url pattern="/rest/periods/delete/*" access="hasAuthority('ADMIN')"/>
-        <sec:intercept-url pattern="/rest/periods/read/*" access="hasAuthority('ADMIN')"/>
-        <sec:intercept-url pattern="/rest/shifts/create/*" access="hasAuthority('ADMIN')"/>
-        <sec:intercept-url pattern="/rest/shifts/delete/*" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/publishers/create/**" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/publishers/delete/**" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/periods/create/**" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/periods/delete/**" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/periods/read/**" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/shifts/create/**" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/shifts/delete/**" access="hasAuthority('ADMIN')"/>
         <sec:intercept-url pattern="/rest/shifts/assign/**" access="hasAuthority('ADMIN')"/>
         <sec:intercept-url pattern="/rest/shifts/addRequestAssign/**" access="hasAuthority('PUBLISHER')"/>
         <sec:intercept-url pattern="/rest/shifts/removeRequestAssign/**" access="hasAuthority('PUBLISHER')"/>
+        <sec:intercept-url pattern="/rest/landing/**" access="hasAuthority('PUBLISHER')"/>
         <logout logout-url="/logout" delete-cookies="JSESSIONID" logout-success-url="/#login" />
         <sec:csrf disabled="true" />
     </sec:http>
-    
+	
  	<beans:bean id="publisherServiceImpl" scope="prototype" class="com.eae.security.service.PublisherServiceImpl"/>
  	
  	<beans:bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean" >

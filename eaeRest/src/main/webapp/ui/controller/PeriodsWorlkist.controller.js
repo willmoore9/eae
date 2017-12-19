@@ -27,27 +27,38 @@ sap.ui.define([
 		
 		createNewPeriod : function() {
 			var that = this;
-			var oPromise = new Promise(function(fnSuccess, fnReject){
-				var oCreateData = that.getView().getModel().getProperty("/ui/createPeriod");
-				oCreateData.starts = oCreateData.from.toJSON();
-				oCreateData.ends = oCreateData.to.toJSON();
-				$.ajax({
-				   headers: { 
-				        'Accept': 'application/json',
-				        'Content-Type': 'application/json' 
-				    },
-					url : "rest/periods/create",
-					type:"POST",
-					dataType: 'json',
-					data :JSON.stringify(oCreateData),
-					success : function(oData) {
-						fnSuccess({
-							data : oData
-						})
-					}
-				});				
-				
-			});
+			var oModel = this.getView().getModel();
+			var oCreateData = that.getView().getModel().getProperty("/ui/createPeriod");
+			oCreateData.starts = oCreateData.from.toJSON();
+			oCreateData.ends = oCreateData.to.toJSON();
+			oCreateData.timezone = {};
+			var oPromise = oModel.createObject("rest/periods/create",
+					JSON.stringify(oCreateData),
+					"POST",
+					"", false);
+			
+//			var oPromise = new Promise(function(fnSuccess, fnReject){
+//				var oCreateData = that.getView().getModel().getProperty("/ui/createPeriod");
+//				oCreateData.starts = oCreateData.from.toJSON();
+//				oCreateData.ends = oCreateData.to.toJSON();
+//				oCreateData.timezone = {};
+//				$.ajax({
+//				   headers: { 
+//				        'Accept': 'application/json',
+//				        'Content-Type': 'application/json' 
+//				    },
+//					url : "rest/periods/create",
+//					type:"POST",
+//					dataType: 'json',
+//					data :JSON.stringify(oCreateData),
+//					success : function(oData) {
+//						fnSuccess({
+//							data : oData
+//						})
+//					}
+//				});				
+//				
+//			});
 			return oPromise;
 		},
 		
