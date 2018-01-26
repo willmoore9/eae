@@ -29,16 +29,19 @@ public class ServiceDay extends BaseObject implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Column(name="DELIVER_TO",length = 16)
+	private String deliverTo;
+	
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="DATE")
 	private Date date;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(referencedColumnName="GUID")
 	@JsonBackReference
 	private ServicePeriod period;
 
-	@OneToMany(mappedBy="serviceDay", fetch=FetchType.EAGER, cascade={CascadeType.DETACH})
+	@OneToMany(mappedBy="serviceDay", fetch=FetchType.EAGER, cascade={CascadeType.REMOVE})
 	@JoinFetch(JoinFetchType.OUTER)
 	@JsonManagedReference
 	private List<Shift> shifts = new ArrayList<Shift>();
@@ -69,4 +72,14 @@ public class ServiceDay extends BaseObject implements Serializable {
 	public void setShifts(List<Shift> shifts) {
 		this.shifts = shifts;
 	}
+
+	public String getDeliverTo() {
+		return deliverTo;
+	}
+
+	public void setDeliverTo(String deliverTo) {
+		this.deliverTo = deliverTo;
+	}
+	
+	
 }

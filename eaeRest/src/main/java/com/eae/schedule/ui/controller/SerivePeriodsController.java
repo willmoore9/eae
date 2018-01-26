@@ -1,21 +1,14 @@
 package com.eae.schedule.ui.controller;
 
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.TimeZone;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +20,6 @@ import com.eae.schedule.model.ServicePeriod;
 import com.eae.schedule.model.Shift;
 import com.eae.schedule.repo.ServiceDayRepository;
 import com.eae.schedule.repo.ServicePeriodRepository;
-import com.eae.schedule.repo.ShiftRepository;
 import com.eae.schedule.ui.model.Response;
 import com.eae.schedule.ui.model.ServiceWeek;
 
@@ -54,11 +46,16 @@ public class SerivePeriodsController {
     @RequestMapping(path="/create", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
     public Response<ServicePeriod> save(@RequestBody ServicePeriod period) {
     	Response<ServicePeriod> response = new Response<ServicePeriod>();
+    	Integer zoneOffset = period.getZoneOffset();
+    	
     	period = this.periodRepo.save(period);
-    	Calendar from = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.systemDefault()));
+
+    	Calendar from = Calendar.getInstance();
+    	from.set(Calendar.ZONE_OFFSET, zoneOffset);
     	from.setTime(period.getStarts());
 
     	Calendar to = Calendar.getInstance();
+    	to.set(Calendar.ZONE_OFFSET, zoneOffset);
     	to.setTime(period.getEnds());
     	log.log(Level.DEBUG, "create period");
     	if(from.after(to)) {
@@ -195,7 +192,11 @@ public class SerivePeriodsController {
     @RequestMapping(path="/delete/{periodId}", method=RequestMethod.DELETE)
     public Response<Object> deletePeriod(@PathVariable(name="periodId", required=true) String periodId) {
     	Response<Object> response = new Response<Object>();
+    	try {
     	this.periodRepo.deleteById(periodId);
+    	} catch (org.springframework.transaction.TransactionSystemException e) {
+    		response.setSuccessful(false);
+    	}
     	return response;
     }
     

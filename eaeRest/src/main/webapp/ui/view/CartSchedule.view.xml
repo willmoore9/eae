@@ -26,6 +26,9 @@
 											<Toolbar>
 												<Title text="{parts:['date'], formatter:'.formatUtils.formatDayTitle'}"/>
 												<ToolbarSpacer />
+												<core:Icon src="sap-icon://shipping-status" />
+												<Text width="3rem" text="{deliverTo}"></Text>
+
 											</Toolbar>
 										</headerToolbar>
 										<content>

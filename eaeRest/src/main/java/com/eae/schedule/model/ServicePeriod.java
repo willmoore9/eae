@@ -46,13 +46,12 @@ public class ServicePeriod extends BaseObject implements Serializable {
 	@Column(name="SHIFT_TEMPLATE")
 	private String shiftTemplate;
 	
-	@OneToMany(mappedBy="period", cascade={CascadeType.DETACH}, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="period", cascade={CascadeType.DETACH, CascadeType.REMOVE}, fetch=FetchType.EAGER, orphanRemoval=true)
 	@JsonIgnore
 	private List<ServiceDay> serviceDays = new ArrayList<ServiceDay>();
 
 	@Transient
-	@JsonInclude
-	private Integer timeOffset; 
+	private Integer zoneOffset; 
 	
 	public ServicePeriod() {
 	}
@@ -105,11 +104,13 @@ public class ServicePeriod extends BaseObject implements Serializable {
 		this.isShared = isShared;
 	}
 
-	public Integer getTimeOffset() {
-		return timeOffset;
+	public Integer getZoneOffset() {
+		return zoneOffset;
 	}
 
-	public void setTimeOffset(Integer timeOffset) {
-		this.timeOffset = timeOffset;
+	public void setZoneOffset(Integer zoneOffset) {
+		this.zoneOffset = zoneOffset;
 	}
+
+
 }

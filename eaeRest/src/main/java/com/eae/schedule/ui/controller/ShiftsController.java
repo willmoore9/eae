@@ -86,6 +86,7 @@ public class ShiftsController {
 				
 				assignment.setSchedule(schedule);
 				assignUnrequested = false;
+				publisherAssignmentRepo.saveAndFlush(assignment);
 			}
 		}
 		
@@ -96,6 +97,8 @@ public class ShiftsController {
 			assignment.setShift(shift);
 			shift.getAssignments().add(assignment);
 		}
+		
+		
 		
 		shiftRepo.saveAndFlush(shift);
 		
@@ -245,6 +248,15 @@ public class ShiftsController {
     public Response<Object> deleteShift(@PathVariable(value="shiftId") String shiftId) {
     	Response<Object> response = new Response<Object>();
     	this.shiftRepo.deleteById(shiftId);
+    	return response;
+    }
+	
+	@RequestMapping(value="/deliverAfterDay/{dayId}/location/{location}", method=RequestMethod.GET)
+    public Response<ServiceDay> deliverAfterShift(@PathVariable(value="dayId") String dayId, @PathVariable(value="location") String location) {
+    	Response<ServiceDay> response = new Response<ServiceDay>();
+    	ServiceDay day = this.daysRepo.findById(dayId).get();
+    	day.setDeliverTo(location);
+    	this.daysRepo.save(day);
     	return response;
     }
 }

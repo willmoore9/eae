@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eae.schedule.model.CartSchedule;
+import com.eae.schedule.model.PublisherAssignment;
 import com.eae.schedule.repo.CartScheduleRepository;
+import com.eae.schedule.repo.PublisherAssignmentRepository;
 import com.eae.schedule.ui.model.Response;
 
 @RestController
@@ -19,6 +21,9 @@ public class CartScheduleController {
 	
 	@Autowired
 	private CartScheduleRepository cartScheduleRepo;
+	
+	@Autowired
+	private PublisherAssignmentRepository publisherAssignmentRepo;
 	
     @RequestMapping(name="/", method=RequestMethod.GET)
     public Response<CartSchedule> getAll() {
@@ -47,6 +52,13 @@ public class CartScheduleController {
 	@RequestMapping(value="/delete/{cartScheduleId}", method=RequestMethod.DELETE)
     public Response<Object> deleteCartSchedule(@PathVariable(value="cartScheduleId") String cartScheduleId) {
     	Response<Object> response = new Response<Object>();
+    	
+    	List<PublisherAssignment> assignedToSchedule = publisherAssignmentRepo.findPublisherAssignmentByScheduleGuid(cartScheduleId);
+    	for(PublisherAssignment assigned : assignedToSchedule) {
+    		assigned.setSchedule(null);
+    		publisherAssignmentRepo.save(assigned);
+    	}
+    	
     	this.cartScheduleRepo.deleteById(cartScheduleId);
     	return response;
     }

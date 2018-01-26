@@ -40,7 +40,7 @@ public class Shift extends BaseObject implements Serializable {
 	@Column(name="ENDS")
 	private Date ends;
 	
-	@OneToMany(mappedBy="shift", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="shift", fetch=FetchType.EAGER, cascade={CascadeType.REMOVE})
 	@JoinFetch(JoinFetchType.OUTER)
 	private List<PublisherAssignment> assignments = new ArrayList<PublisherAssignment>();
 

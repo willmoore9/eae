@@ -31,7 +31,7 @@ sap.ui.define([
 			var oCreateData = that.getView().getModel().getProperty("/ui/createPeriod");
 			oCreateData.starts = oCreateData.from.toJSON();
 			oCreateData.ends = oCreateData.to.toJSON();
-			oCreateData.timezone = {};
+			oCreateData.zoneOffset = new Date().getTimezoneOffset();
 			var oPromise = oModel.createObject("rest/periods/create",
 					JSON.stringify(oCreateData),
 					"POST",

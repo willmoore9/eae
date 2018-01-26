@@ -228,8 +228,14 @@ sap.ui.define([
 			oModel.removeById("rest/shifts/delete/" + sGuid).then(function(){
 				this.loadSericeDays();
 			}.bind(this));
-			
-			
+		},
+		
+		onLocationTodeliverChange : function(oEvent) {
+			var sValue = oEvent.getParameter("value");
+			var oModel = this.getView().getModel();
+			var oBC = oEvent.getSource().getBindingContext();
+			var oDay = oBC.getModel().getObject(oBC.getPath());
+			oModel.post("rest/shifts/deliverAfterDay/" + oDay.guid + "/location/"  + sValue);
 		}
 	});
 });

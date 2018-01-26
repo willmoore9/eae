@@ -3,7 +3,7 @@ sap.ui.define([
      "org/eae/tools/utils/FormatUtils"
 ], function(Controller, FormatUtils){
 	"use strict";
-	return Controller.extend("org.eae.tools.controller.OverviewPeriod", {
+	return Controller.extend("org.eae.tools.controller.PeriodOverview", {
 		formatUtils : FormatUtils,
 		onInit: function() {
 			var oRouter = this.getOwnerComponent().getRouter();
@@ -164,6 +164,14 @@ sap.ui.define([
 		
 		removeShift : function(oEvent) {
 			debugger;
+		},
+		
+		onLocationTodeliverChange : function(oEvent) {
+			var sValue = oEvent.getParameter("value");
+			var oModel = this.getView().getModel();
+			var oBC = oEvent.getSource().getBindingContext();
+			var oDay = oBC.getModel().getObject(oBC.getPath());
+			oModel.post("rest/shifts/deliverAfterDay/" + oDay.guid + "/location/"  + sValue);
 		}
 	});
 });

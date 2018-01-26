@@ -130,7 +130,7 @@
 		  "viewLevel" : 2
 		},
 		"overviewPeriod" : {
-		  "viewName" : "OverviewPeriod",
+		  "viewName" : "PeriodOverview",
 		  "viewLevel" : 3
 		},
 		"overviewPublishers" : {

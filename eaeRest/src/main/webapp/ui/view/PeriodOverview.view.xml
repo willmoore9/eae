@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="org.eae.tools.controller.OverviewPeriod"
+	controllerName="org.eae.tools.controller.PeriodOverview"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:uxap="sap.uxap"
@@ -25,11 +25,13 @@
 						<uxap:subSections>
 							<uxap:ObjectPageSubSection blocks="{path:'weekDays', templateShareable:true}">
 								<uxap:blocks>
-									<Panel content="{path:'shifts', templateShareable:true}">
+									<Panel content="{path:'shifts', templateShareable:true}" backgroundDesign="Transparent">
 										<headerToolbar>
-											<Toolbar>
+											<Toolbar>	
 												<Title text="{parts:['date'], formatter:'.formatUtils.formatDayTitle'}"/>
 												<ToolbarSpacer />
+												<core:Icon src="sap-icon://shipping-status" />
+												<Input width="3rem" change="onLocationTodeliverChange" value="{deliverTo}"></Input>
 												<Button icon="sap-icon://add" press="onAddShiftPress"/>
 											</Toolbar>
 										</headerToolbar>
