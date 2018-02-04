@@ -45,17 +45,18 @@
 						<Text id="email" text="{i18n>email}" />
 					</Column>
 
-<!-- 					<Column id="yearColumn">
-						<Text id="year" text="{i18n>year}" />
-					</Column> -->
+ 					<Column id="defaultPin">
+						<Text id="defaultPinAction" text="{i18n>defaultPin}" />
+					</Column>
 				</columns>
 				<items>
-					<ColumnListItem press="onNavigateToPeriod">
+					<ColumnListItem>
 						<cells>
 							<Text text="{name}" />								
 							<Text text="{surname}" />	
 							<Text text="{congregation}" />	
 							<Text text="{email}" />	
+							<Button text="{i18n>setDefaultPin}" press="onSetDefaultPin"></Button>
 						</cells>
 					</ColumnListItem>
 				</items>

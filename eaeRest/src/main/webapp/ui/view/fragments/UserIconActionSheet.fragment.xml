@@ -5,6 +5,7 @@
 		showCancelButton="true"
 		placement="Bottom">
 		<buttons>
+			<Button text="{i18n>editMyProfile}" press="onEditProfile" />
 			<Button text="{i18n>logout}" press="onLogoutPress" />
 			<Button text="{i18n>login}" press="onLoginPress" />
 		</buttons>

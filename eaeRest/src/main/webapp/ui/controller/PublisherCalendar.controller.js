@@ -14,7 +14,7 @@ sap.ui.define([
 				objectPage.bindElement("/PublisherData/Publisher/" + periodId);
 				this.periodUUID = periodId;
 				this.publisherUUID = publisherId;
-				this.s
+//				this.s
 			}.bind(this));
 		},
 		

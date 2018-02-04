@@ -27,6 +27,13 @@ sap.ui.define([
 		},
 		onLoginPress: function() {
 			sap.m.URLHelper.redirect("#login");
+		},
+		onEditProfile : function() {
+			var oRouter = this.getOwnerComponent().getRouter();
+			var oModel = this.getView().getModel();
+			oRouter.navTo("publisherProfile", {
+				publisherId : oModel.getProperty("/PublisherData/Publisher/guid")
+		});
 		}
 		
 	});

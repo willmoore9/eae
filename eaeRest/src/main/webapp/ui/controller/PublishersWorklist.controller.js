@@ -66,6 +66,14 @@ sap.ui.define([
 		
 		onImportPublishersSuccess : function() {
 			this.refreshTable();
-		}
+		},
+		
+		onSetDefaultPin : function(oEvent) {
+			debugger;
+			
+			var sGuid = oEvent.getSource().getParent().getBindingContext().getProperty("guid");
+			var oModel = this.getView().getModel();
+			oModel.post("rest/publishers/setDefaultPin/"+ sGuid, "GET");
+		} 
 	});
 });

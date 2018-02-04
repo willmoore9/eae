@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eae.communication.email.EmailUtils;
 import com.eae.schedule.model.Publisher;
 import com.eae.schedule.model.ServicePeriod;
 import com.eae.schedule.repo.PublisherRepository;
@@ -49,6 +50,19 @@ public class PublishersContoller {
 		Response<Publisher> response = new Response<Publisher>();
 		publisher = this.publisherRepo.save(publisher);
 		response.addObject(publisher);
+		return response;
+	}
+	
+	@RequestMapping(value="/update", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
+	public Response<Publisher> updatePublisher(@RequestBody Publisher publisher) {
+		Response<Publisher> response = new Response<Publisher>();
+		Publisher savedPublisher = this.publisherRepo.findById(publisher.getGuid()).get();
+		savedPublisher.setCongregation(publisher.getCongregation());
+		savedPublisher.setEmail(publisher.getEmail());
+		savedPublisher.setTelephone(publisher.getTelephone());
+		savedPublisher.setPinCode(publisher.getPinCode());
+		response.addObject(savedPublisher);
+		this.publisherRepo.save(savedPublisher);
 		return response;
 	}
 	
@@ -108,4 +122,18 @@ public class PublishersContoller {
 		}
         return HttpStatus.OK; 
 	}
+	
+	@RequestMapping(value = "/setDefaultPin/{publisherId}", method = RequestMethod.GET)
+	public Response<Publisher> setDefaultPin(@PathVariable(value="publisherId") String publisherId) {
+		Response<Publisher> response = new Response<Publisher>();
+		Publisher savedPublisher = this.publisherRepo.findById(publisherId).get();
+		savedPublisher.setPinCode(101914);
+		this.publisherRepo.save(savedPublisher);
+		response.addObject(savedPublisher);
+		response.setSuccessful(true);
+		
+		EmailUtils.sendEmail("Defaut Pin Code to EAE", "New Pin code: 101914", savedPublisher.getEmail());
+		return response;
+	}
+	
 }

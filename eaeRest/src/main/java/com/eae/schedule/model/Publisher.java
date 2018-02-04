@@ -43,6 +43,10 @@ public class Publisher extends BaseObject implements Serializable {
 
 	@Column(name="IS_ADMIN")
 	private Boolean isAdmin = false;
+
+	@Column(name="PIN_CODE", length = 8)
+	private Integer pinCode = 101914;
+
 	
 	public String getName() {
 		return name;
@@ -99,6 +103,12 @@ public class Publisher extends BaseObject implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
+
+	public Integer getPinCode() {
+		return pinCode;
+	}
+
+	public void setPinCode(Integer pinCode) {
+		this.pinCode = pinCode;
+	}
 }

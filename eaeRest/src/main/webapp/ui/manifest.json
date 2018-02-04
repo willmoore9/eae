@@ -117,7 +117,12 @@
 			"pattern" : "login",
 			"name" : "login",
 			"target" : "login"
-		}	
+		},
+		{
+			"pattern" : "publisherProfile/{publisherId}",
+			"name" : "publisherProfile",
+			"target" : "publisherProfile"
+		}
 
 	  ],
 	  "targets": {
@@ -164,6 +169,11 @@
 		"notFound" : {
 			"viewName" : "NotFound",
 			"transition": "show"
+		},
+		"publisherProfile" : {
+		  "viewName" : "PublisherProfile",
+		  "viewLevel" : 2
+		
 		}
 	  }
 	}

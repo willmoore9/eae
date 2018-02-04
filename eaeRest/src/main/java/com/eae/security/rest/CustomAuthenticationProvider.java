@@ -59,8 +59,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
 			
 			List<Publisher> pubishers = this.publisherService.findPublisherByEmail(userName);
 			if(pubishers.size() > 0) {
-				pub = pubishers.get(0);
-				
+				Publisher tempPub = pubishers.get(0);
+				if(pubishers.get(0).getPinCode().equals(Integer.parseInt(password))) {
+					pub = tempPub;
+				}
 			}
 			
 			return pub;

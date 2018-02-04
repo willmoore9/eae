@@ -31,10 +31,9 @@
 						<f:FormElement label="{i18n>username}">
 							<f:fields>
 								<Input id="usernameInput" submit="login"></Input>
-								<CheckBox selected="false" text="{i18n>isAdminUser}" select="userIsAdmin"/>
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement id="passwordFElement" visible="false" label="{i18n>password}">
+						<f:FormElement id="passwordFElement" label="{i18n>pinCode}">
 							<f:fields>
 								<Input id="passwordInput" type="Password" />
 							</f:fields>
