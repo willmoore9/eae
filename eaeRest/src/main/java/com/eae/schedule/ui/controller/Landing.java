@@ -3,12 +3,8 @@ package com.eae.schedule.ui.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,12 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eae.schedule.model.CartSchedule;
 import com.eae.schedule.model.Publisher;
 import com.eae.schedule.model.ServicePeriod;
-import com.eae.schedule.repo.CartPointRepository;
 import com.eae.schedule.repo.CartScheduleRepository;
-import com.eae.schedule.repo.PublisherRepository;
 import com.eae.schedule.repo.ServicePeriodRepository;
 import com.eae.schedule.ui.model.LandingDTO;
-import com.eae.schedule.ui.model.Response;
 
 @RestController
 @RequestMapping("/landing")

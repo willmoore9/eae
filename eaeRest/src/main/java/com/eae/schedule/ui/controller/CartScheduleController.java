@@ -1,5 +1,7 @@
 package com.eae.schedule.ui.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eae.communication.email.EmailUtils;
 import com.eae.schedule.model.CartSchedule;
 import com.eae.schedule.model.PublisherAssignment;
+import com.eae.schedule.model.Shift;
 import com.eae.schedule.repo.CartScheduleRepository;
 import com.eae.schedule.repo.PublisherAssignmentRepository;
+import com.eae.schedule.repo.ShiftRepository;
 import com.eae.schedule.ui.model.Response;
 
 @RestController
@@ -24,6 +29,10 @@ public class CartScheduleController {
 	
 	@Autowired
 	private PublisherAssignmentRepository publisherAssignmentRepo;
+	
+	@Autowired
+	private ShiftRepository shiftRepo;
+	
 	
     @RequestMapping(name="/", method=RequestMethod.GET)
     public Response<CartSchedule> getAll() {
@@ -78,4 +87,47 @@ public class CartScheduleController {
     	cartScheduleRepo.save(schedue);
 		return schedue; 
     }
+    
+    
+    @RequestMapping(value="/sendShiftInvite/shift/{shiftId}/schedule/{scheduleId}", consumes={"application/json"}, produces={"application/json"}, method=RequestMethod.GET)
+    public Response<Object> sendInvites(@PathVariable(value="shiftId") String shiftId, @PathVariable(value="scheduleId") String scheduleId) {
+    	Response<Object> response = new Response<Object>();
+    	Shift shift = shiftRepo.findById(shiftId).get();
+    	
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM, yyyy");
+    	SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+    	SimpleDateFormat summaryFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm");
+    	StringBuffer bufferSubject = new StringBuffer();
+
+    	bufferSubject.append("EAE: ");
+    	bufferSubject.append(" ");
+    	bufferSubject.append(summaryFormat.format(shift.getStarts()));
+    	bufferSubject.append(" - ");
+    	bufferSubject.append(timeFormat.format(shift.getEnds()));
+    	
+    	StringBuffer bufferBody = new StringBuffer();
+    	bufferBody.append(dateFormat.format(shift.getStarts()));
+    	bufferBody.append("\n\r");
+    	bufferBody.append("From ").append(timeFormat.format(shift.getStarts())).append(" ").append("to ").append(timeFormat.format(shift.getEnds()));
+    	List<PublisherAssignment> assignments = publisherAssignmentRepo.findPublisherAssignmentByScheduleGuidAndShiftGuid(scheduleId, shiftId);
+    	if(assignments.size() == 0) {
+    		return response;
+    	}
+    	
+    	List<String> emailList = new ArrayList<String>();
+    	for(PublisherAssignment assignment : assignments) {
+    		if(!assignment.getIsInvitationSent()) {
+    			emailList.add(assignment.getPublisher().getEmail());
+    		}
+    	}
+		EmailUtils.sendBulkInvite(bufferSubject.toString(),
+				bufferBody.toString(), 
+				"EAE", 
+				assignments.get(0).getSchedule().getCart().getAddress(), 
+				shift.getStarts(),
+				shift.getEnds(),
+				emailList);
+		return response; 
+    }
+    
 }

@@ -23,6 +23,7 @@ public class PublisherServiceImpl implements PublisherService {
 	@Override
 	public List<Publisher> findPublisherByEmail(String email) {
 	
+		@SuppressWarnings("unchecked")
 		List<Publisher> publishers = (List<Publisher>) this.getEntityManagerFactory().createEntityManager().createQuery("SELECT p FROM Publisher p WHERE p.email LIKE :email").
 				setParameter("email", email).getResultList();
 		

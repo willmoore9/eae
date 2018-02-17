@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eae.schedule.model.CartDelivery;
 import com.eae.schedule.model.ServiceDay;
 import com.eae.schedule.model.ServicePeriod;
 import com.eae.schedule.model.Shift;
@@ -163,12 +166,52 @@ public class SerivePeriodsController {
     	ServicePeriod period = this.periodRepo.findById(periodId).get();
 
     	List<ServiceDay> serviceDays = this.daysRepo.findServiceDayByPeriod(period, Sort.by("date"));
+//    	List<ServiceDay> serviceDays = this.daysRepo.findWeeks(periodId);
     	List<ServiceWeek> serviceWeeks = groupByWeeks(serviceDays, period);
     	response.setObjects(serviceWeeks);
     	
     	return response;
     }
+    
+    @RequestMapping(path="/period/{periodId}/schedule/{scheduleId}/weeks", method=RequestMethod.GET)
+    public Response<ServiceWeek> loadServiceWeeks(@PathVariable(name="periodId", required=true) String periodId, 
+    		@PathVariable(name="scheduleId", required=true) String scheduleId) {
+    	
+    	Response<ServiceWeek> response = new Response<ServiceWeek>();
 
+    	ServicePeriod period = this.periodRepo.findById(periodId).get();
+
+    	List<ServiceDay> serviceDays = this.daysRepo.findServiceDayByPeriod(period, Sort.by("date"));
+    	List<ServiceWeek> serviceWeeks = groupByWeeks(serviceDays, period, scheduleId);
+    	response.setObjects(serviceWeeks);
+    	
+    	return response;
+    }
+
+	private List<ServiceWeek> groupByWeeks(List<ServiceDay> serviceDays, ServicePeriod period, final String scheduleId) {
+		Calendar calendar = Calendar.getInstance();
+		
+		List<ServiceWeek> weeks = new ArrayList<ServiceWeek>();
+		ServiceWeek week = new ServiceWeek();
+		week.setPeriod(period);
+		
+		for(ServiceDay day : serviceDays) {
+			Stream<CartDelivery> cartDeliveries = day.getDeliverTo().stream();
+			
+			List<CartDelivery> filtered = cartDeliveries.filter(delivery -> scheduleId.equalsIgnoreCase(delivery.getSchedule().getGuid())).collect(Collectors.toList());
+			day.setDeliverTo(filtered);
+			day.getShifts().isEmpty();
+			calendar.setTime(day.getDate());
+			if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY || weeks.size() == 0) {
+				week = new ServiceWeek();
+				week.setName(calendar.get(Calendar.WEEK_OF_YEAR) + "");
+				weeks.add(week);
+			}
+			week.getWeekDays().add(day);
+		}
+		return weeks;
+	}
+	
 	private List<ServiceWeek> groupByWeeks(List<ServiceDay> serviceDays, ServicePeriod period) {
 		Calendar calendar = Calendar.getInstance();
 		

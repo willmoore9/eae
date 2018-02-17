@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eaeRest</groupId>
-	<artifactId>eaeRest</artifactId>
+	<artifactId>csp</artifactId>
 	<version>0.0.1</version>
 	<packaging>war</packaging>
 	<name>Project for scheduling EAE service</name>
@@ -98,7 +98,11 @@
 		    <artifactId>javax.mail</artifactId>
 		    <version>1.6.0</version>
 		</dependency>
-
+		<dependency>
+		    <groupId>net.sf.biweekly</groupId>
+		    <artifactId>biweekly</artifactId>
+		    <version>0.6.1</version>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>

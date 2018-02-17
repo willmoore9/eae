@@ -34,7 +34,7 @@ sap.ui.define([
 			
 			var oModel = this.getView().getModel();
 			oModel.setProperty("/Schedule/" + periodId, {});
-		    oModel.fetchData("rest/periods/" + periodId + "/weeks", "/Schedule/" + periodId + "/weeks", true, {}, true).
+		    oModel.fetchData("rest/periods/period/" + periodId + "/schedule/" +this._sScheduleId + "/weeks" , "/Schedule/" + periodId + "/weeks", true, {}, true).
 		    then(function(){
 		    	oModel.read("rest/periods/read/" + periodId).then(function(data){
 		    		oModel.setProperty("/Schedule/" + periodId + "/info", data);
@@ -235,7 +235,17 @@ sap.ui.define([
 			var oModel = this.getView().getModel();
 			var oBC = oEvent.getSource().getBindingContext();
 			var oDay = oBC.getModel().getObject(oBC.getPath());
-			oModel.post("rest/shifts/deliverAfterDay/" + oDay.guid + "/location/"  + sValue);
+			oModel.post("rest/shifts/deliverAfterDay/" + oDay.guid + "/schedule/" + this._sScheduleId + "/location/"  + sValue , "POST");
+		},
+		
+		onSendInvites : function(oEvent) {
+			var oModel = this.getView().getModel();
+			var sShift = oEvent.getSource().getBindingContext().getProperty("guid");
+			oModel.post("rest/cartSchedule/sendShiftInvite/shift/" + sShift + "/schedule/" + this._sScheduleId).then(function(){
+				console.log("sent");
+			}).catch(function(){
+				console.log("error");
+			});
 		}
 	});
 });

@@ -11,6 +11,8 @@
 		<class>com.eae.schedule.model.CartPoint</class>
 		<class>com.eae.schedule.model.CartSchedule</class>
 		<class>com.eae.schedule.model.PublisherAssignment</class>
+		<class>com.eae.schedule.model.CartDelivery</class>
+		<class>com.eae.schedule.model.CartDeliveryKey</class>
 		<!-- <class>com.eae.schedule.model.Availability</class> -->
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>

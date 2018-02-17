@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.jws.Oneway;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,12 +13,11 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.eclipse.persistence.annotations.JoinFetch;
-import org.eclipse.persistence.annotations.JoinFetchType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -29,9 +29,9 @@ public class ServiceDay extends BaseObject implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="DELIVER_TO",length = 16)
-	private String deliverTo;
-	
+//	@Column(name="DELIVER_TO",length = 16)
+//	private String deliverTo;
+//	
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="DATE")
 	private Date date;
@@ -42,10 +42,15 @@ public class ServiceDay extends BaseObject implements Serializable {
 	private ServicePeriod period;
 
 	@OneToMany(mappedBy="serviceDay", fetch=FetchType.EAGER, cascade={CascadeType.REMOVE})
-	@JoinFetch(JoinFetchType.OUTER)
+	@OrderBy("starts ASC")
 	@JsonManagedReference
 	private List<Shift> shifts = new ArrayList<Shift>();
 
+	
+	@OneToMany(mappedBy="serviceDay")
+	@JoinColumn(name="SERVICE_DAY_GUID", nullable=true)
+	private List<CartDelivery> deliverTo;
+	
 	public ServiceDay () {
 	}
 	
@@ -73,11 +78,11 @@ public class ServiceDay extends BaseObject implements Serializable {
 		this.shifts = shifts;
 	}
 
-	public String getDeliverTo() {
+	public List<CartDelivery> getDeliverTo() {
 		return deliverTo;
 	}
 
-	public void setDeliverTo(String deliverTo) {
+	public void setDeliverTo(List<CartDelivery> deliverTo) {
 		this.deliverTo = deliverTo;
 	}
 	

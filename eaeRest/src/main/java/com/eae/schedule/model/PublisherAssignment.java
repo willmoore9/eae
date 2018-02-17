@@ -50,6 +50,9 @@ public class PublisherAssignment extends BaseObject implements Serializable{
 	@Column(name = "IS_CART_CARRIER", nullable = false)
 	private Boolean isCartCarrier = false;;
 	
+	@Column(name = "IS_INVITATION_SENT", nullable = false)
+	private Boolean isInvitationSent = false;
+	
 	/**
 	 * If true then user assigned himself, if false then admin assigned
 	 */
@@ -104,5 +107,14 @@ public class PublisherAssignment extends BaseObject implements Serializable{
 		this.isSelfAssigned = isSelfAssigned;
 	}
 
+	public Boolean getIsInvitationSent() {
+		return isInvitationSent;
+	}
+
+	public void setIsInvitationSent(Boolean isInvitationSent) {
+		this.isInvitationSent = isInvitationSent;
+	}
+
+	
 
 }

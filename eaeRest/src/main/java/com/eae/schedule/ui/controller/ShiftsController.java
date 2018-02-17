@@ -1,6 +1,7 @@
 package com.eae.schedule.ui.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,11 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eae.schedule.model.CartDelivery;
+import com.eae.schedule.model.CartDeliveryKey;
 import com.eae.schedule.model.CartSchedule;
 import com.eae.schedule.model.Publisher;
 import com.eae.schedule.model.PublisherAssignment;
 import com.eae.schedule.model.ServiceDay;
 import com.eae.schedule.model.Shift;
+import com.eae.schedule.repo.CartDeliveryRepository;
 import com.eae.schedule.repo.CartScheduleRepository;
 import com.eae.schedule.repo.PublisherAssignmentRepository;
 import com.eae.schedule.repo.PublisherRepository;
@@ -41,6 +45,9 @@ public class ShiftsController {
 	
 	@Autowired
 	private PublisherAssignmentRepository publisherAssignmentRepo;
+	
+	@Autowired
+	private CartDeliveryRepository cartDelivertRepo;
 	
 	@RequestMapping(value="/create/{serviceDayId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
 	public Response<Shift> createShiftInDay(@PathVariable(value="serviceDayId") String serviceDayId, @RequestBody Shift shift) {
@@ -251,11 +258,31 @@ public class ShiftsController {
     	return response;
     }
 	
-	@RequestMapping(value="/deliverAfterDay/{dayId}/location/{location}", method=RequestMethod.GET)
-    public Response<ServiceDay> deliverAfterShift(@PathVariable(value="dayId") String dayId, @PathVariable(value="location") String location) {
+	@RequestMapping(value="/deliverAfterDay/{dayId}/schedule/{scheduleId}/location/{location}", method=RequestMethod.POST)
+    public Response<ServiceDay> deliverAfterShift(@PathVariable(value="dayId") String dayId, 
+    		@PathVariable(value="scheduleId") String scheduleId,
+    		@PathVariable(value="location") String location) {
     	Response<ServiceDay> response = new Response<ServiceDay>();
-    	ServiceDay day = this.daysRepo.findById(dayId).get();
-    	day.setDeliverTo(location);
+    	Optional<CartSchedule> cartScheduleOpt = this.cartScheduleRepo.findById(scheduleId);
+    	
+    	Optional<ServiceDay> dayOpt = this.daysRepo.findById(dayId);    	
+    	if(! (cartScheduleOpt.isPresent() || dayOpt.isPresent())) {
+    		response.setStatus("404");
+    		response.setSuccessful(false);
+    		return response;
+    	}
+    	ServiceDay day = dayOpt.get();
+    	CartSchedule cartSchedule = cartScheduleOpt.get();
+    	CartDelivery deliverTo = new CartDelivery();
+    	CartDeliveryKey deliverKey = new CartDeliveryKey(day.getGuid(), cartSchedule.getGuid());
+    	deliverTo.setLocation(location);
+    	deliverTo.setKey(deliverKey);
+    	deliverTo.setServiceDay(day);
+    	deliverTo.setSchedule(cartSchedule);
+    	
+    	this.cartDelivertRepo.save(deliverTo);    	
+    	
+    	day.getDeliverTo().add(deliverTo);
     	this.daysRepo.save(day);
     	return response;
     }
