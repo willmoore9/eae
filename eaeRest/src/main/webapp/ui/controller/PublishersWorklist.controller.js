@@ -56,6 +56,7 @@ sap.ui.define([
 		
 		refreshTable : function() {
 			this.getView().getModel().fetchData("rest/publishers", "/Publishers", true);
+			sap.ui.core.BusyIndicator.hide();
 		},
 		
 		onDownloadPublishersPress : function () {

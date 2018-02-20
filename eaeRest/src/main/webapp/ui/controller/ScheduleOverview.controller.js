@@ -38,10 +38,12 @@ sap.ui.define([
 		    then(function(){
 		    	oModel.read("rest/periods/read/" + periodId).then(function(data){
 		    		oModel.setProperty("/Schedule/" + periodId + "/info", data);
+		    		sap.ui.core.BusyIndicator.hide();
 		    	});
 		    	
 		    	oModel.read("rest/cartSchedule/read/" + this._sScheduleId).then(function(data){
 		    		oModel.setProperty("/Schedule/" + periodId + "/cartSchedule", data);
+		    		sap.ui.core.BusyIndicator.hide();
 		    	})
 		    }.bind(this));
 		},

@@ -16,6 +16,7 @@ sap.ui.define([
 		
 		refreshTable : function() {
 			this.getView().getModel().fetchData("rest/cartSchedule", "/CartSchedules", true);
+			sap.ui.core.BusyIndicator.hide();
 		},
 		
 		onAddSchedule : function(oEvent) {
@@ -89,6 +90,7 @@ sap.ui.define([
 			oItem = oEvent.getSource();
 			oCtx = oItem.getBindingContext();
 			var oRouter = this.getOwnerComponent().getRouter();
+			sap.ui.core.BusyIndicator.show(1000);
 			oRouter.navTo("overviewSchedule",{
 				scheduleId : oCtx.getProperty("guid"),
 				periodId : oCtx.getProperty("period/guid"),

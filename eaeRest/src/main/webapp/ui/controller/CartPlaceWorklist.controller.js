@@ -16,6 +16,7 @@ sap.ui.define([
 		
 		refreshTable : function() {
 			this.getView().getModel().fetchData("rest/cartLocations", "/CartLocations", true);
+			sap.ui.core.BusyIndicator.hide();
 		},
 		
 		onAddCartPlace : function(oEvent) {

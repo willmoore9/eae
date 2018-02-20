@@ -39,6 +39,7 @@ sap.ui.define([
 		    	
 		    	oModel.read("rest/cartSchedule/read/" + this._sScheduleId).then(function(data){
 		    		oModel.setProperty("/Schedule/" + periodId + "/cartSchedule", data);
+		    		sap.ui.core.BusyIndicator.hide();
 		    	})
 		    }.bind(this));
 		},

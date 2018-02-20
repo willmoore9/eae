@@ -13,17 +13,20 @@ sap.ui.define([
 		
 		navigateToTeamCalendar : function() {
 			var oRouter = this.getOwnerComponent().getRouter();
+			sap.ui.core.BusyIndicator.show(1000);
 			oRouter.navTo("overviewPeriods");
 		},
 		
 		navigateToPublisherManagement : function() {
 			var oRouter = this.getOwnerComponent().getRouter();
+			sap.ui.core.BusyIndicator.show(1000);
 			oRouter.navTo("overviewPublishers");
 		},
 		
 		navigateToPersonalCalendarManagement : function() {
 			var oRouter = this.getOwnerComponent().getRouter();
 			var oModel = this.getView().getModel();
+			sap.ui.core.BusyIndicator.show(1000);
 			oRouter.navTo("publisherCalendar", {
 					periodId : oModel.getProperty("/PublisherData/Period/guid"),
 					publisherId : oModel.getProperty("/PublisherData/Publisher/guid")
@@ -35,6 +38,7 @@ sap.ui.define([
 			var oModel = this.getView().getModel();
 			var sPeriodGuid = oEvent.getSource().data("period");
 			var sScheduleGuid = oEvent.getSource().data("schedule");
+			sap.ui.core.BusyIndicator.show(1000);
 			oRouter.navTo("cartSchedule", {				
 					scheduleId : sScheduleGuid,
 					periodId : sPeriodGuid});			
@@ -53,12 +57,14 @@ sap.ui.define([
 		manageCartPlaces : function() {
 			var oRouter = this.getOwnerComponent().getRouter();
 			var oModel = this.getView().getModel();
+			sap.ui.core.BusyIndicator.show(1000);
 			oRouter.navTo("cartPlaceWorklist");	
 		},
 		
 		navigateToScheduleManage : function(){
 			var oRouter = this.getOwnerComponent().getRouter();
 			var oModel = this.getView().getModel();
+			sap.ui.core.BusyIndicator.show(1000);
 			oRouter.navTo("scheduleWorklist");	
 		}
 	});

@@ -23,6 +23,7 @@ sap.ui.define([
 		
 		refreshTable : function() {
 			this.getView().getModel().fetchData("rest/periods", "/Periods", true);
+			sap.ui.core.BusyIndicator.hide();
 		},
 		
 		_getDatefromTime : function(oDate, sTime) {
@@ -102,6 +103,7 @@ sap.ui.define([
 			oItem = oEvent.getSource();
 			oCtx = oItem.getBindingContext();
 			var oRouter = this.getOwnerComponent().getRouter();
+			sap.ui.core.BusyIndicator.show(1000);
 			oRouter.navTo("overviewPeriod",{
 				periodId : oCtx.getProperty("guid")
 			});
