@@ -255,6 +255,12 @@ public class ShiftsController {
 	@RequestMapping(value="/delete/{shiftId}", method=RequestMethod.DELETE)
     public Response<Object> deleteShift(@PathVariable(value="shiftId") String shiftId) {
     	Response<Object> response = new Response<Object>();
+    	Shift shift = this.shiftRepo.findById(shiftId).get();
+    	
+    	ServiceDay day = shift.getServiceDay();
+    	day.getShifts().remove(shift);
+    	this.daysRepo.save(day);
+    	
     	this.shiftRepo.deleteById(shiftId);
     	return response;
     }

@@ -40,8 +40,12 @@ public class ServicePeriod extends BaseObject implements Serializable {
 	private Boolean isShared = false;
 	
 	@Basic
-	@Column(name="SHIFT_TEMPLATE")
-	private String shiftTemplate;
+	@Column(name="FIRST_SHIFT_START")
+	private String firstShiftStart;
+	
+	@Basic
+	@Column(name="NUMBER_OF_SHIFTS")
+	private Integer numberOfShifts;
 	
 	@OneToMany(mappedBy="period", cascade={CascadeType.DETACH, CascadeType.REMOVE}, fetch=FetchType.EAGER, orphanRemoval=true)
 	@JsonIgnore
@@ -85,14 +89,6 @@ public class ServicePeriod extends BaseObject implements Serializable {
 		this.ends = ends;
 	}
 
-	public String getShiftTemplate() {
-		return shiftTemplate;
-	}
-
-	public void setShiftTemplate(String shiftTemplate) {
-		this.shiftTemplate = shiftTemplate;
-	}
-
 	public Boolean getIsShared() {
 		return isShared;
 	}
@@ -109,5 +105,19 @@ public class ServicePeriod extends BaseObject implements Serializable {
 		this.zoneOffset = zoneOffset;
 	}
 
+	public Integer getNumberOfShifts() {
+		return numberOfShifts;
+	}
 
+	public void setNumberOfShifts(Integer numberOfShifts) {
+		this.numberOfShifts = numberOfShifts;
+	}
+
+	public String getFirstShiftStart() {
+		return firstShiftStart;
+	}
+
+	public void setFirstShiftStart(String firstShiftStart) {
+		this.firstShiftStart = firstShiftStart;
+	}
 }

@@ -162,7 +162,13 @@ sap.ui.define([
 			});
 		},
 		
-		removeShift : function(oEvent) {
+		onRemoveShift : function(oEvent) {
+			var oBc = oEvent.getSource().getParent().getBindingContext();
+			var oShiftObj = oBc.getModel().getObject(oBc.getPath());
+			var oModel = this.getView().getModel();
+			oModel.removeById("rest/shifts/delete/" + oShiftObj.guid).then(function(){
+				this.loadSericeDays();
+			}.bind(this));
 		},
 		
 		onLocationTodeliverChange : function(oEvent) {

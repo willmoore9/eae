@@ -16,6 +16,7 @@
 								],
 								formatter: '.formatUtils.formatShiftTitle'}"></Text>
 			<ToolbarSpacer />
+			<Button icon="sap-icon://delete" press="onRemoveShift"></Button>
 			</Toolbar>
 		</headerToolbar>
 		<StandardListItem title="{publisher/name} {publisher/surname}" iconDensityAware="false" type="Active"/>

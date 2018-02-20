@@ -25,6 +25,14 @@ sap.ui.define([
 			this.getView().getModel().fetchData("rest/periods", "/Periods", true);
 		},
 		
+		_getDatefromTime : function(oDate, sTime) {
+			var aTimeArray = sTime.split(":");
+			var dateTime = new Date(oDate);
+			dateTime.setHours(aTimeArray[0]);
+			dateTime.setMinutes(aTimeArray[1]);
+			return dateTime.toJSON();
+		},	
+		
 		createNewPeriod : function() {
 			var that = this;
 			var oModel = this.getView().getModel();

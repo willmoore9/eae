@@ -20,7 +20,8 @@ sap.ui.define([
 					createPeriod : {
 						cartPoint : {
 							guid:""
-						}
+						},
+						firstShiftStarts : "07:00"
 						
 					},
 					createShift : {

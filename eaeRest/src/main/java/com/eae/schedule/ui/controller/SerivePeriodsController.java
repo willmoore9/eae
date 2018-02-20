@@ -52,6 +52,8 @@ public class SerivePeriodsController {
     public Response<ServicePeriod> save(@RequestBody ServicePeriod period) {
     	Response<ServicePeriod> response = new Response<ServicePeriod>();
     	Integer zoneOffset = period.getZoneOffset();
+    	Integer shiftStartHours = Integer.parseInt(period.getFirstShiftStart().split(":")[0]);
+    	Integer shiftStartMinutes = Integer.parseInt(period.getFirstShiftStart().split(":")[1]);
     	
     	period = this.periodRepo.save(period);
 
@@ -77,75 +79,91 @@ public class SerivePeriodsController {
     		serviceDay.add(Calendar.DAY_OF_MONTH, 1);
     	}
 
+    	
     	for(ServiceDay day : serviceDays) {
 
     		Calendar shiftDay = Calendar.getInstance();
 			shiftDay.setTime(day.getDate());
+			shiftDay.set(Calendar.HOUR_OF_DAY, shiftStartHours);
+			shiftDay.set(Calendar.MINUTE, shiftStartMinutes);
+
+			for(int i=1; i <= period.getNumberOfShifts(); i++) {
+    			Shift shift = new Shift();
+    			shiftDay.set(Calendar.HOUR_OF_DAY, shiftDay.get(Calendar.HOUR_OF_DAY));
+    			
+    			shift.setStarts(shiftDay.getTime());
+    			
+    			shiftDay.set(Calendar.HOUR_OF_DAY, shiftDay.get(Calendar.HOUR_OF_DAY) + 2);
+    			shift.setEnds(shiftDay.getTime());
+    			
+    			shift.setServiceDay(day);
+    			day.getShifts().add(shift);
+			}
 			
-    		if(period.getShiftTemplate() == null || period.getShiftTemplate().equals("1") || period.getShiftTemplate().equals("")) {
-    			
-    			Shift shift = new Shift();
-    			shiftDay.set(Calendar.HOUR_OF_DAY, 14);
-    			
-    			shift.setStarts(shiftDay.getTime());
-    			
-    			shiftDay.set(Calendar.HOUR_OF_DAY, 16);
-    			shift.setEnds(shiftDay.getTime());
-    			
-    			shift.setServiceDay(day);
-    			day.getShifts().add(shift);
-    			
-    			shift = new Shift();
-    			shiftDay.set(Calendar.HOUR_OF_DAY, 16);
-    			shift.setStarts(shiftDay.getTime());
-    			
-    			shiftDay.set(Calendar.HOUR_OF_DAY, 18);
-    			shift.setEnds(shiftDay.getTime());
-
-    			shift.setServiceDay(day);
-    			day.getShifts().add(shift);
-    		} else if(period.getShiftTemplate().equals("2")) {
-    			Shift shift = new Shift();
-    			shiftDay.set(Calendar.HOUR_OF_DAY, 14);
-    			shiftDay.set(Calendar.MINUTE, 30);
-    			shift.setStarts(shiftDay.getTime());
-    			
-    			shiftDay.set(Calendar.HOUR_OF_DAY, 16);
-    			shift.setEnds(shiftDay.getTime());
-    			
-    			shift.setServiceDay(day);
-    			day.getShifts().add(shift);
-    			
-    			shift = new Shift();
-    			shiftDay.set(Calendar.HOUR_OF_DAY, 16);
-    			shift.setStarts(shiftDay.getTime());
-    			
-    			shiftDay.set(Calendar.HOUR_OF_DAY, 18);
-    			shift.setEnds(shiftDay.getTime());
-
-    			shift.setServiceDay(day);
-    			day.getShifts().add(shift);	
-    		} else if(period.getShiftTemplate().equals("3")) {
-    			Shift shift = new Shift();
-    			shiftDay.set(Calendar.HOUR_OF_DAY, 15);
-    			shift.setStarts(shiftDay.getTime());
-    			
-    			shiftDay.set(Calendar.HOUR_OF_DAY, 17);
-    			shift.setEnds(shiftDay.getTime());
-    			
-    			shift.setServiceDay(day);
-    			day.getShifts().add(shift);
-    			
-    			shift = new Shift();
-    			shiftDay.set(Calendar.HOUR, 17);
-    			shift.setStarts(shiftDay.getTime());
-    			
-    			shiftDay.set(Calendar.HOUR, 19);
-    			shift.setEnds(shiftDay.getTime());
-
-    			shift.setServiceDay(day);
-    			day.getShifts().add(shift);
-    		}
+//    		if(period.getShiftTemplate() == null || period.getShiftTemplate().equals("1") || period.getShiftTemplate().equals("")) {
+//    			
+//    			Shift shift = new Shift();
+//    			shiftDay.set(Calendar.HOUR_OF_DAY, 14);
+//    			
+//    			shift.setStarts(shiftDay.getTime());
+//    			
+//    			shiftDay.set(Calendar.HOUR_OF_DAY, 16);
+//    			shift.setEnds(shiftDay.getTime());
+//    			
+//    			shift.setServiceDay(day);
+//    			day.getShifts().add(shift);
+//    			
+//    			shift = new Shift();
+//    			shiftDay.set(Calendar.HOUR_OF_DAY, 16);
+//    			shift.setStarts(shiftDay.getTime());
+//    			
+//    			shiftDay.set(Calendar.HOUR_OF_DAY, 18);
+//    			shift.setEnds(shiftDay.getTime());
+//
+//    			shift.setServiceDay(day);
+//    			day.getShifts().add(shift);
+//    		} else if(period.getShiftTemplate().equals("2")) {
+//    			Shift shift = new Shift();
+//    			shiftDay.set(Calendar.HOUR_OF_DAY, 14);
+//    			shiftDay.set(Calendar.MINUTE, 30);
+//    			shift.setStarts(shiftDay.getTime());
+//    			
+//    			shiftDay.set(Calendar.HOUR_OF_DAY, 16);
+//    			shift.setEnds(shiftDay.getTime());
+//    			
+//    			shift.setServiceDay(day);
+//    			day.getShifts().add(shift);
+//    			
+//    			shift = new Shift();
+//    			shiftDay.set(Calendar.HOUR_OF_DAY, 16);
+//    			shift.setStarts(shiftDay.getTime());
+//    			
+//    			shiftDay.set(Calendar.HOUR_OF_DAY, 18);
+//    			shift.setEnds(shiftDay.getTime());
+//
+//    			shift.setServiceDay(day);
+//    			day.getShifts().add(shift);	
+//    		} else if(period.getShiftTemplate().equals("3")) {
+//    			Shift shift = new Shift();
+//    			shiftDay.set(Calendar.HOUR_OF_DAY, 15);
+//    			shift.setStarts(shiftDay.getTime());
+//    			
+//    			shiftDay.set(Calendar.HOUR_OF_DAY, 17);
+//    			shift.setEnds(shiftDay.getTime());
+//    			
+//    			shift.setServiceDay(day);
+//    			day.getShifts().add(shift);
+//    			
+//    			shift = new Shift();
+//    			shiftDay.set(Calendar.HOUR, 17);
+//    			shift.setStarts(shiftDay.getTime());
+//    			
+//    			shiftDay.set(Calendar.HOUR, 19);
+//    			shift.setEnds(shiftDay.getTime());
+//
+//    			shift.setServiceDay(day);
+//    			day.getShifts().add(shift);
+//    		}
     		period.getServiceDays().add(day);
     	}
     	
