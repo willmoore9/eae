@@ -163,7 +163,6 @@ sap.ui.define([
 		},
 		
 		removeShift : function(oEvent) {
-			debugger;
 		},
 		
 		onLocationTodeliverChange : function(oEvent) {

@@ -31,7 +31,7 @@ public class CartDelivery implements Serializable {
 	@JoinColumn(name="SCHEDULE_GUID", insertable = true, updatable = true)
 	private CartSchedule schedule;
 	
-	@Column(name="DELIVER_TO",length = 16)
+	@Column(name="DELIVER_TO",length = 255)
 	private String location;
 
 	public ServiceDay getServiceDay() {

@@ -35,7 +35,6 @@ sap.ui.define([
 			var oModel = this.getView().getModel();
 			var sPeriodGuid = oEvent.getSource().data("period");
 			var sScheduleGuid = oEvent.getSource().data("schedule");
-			debugger;
 			oRouter.navTo("cartSchedule", {				
 					scheduleId : sScheduleGuid,
 					periodId : sPeriodGuid});			

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eae.schedule.model.CartDelivery;
+import com.eae.schedule.model.CartSchedule;
+import com.eae.schedule.model.PublisherAssignment;
 import com.eae.schedule.model.ServiceDay;
 import com.eae.schedule.model.ServicePeriod;
 import com.eae.schedule.model.Shift;
@@ -200,7 +202,14 @@ public class SerivePeriodsController {
 			
 			List<CartDelivery> filtered = cartDeliveries.filter(delivery -> scheduleId.equalsIgnoreCase(delivery.getSchedule().getGuid())).collect(Collectors.toList());
 			day.setDeliverTo(filtered);
-			day.getShifts().isEmpty();
+
+			for(Shift shift: day.getShifts()) {
+				List<PublisherAssignment> filteredAssignments = shift.getAssignments().stream().
+						filter(assignment -> this.filterAssignmentsByScheduleId(assignment, scheduleId)).
+						collect(Collectors.toList());
+				shift.setAssignments(filteredAssignments);
+			}
+			
 			calendar.setTime(day.getDate());
 			if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY || weeks.size() == 0) {
 				week = new ServiceWeek();
@@ -210,6 +219,16 @@ public class SerivePeriodsController {
 			week.getWeekDays().add(day);
 		}
 		return weeks;
+	}
+	
+	
+	private boolean filterAssignmentsByScheduleId(PublisherAssignment assignment, String scheduleId) {
+		CartSchedule currentSchedule = assignment.getSchedule();
+		if(currentSchedule == null) {
+			return false;
+		}
+		
+		return scheduleId.equalsIgnoreCase(currentSchedule.getGuid());
 	}
 	
 	private List<ServiceWeek> groupByWeeks(List<ServiceDay> serviceDays, ServicePeriod period) {

@@ -24,7 +24,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
 		@Override
 		public Authentication authenticate(Authentication authentication) throws AuthenticationException
 		{
-				String userName = authentication.getName();
+				String userName = authentication.getName().toLowerCase();
 				String password = authentication.getCredentials().toString();
 				Publisher role = authorizedUser(userName, password);
 				if (role != null && !role.getIsAdmin())

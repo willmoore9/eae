@@ -4,6 +4,7 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:uxap="sap.uxap"
 	xmlns:semantic="sap.m.semantic" 
+	xmlns:l="sap.ui.layout"
 	xmlns:core="sap.ui.core">
 		<semantic:FullscreenPage id="overviewSchedule"
 		navButtonPress="onNavBack" showNavButton="true" title="{i18n>servicePeriodWorklist}">
@@ -25,22 +26,26 @@
 						<uxap:subSections>
 							<uxap:ObjectPageSubSection blocks="{path:'weekDays', templateShareable:true}">
 								<uxap:blocks>
-									<Panel content="{path:'shifts', templateShareable:true}">
-										<headerToolbar>
-											<Toolbar>
-												<Title text="{parts:['date'], formatter:'.formatUtils.formatDayTitle'}"/>
-												<ToolbarSpacer />
-												<core:Icon src="sap-icon://shipping-status" />
-												<!-- <Input width="3rem" change="onLocationTodeliverChange" value="{= ${deliverTo}.length == 0 ? '' : ${deliverTo/0/location}}"></Input> -->
-												<Input width="3rem" change="onLocationTodeliverChange" value="{= ${deliverTo/0/location}}"></Input>
-
-												<Button icon="sap-icon://add" press="onAddShiftPress"/>
-											</Toolbar>
-										</headerToolbar>
-										<content>
-											<core:Fragment fragmentName="org.eae.tools.view.fragments.Shift" type="XML"/>
-										</content>
-									</Panel>
+										<FlexBox
+											direction="Column"
+											alignItems="Left"
+											renderType="Bare">
+											<items>
+											<Panel content="{path:'shifts', templateShareable:true}">
+												<headerToolbar>
+													<Toolbar>
+														<Title text="{parts:['date'], formatter:'.formatUtils.formatDayTitle'}"/>
+														<ToolbarSpacer />
+														<Button icon="sap-icon://add" press="onAddShiftPress"/>
+													</Toolbar>
+												</headerToolbar>
+												<content>
+													<core:Fragment fragmentName="org.eae.tools.view.fragments.Shift" type="XML"/>
+												</content>
+											</Panel>
+											<TextArea maxLength="255" width="100%" cols="0" rows="3" change="onLocationTodeliverChange" value="{= ${deliverTo/0/location}}"/>
+											</items>
+										</FlexBox>
 								</uxap:blocks>
 							</uxap:ObjectPageSubSection>
 						</uxap:subSections>

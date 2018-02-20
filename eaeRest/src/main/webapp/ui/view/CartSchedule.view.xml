@@ -21,20 +21,25 @@
 						<uxap:subSections>
 							<uxap:ObjectPageSubSection blocks="{path:'weekDays', templateShareable:true}">
 								<uxap:blocks>
-									<Panel content="{path:'shifts', templateShareable:true}">
-										<headerToolbar>
-											<Toolbar>
-												<Title text="{parts:['date'], formatter:'.formatUtils.formatDayTitle'}"/>
-												<ToolbarSpacer />
-												<core:Icon src="sap-icon://shipping-status" />
-												<Text width="3rem" text="{deliverTo}"></Text>
-
-											</Toolbar>
-										</headerToolbar>
-										<content>
-											<core:Fragment fragmentName="org.eae.tools.view.fragments.ShiftView" type="XML"/>
-										</content>
-									</Panel>
+										<FlexBox
+											direction="Column"
+											alignItems="Left"
+											renderType="Bare">
+											<items>
+											<Panel content="{path:'shifts', templateShareable:true}">
+												<headerToolbar>
+													<Toolbar>
+														<Title text="{parts:['date'], formatter:'.formatUtils.formatDayTitle'}"/>
+														<ToolbarSpacer />
+													</Toolbar>
+												</headerToolbar>
+												<content>
+													<core:Fragment fragmentName="org.eae.tools.view.fragments.ShiftView" type="XML"/>
+												</content>
+											</Panel>
+											<TextArea editable="false" maxLength="255" width="100%" cols="0" rows="3" change="onLocationTodeliverChange" value="{= ${deliverTo/0/location}}"/>
+											</items>
+										</FlexBox>
 								</uxap:blocks>
 							</uxap:ObjectPageSubSection>
 						</uxap:subSections>

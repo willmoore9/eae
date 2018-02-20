@@ -69,7 +69,6 @@ sap.ui.define([
 		},
 		
 		onSetDefaultPin : function(oEvent) {
-			debugger;
 			
 			var sGuid = oEvent.getSource().getParent().getBindingContext().getProperty("guid");
 			var oModel = this.getView().getModel();

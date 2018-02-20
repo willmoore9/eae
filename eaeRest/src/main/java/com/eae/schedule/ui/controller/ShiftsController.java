@@ -128,7 +128,7 @@ public class ShiftsController {
 		for(PublisherAssignment assigmentToCancel : assignedPublisher) {
 			if(assigmentToCancel.getPublisher().getGuid().equals(publisherId) && assigmentToCancel.getSchedule().getGuid().equals(scheduleId)) {
 				assigmentToCancel.setSchedule(null);
-				
+				publisherAssignmentRepo.save(assigmentToCancel);
 				if(!assigmentToCancel.getIsSelfAssigned()) {
 					assignedPublisher.remove(assigmentToCancel);
 				}
@@ -137,6 +137,7 @@ public class ShiftsController {
 				break;
 			}
 		}
+		
 		
 		shiftRepo.saveAndFlush(shift);
 		
@@ -258,10 +259,10 @@ public class ShiftsController {
     	return response;
     }
 	
-	@RequestMapping(value="/deliverAfterDay/{dayId}/schedule/{scheduleId}/location/{location}", method=RequestMethod.POST)
+	@RequestMapping(value="/deliverAfterDay/{dayId}/schedule/{scheduleId}/comment", method=RequestMethod.POST)
     public Response<ServiceDay> deliverAfterShift(@PathVariable(value="dayId") String dayId, 
     		@PathVariable(value="scheduleId") String scheduleId,
-    		@PathVariable(value="location") String location) {
+    		@RequestBody String comment) {
     	Response<ServiceDay> response = new Response<ServiceDay>();
     	Optional<CartSchedule> cartScheduleOpt = this.cartScheduleRepo.findById(scheduleId);
     	
@@ -275,7 +276,7 @@ public class ShiftsController {
     	CartSchedule cartSchedule = cartScheduleOpt.get();
     	CartDelivery deliverTo = new CartDelivery();
     	CartDeliveryKey deliverKey = new CartDeliveryKey(day.getGuid(), cartSchedule.getGuid());
-    	deliverTo.setLocation(location);
+    	deliverTo.setLocation(comment);
     	deliverTo.setKey(deliverKey);
     	deliverTo.setServiceDay(day);
     	deliverTo.setSchedule(cartSchedule);

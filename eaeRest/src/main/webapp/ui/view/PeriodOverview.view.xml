@@ -30,8 +30,6 @@
 											<Toolbar>	
 												<Title text="{parts:['date'], formatter:'.formatUtils.formatDayTitle'}"/>
 												<ToolbarSpacer />
-												<core:Icon src="sap-icon://shipping-status" />
-												<Input width="3rem" change="onLocationTodeliverChange" value="{deliverTo}"></Input>
 												<Button icon="sap-icon://add" press="onAddShiftPress"/>
 											</Toolbar>
 										</headerToolbar>

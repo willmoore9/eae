@@ -30,7 +30,8 @@ sap.ui.define([
 			
 			var oModel = this.getView().getModel();
 			oModel.setProperty("/Schedule/" + periodId, {});
-		    oModel.fetchData("rest/periods/" + periodId + "/weeks", "/Schedule/" + periodId + "/weeks", true, {}, true).
+		    //oModel.fetchData("rest/periods/" + periodId + "/weeks", "/Schedule/" + periodId + "/weeks", true, {}, true).
+			oModel.fetchData("rest/periods/period/" + periodId + "/schedule/" +this._sScheduleId + "/weeks" , "/Schedule/" + periodId + "/weeks", true, {}, true).
 		    then(function(){
 		    	oModel.read("rest/periods/read/" + periodId).then(function(data){
 		    		oModel.setProperty("/Schedule/" + periodId + "/info", data);
