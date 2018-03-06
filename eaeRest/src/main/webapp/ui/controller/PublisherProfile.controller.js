@@ -15,7 +15,7 @@ sap.ui.define([
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.navTo("landingPage");
 			
-			this.onCreatePublisherPress();
+//			this.onCreatePublisherPress();
 		},
 		
 		onCreatePublisherPress : function() {
@@ -31,6 +31,10 @@ sap.ui.define([
 			}.bind(this));
 			
 		},
+		
+		onSavePublisherData : function(oEvent) {
+			this.onCreatePublisherPress();
+		}
 		
 	});
 });

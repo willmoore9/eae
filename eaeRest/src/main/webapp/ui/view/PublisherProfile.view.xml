@@ -57,5 +57,9 @@
 					
 				</uxap:sections>
 			</uxap:ObjectPageLayout>
+			<semantic:saveAction>
+				<semantic:SaveAction press="onSavePublisherData"/>
+			</semantic:saveAction>
+			
 		</semantic:FullscreenPage>
 </mvc:View>

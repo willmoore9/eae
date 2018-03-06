@@ -5,13 +5,13 @@
 		<semantic:content>
 			<Table id="table" class="sapUiResponsiveMargin sapUiNoMarginTop"
 				growing="true" growingScrollToLoad="true" width="auto" 	mode="Delete" delete="handleDeletePublisher"
-				selectionChange="onSelectedPeriod"
+				selectionChange="onSelectedPeriod" updateFinished="handleUpdateBinding"
 				items="{
 							path: '/Publishers'
 						}">
 				<headerToolbar>
 					<Toolbar>
-						<Title id="tableHeader" text="{worklistView>/worklistTableTitle}" />
+						<Title id="tableHeader"/>
 						<ToolbarSpacer />
 						<Button style="Lite" icon="sap-icon://add" press="onAddPublisherPress"></Button>
 							
@@ -29,6 +29,7 @@
 									icon="sap-icon://upload"
 									/>
 						<Button style="Lite" icon="sap-icon://download" press="onDownloadPublishersPress"></Button>
+						<SearchField liveChange="onPublisherSearch" width="12rem" />
 					</Toolbar>
 				</headerToolbar>
 				<columns>

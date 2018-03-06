@@ -35,6 +35,17 @@
 			iconDensityAware="false" type="Active" press=".onShiftPublisherPress" info="{= ${isCartCarrier} ? '#' : '' }"
 			visible="{path:'schedule', formatter:'.formatShiftAssignmentVisibility'}" highlight="{= ${isShiftLeader} ? 'Success' : 'None'}"/>
 			
+			<!-- <CustomListItem  type="Active" press=".onShiftPublisherPress" 
+			visible="{path:'schedule', formatter:'.formatShiftAssignmentVisibility'}" 
+			highlight="{= ${isShiftLeader} ? 'Success' : 'None'}"
+			>
+			<HBox justifyContent="SpaceBetween" >
+				<Text text="{publisher/name} {publisher/surname}" class="sapUiTinyMarginBegin" />
+				<HBox>
+				<core:Icon size="1rem" src="sap-icon://shipping-status" visible="{= ${isCartCarrier} ? true : false }" class="sapMBtnIcon"/>
+				</HBox>
+			</HBox>
+			</CustomListItem> -->
 		</items>
 	</List>
 

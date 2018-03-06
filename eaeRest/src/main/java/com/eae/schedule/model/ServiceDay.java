@@ -47,8 +47,8 @@ public class ServiceDay extends BaseObject implements Serializable {
 	private List<Shift> shifts = new ArrayList<Shift>();
 
 	
-	@OneToMany(mappedBy="serviceDay")
-	@JoinColumn(name="SERVICE_DAY_GUID", nullable=true)
+	@OneToMany(mappedBy="serviceDay", cascade={CascadeType.REMOVE})
+	@JoinColumn(name="SERVICE_DAY_GUID")
 	private List<CartDelivery> deliverTo;
 	
 	public ServiceDay () {

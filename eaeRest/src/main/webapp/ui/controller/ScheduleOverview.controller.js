@@ -247,6 +247,26 @@ sap.ui.define([
 			}).catch(function(){
 				console.log("error");
 			});
+		},
+		
+		onAllPublisherSearch : function(oEvt) {
+			var oAssignedPublishers = sap.ui.getCore().byId("addPubToShift--allPublishers");
+			var oListBinding = oAssignedPublishers.getBinding("items");
+			
+			var aFilters = [];
+			var sQuery = oEvt.getSource().getValue();
+			
+			if (sQuery && sQuery.length > 0) {
+				var surnameFilter = new sap.ui.model.Filter("surname", sap.ui.model.FilterOperator.Contains, sQuery);
+				var nameFilter = new sap.ui.model.Filter("name", sap.ui.model.FilterOperator.Contains, sQuery);
+				aFilters.push(nameFilter);
+				aFilters.push(surnameFilter);
+			}
+			var oOrFilter = new sap.ui.model.Filter({
+				filters : aFilters,
+				and: false
+			})
+			oListBinding.filter(aFilters.length == 0 ? [] : oOrFilter, "Application");
 		}
 	});
 });

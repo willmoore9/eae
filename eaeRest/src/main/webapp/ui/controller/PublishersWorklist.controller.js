@@ -74,6 +74,44 @@ sap.ui.define([
 			var sGuid = oEvent.getSource().getParent().getBindingContext().getProperty("guid");
 			var oModel = this.getView().getModel();
 			oModel.post("rest/publishers/setDefaultPin/"+ sGuid, "GET");
-		} 
+		},
+		
+		onPublisherSearch : function(oEvt) {
+			var oAssignedPublishers = this.getView().byId("table");
+			var oListBinding = oAssignedPublishers.getBinding("items");
+			
+			var aFilters = [];
+			var sQuery = oEvt.getSource().getValue();
+			
+			if (sQuery && sQuery.length > 0) {
+				var surnameFilter = new sap.ui.model.Filter("surname", sap.ui.model.FilterOperator.Contains, sQuery);
+				var nameFilter = new sap.ui.model.Filter("name", sap.ui.model.FilterOperator.Contains, sQuery);
+				var congregationFilter = new sap.ui.model.Filter("congregation", sap.ui.model.FilterOperator.Contains, sQuery);
+				var pinCodeFilter = new sap.ui.model.Filter("pinCode", sap.ui.model.FilterOperator.EQ, sQuery);
+				var emailFilter = new sap.ui.model.Filter("email", sap.ui.model.FilterOperator.Contains, sQuery);
+				aFilters.push(nameFilter);
+				aFilters.push(surnameFilter);
+				aFilters.push(congregationFilter);
+				aFilters.push(pinCodeFilter);
+				aFilters.push(emailFilter);
+			}
+			var oOrFilter = new sap.ui.model.Filter({
+				filters : aFilters,
+				and: false
+			})
+			oListBinding.filter(aFilters.length == 0 ? [] : oOrFilter, "Application");
+		},
+		
+		formatTitle : function(sPubText) {
+			return sPubText;
+		},
+		
+		handleUpdateBinding : function(oEvent) {
+			var oTableHeader = this.getView().byId("tableHeader");
+			var oPublishersText = this.getView().getModel("i18n").getProperty("worklistTableTitle");
+			var iPubCount = oEvent.getSource().getItems().length;
+			
+			oTableHeader.setText(oPublishersText + "(" + iPubCount + ")");
+		}
 	});
 });

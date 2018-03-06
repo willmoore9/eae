@@ -16,15 +16,15 @@
 
 				</IconTabFilter>
 				<IconTabFilter text="{i18n>allPublisers}">
+					<SearchField liveChange="onAllPublisherSearch" width="100%" />
 					<List id="allPublishers" growing="true" mode="MultiSelect"
 						includeItemInSelection="true" select="onAssignPublisher" items="{
 																path: '/Publishers'
 															}">
-
+	
 						<StandardListItem title="{name}" description="{surname}"
 							icon="sap-icon://employee" iconDensityAware="false" iconInset="false" />
 					</List>
-
 				</IconTabFilter>
 			</items>
 		</IconTabBar>

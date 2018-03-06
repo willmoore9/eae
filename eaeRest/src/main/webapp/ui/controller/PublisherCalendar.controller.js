@@ -29,6 +29,7 @@ sap.ui.define([
 			var oModel = this.getView().getModel();
 			oModel.setProperty("/PublisherData/Publisher/" + periodId, {});
 			oModel.fetchData("rest/periods/" + periodId + "/weeks", "/PublisherData/Publisher/" + periodId + "/weeks", true);
+			sap.ui.core.BusyIndicator.hide();
 		},
 		
 		formatDayTitle : function(iDate){
