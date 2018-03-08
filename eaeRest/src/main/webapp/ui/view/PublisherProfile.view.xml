@@ -22,9 +22,16 @@
 									<forms:SimpleForm layout="ResponsiveGridLayout"
 										labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
 										adjustLabelSpan="false" title="{i18n>basicInfo}">
+
+										<Label text="{i18n>name}" />
+										<Input value="{/PublisherData/Publisher/name}" />
+										
+										<Label text="{i18n>surename}" />
+										<Input value="{/PublisherData/Publisher/surname}" />
+										
 										<Label text="{i18n>congregation}" />
 										<Input value="{/PublisherData/Publisher/congregation}" />
-
+										
 										<Label text="{i18n>phoneNumber}" />
 										<Input value="{/PublisherData/Publisher/telephone}"  type="Tel"  />
 									</forms:SimpleForm>	

@@ -21,9 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eae.communication.email.EmailUtils;
 import com.eae.schedule.model.Publisher;
+import com.eae.schedule.model.PublisherAssignment;
 import com.eae.schedule.model.ServicePeriod;
+import com.eae.schedule.model.Shift;
+import com.eae.schedule.repo.PublisherAssignmentRepository;
 import com.eae.schedule.repo.PublisherRepository;
 import com.eae.schedule.repo.ServicePeriodRepository;
+import com.eae.schedule.repo.ShiftRepository;
 import com.eae.schedule.ui.model.LandingDTO;
 import com.eae.schedule.ui.model.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,6 +41,12 @@ public class PublishersContoller {
 	
 	@Autowired
 	private ServicePeriodRepository periodRepo;
+
+	@Autowired
+	private PublisherAssignmentRepository publisherAssignmentRepo;
+	
+	@Autowired
+	private ShiftRepository shiftRepo;
 	
     @RequestMapping(name="/", method=RequestMethod.GET)
     public Response<Publisher> getAll() {
@@ -61,6 +71,8 @@ public class PublishersContoller {
 		
 		if(savedPubOptional.isPresent()) {
 			Publisher savedPublisher = savedPubOptional.get(); 
+			savedPublisher.setName(publisher.getName());
+			savedPublisher.setSurname(publisher.getSurname());
 			savedPublisher.setCongregation(publisher.getCongregation());
 			savedPublisher.setEmail(publisher.getEmail());
 			savedPublisher.setTelephone(publisher.getTelephone());
@@ -84,6 +96,17 @@ public class PublishersContoller {
 	@RequestMapping(value="/delete/{publisherId}", method=RequestMethod.DELETE)
     public Response<Object> deletePeriod(@PathVariable(value="publisherId") String publisherId) {
     	Response<Object> response = new Response<Object>();
+    	Publisher publisher = this.publisherRepo.findById(publisherId).get();
+    	List<PublisherAssignment> assignments2Delete = this.publisherAssignmentRepo.findByPublisher(publisher);
+    	
+    	for(PublisherAssignment assignment : assignments2Delete) {
+    		Shift shift = assignment.getShift();
+    		shift.getAssignments().remove(assignment);
+    		this.shiftRepo.save(shift);
+    	}
+    	
+    	this.publisherAssignmentRepo.deleteInBatch(assignments2Delete);
+    	publisherAssignmentRepo.flush();
     	this.publisherRepo.deleteById(publisherId);
     	return response;
     }

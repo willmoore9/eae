@@ -132,6 +132,8 @@ public class ShiftsController {
 				if(!assigmentToCancel.getIsSelfAssigned()) {
 					assignedPublisher.remove(assigmentToCancel);
 				}
+				shift.setAssignments(assignedPublisher);
+				shiftRepo.save(shift);
 				response.setSuccessful(true);
 				response.addObject(shift);
 				break;
@@ -158,11 +160,12 @@ public class ShiftsController {
 				response.setSuccessful(true);
 				response.addObject(shift);
 				assignedPublisher.remove(assigmentToCancel);
+				shiftRepo.saveAndFlush(shift);
 				break;
 			}
 		}
 		
-		shiftRepo.saveAndFlush(shift);
+		
 		return response;
 	}
 	

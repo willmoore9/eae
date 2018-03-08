@@ -109,7 +109,7 @@ sap.ui.define([
 		handleUpdateBinding : function(oEvent) {
 			var oTableHeader = this.getView().byId("tableHeader");
 			var oPublishersText = this.getView().getModel("i18n").getProperty("worklistTableTitle");
-			var iPubCount = oEvent.getSource().getItems().length;
+			var iPubCount = oEvent.getSource().getBinding("items").getLength();
 			
 			oTableHeader.setText(oPublishersText + "(" + iPubCount + ")");
 		}
