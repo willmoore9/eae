@@ -77,7 +77,7 @@ public class PublishersContoller {
 			savedPublisher.setEmail(publisher.getEmail());
 			savedPublisher.setTelephone(publisher.getTelephone());
 			savedPublisher.setPinCode(publisher.getPinCode());
-			this.publisherRepo.save(savedPublisher);
+			this.publisherRepo.saveAndFlush(savedPublisher);
 			
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			@SuppressWarnings("unchecked")
@@ -166,7 +166,7 @@ public class PublishersContoller {
 		Response<Publisher> response = new Response<Publisher>();
 		Publisher savedPublisher = this.publisherRepo.findById(publisherId).get();
 		savedPublisher.setPinCode(101914);
-		this.publisherRepo.save(savedPublisher);
+		this.publisherRepo.saveAndFlush(savedPublisher);
 		response.addObject(savedPublisher);
 		response.setSuccessful(true);
 		

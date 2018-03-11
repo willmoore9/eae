@@ -42,7 +42,7 @@
 										<Label text="{i18n>email}"  type="Email" />
 										<Input value="{/PublisherData/Publisher/email}" enabled="false"/>
 										<Label text="{i18n>pinCode}" />
-										<Input value="{/PublisherData/Publisher/pinCode}" type="Password" />
+										<Input value="{/PublisherData/Publisher/pinCode}" type="Password" liveChange="onLivePasswordChange"/>
 									</forms:SimpleForm>
 									
 								</uxap:blocks>
