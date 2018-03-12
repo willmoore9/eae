@@ -11,11 +11,17 @@ sap.ui.define([
 			var model = this.getView().getModel();
 			var username = this.getView().byId("usernameInput").getValue();
 			var pass = this.getView().byId("passwordInput").getValue();
+			sap.ui.core.BusyIndicator.show(500);
 			model.login(username, pass).then(function(data){
 				var oRouter = this.getOwnerComponent().getRouter();
 				oRouter.navTo("");
 				var oComp = this.getOwnerComponent()
 				oComp.readCurrentUserInfo();
+				sap.ui.core.BusyIndicator.hide();
+			}.bind(this)).catch(function(){
+				var sErrorMessage = this.getView().getModel("i18n").getProperty("loginFailed");
+				sap.ui.core.BusyIndicator.hide();
+				sap.m.MessageToast.show(sErrorMessage);
 			}.bind(this));
 		},
 		

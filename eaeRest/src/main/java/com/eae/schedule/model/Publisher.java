@@ -12,10 +12,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name="PUBLISHER")
 public class Publisher extends BaseObject implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = 1606288098368799204L;
+
 	public Publisher() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Publisher(String guid) {
