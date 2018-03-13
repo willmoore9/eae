@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+        http://www.springframework.org/schema/data/repository
+        http://www.springframework.org/schema/data/repository/spring-repository-1.5.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
+        ">
+        
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+
+	<context:component-scan base-package="com.eae.schedule.repo, com.eae.schedule.ui.controller" />
+    <mvc:annotation-driven />
+    
+	<jpa:repositories base-package="com.eae.schedule.repo" entity-manager-factory-ref="entityManagerFactory" transaction-manager-ref="transactionManager" />
+
+
+
+    <!-- JSON Support -->
+    <!-- <bean name="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+    <bean name="jsonTemplate" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+	 -->
+ 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+    	<property name="jndiName" value="java:comp/env/jdbc/eaeDB"/>
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="loadTimeWeaver">
+			<!-- <bean class="org.springframework.instrument.classloading.tomcat.TomcatLoadTimeWeaver" /> -->
+			<bean class="org.springframework.instrument.classloading.ReflectiveLoadTimeWeaver" />
+			
+		</property>
+		<property name="persistenceUnitName" value="eae"></property>
+	    <property name="jpaDialect" ref="jpaDialect" /> 
+	    <property name="jpaVendorAdapter"> 
+	        <bean 
+	            class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter"> 
+	        </bean> 
+	    </property> 
+	</bean>
+
+	<bean id="jpaDialect"  class="org.springframework.orm.jpa.vendor.EclipseLinkJpaDialect" /> 
+	
+	
+ 	<sec:global-method-security pre-post-annotations="enabled"/>
+    
+    <context:component-scan base-package="com.eae.security.rest, com.eae.security.service" />
+    
+     <sec:http entry-point-ref="customEntryPoint" use-expressions="true" >
+        <sec:custom-filter ref="authenticationFilter" before="PRE_AUTH_FILTER" />
+        <sec:intercept-url pattern="/rest/publishers/create/**" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/publishers/delete/**" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/periods/create/**" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/periods/delete/**" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/periods/read/**" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/shifts/create/**" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/shifts/delete/**" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/shifts/assign/*" access="hasAuthority('ADMIN')"/>
+        <sec:intercept-url pattern="/rest/shifts/addRequestAssign/**" access="hasAuthority('PUBLISHER')"/>
+        <sec:intercept-url pattern="/rest/shifts/removeRequestAssign/**" access="hasAuthority('PUBLISHER')"/>
+        <sec:intercept-url pattern="/rest/landing/**" access="hasAuthority('PUBLISHER')"/>
+        <sec:logout logout-url="/logout" delete-cookies="JSESSIONID" logout-success-url="/#login" />
+        <sec:csrf disabled="true" />
+    </sec:http>
+	
+ 	<bean id="publisherServiceImpl" scope="prototype" class="com.eae.security.service.PublisherServiceImpl"/>
+ 	
+    <sec:authentication-manager alias="authenticationManager">
+        <sec:authentication-provider ref="customAuthenticationProvider"/>
+    </sec:authentication-manager>
+ 
+    <bean id="authenticationFilter"
+        class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="postOnly" value="false" />
+        <property name="authenticationSuccessHandler" ref="customSuccessHandler" />
+        <property name="filterProcessesUrl" value="/rest/login"/>
+    </bean>
+ 
+ 
+    <bean id="customSuccessHandler"
+        class="com.eae.security.rest.CustomSuccessHandler" />
+ </beans>

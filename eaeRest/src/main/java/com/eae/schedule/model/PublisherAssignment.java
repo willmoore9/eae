@@ -33,7 +33,7 @@ public class PublisherAssignment extends BaseObject implements Serializable{
 	@JsonBackReference
 	private Shift shift;
 	
-	@OneToOne(fetch=FetchType.EAGER, orphanRemoval=true)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinTable(
 			name = "SHIFT_PUBLISHER_ASSIGN",
 			joinColumns = { @JoinColumn(name="SHIFT_GUID",referencedColumnName="GUID") },
