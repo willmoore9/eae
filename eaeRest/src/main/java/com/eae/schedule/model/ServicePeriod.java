@@ -48,7 +48,6 @@ public class ServicePeriod extends BaseObject implements Serializable {
 	private Integer numberOfShifts;
 	
 	@OneToMany(mappedBy="period", cascade={CascadeType.DETACH, CascadeType.REMOVE}, fetch=FetchType.EAGER, orphanRemoval=true)
-	@JsonIgnore
 	private List<ServiceDay> serviceDays = new ArrayList<ServiceDay>();
 
 	@Transient

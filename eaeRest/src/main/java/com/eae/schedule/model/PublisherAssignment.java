@@ -28,7 +28,7 @@ public class PublisherAssignment extends BaseObject implements Serializable{
 	}
 	
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.DETACH})
 	@JoinColumn(referencedColumnName="GUID")
 	@JsonBackReference
 	private Shift shift;

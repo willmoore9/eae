@@ -99,71 +99,7 @@ public class SerivePeriodsController {
     			shift.setServiceDay(day);
     			day.getShifts().add(shift);
 			}
-			
-//    		if(period.getShiftTemplate() == null || period.getShiftTemplate().equals("1") || period.getShiftTemplate().equals("")) {
-//    			
-//    			Shift shift = new Shift();
-//    			shiftDay.set(Calendar.HOUR_OF_DAY, 14);
-//    			
-//    			shift.setStarts(shiftDay.getTime());
-//    			
-//    			shiftDay.set(Calendar.HOUR_OF_DAY, 16);
-//    			shift.setEnds(shiftDay.getTime());
-//    			
-//    			shift.setServiceDay(day);
-//    			day.getShifts().add(shift);
-//    			
-//    			shift = new Shift();
-//    			shiftDay.set(Calendar.HOUR_OF_DAY, 16);
-//    			shift.setStarts(shiftDay.getTime());
-//    			
-//    			shiftDay.set(Calendar.HOUR_OF_DAY, 18);
-//    			shift.setEnds(shiftDay.getTime());
-//
-//    			shift.setServiceDay(day);
-//    			day.getShifts().add(shift);
-//    		} else if(period.getShiftTemplate().equals("2")) {
-//    			Shift shift = new Shift();
-//    			shiftDay.set(Calendar.HOUR_OF_DAY, 14);
-//    			shiftDay.set(Calendar.MINUTE, 30);
-//    			shift.setStarts(shiftDay.getTime());
-//    			
-//    			shiftDay.set(Calendar.HOUR_OF_DAY, 16);
-//    			shift.setEnds(shiftDay.getTime());
-//    			
-//    			shift.setServiceDay(day);
-//    			day.getShifts().add(shift);
-//    			
-//    			shift = new Shift();
-//    			shiftDay.set(Calendar.HOUR_OF_DAY, 16);
-//    			shift.setStarts(shiftDay.getTime());
-//    			
-//    			shiftDay.set(Calendar.HOUR_OF_DAY, 18);
-//    			shift.setEnds(shiftDay.getTime());
-//
-//    			shift.setServiceDay(day);
-//    			day.getShifts().add(shift);	
-//    		} else if(period.getShiftTemplate().equals("3")) {
-//    			Shift shift = new Shift();
-//    			shiftDay.set(Calendar.HOUR_OF_DAY, 15);
-//    			shift.setStarts(shiftDay.getTime());
-//    			
-//    			shiftDay.set(Calendar.HOUR_OF_DAY, 17);
-//    			shift.setEnds(shiftDay.getTime());
-//    			
-//    			shift.setServiceDay(day);
-//    			day.getShifts().add(shift);
-//    			
-//    			shift = new Shift();
-//    			shiftDay.set(Calendar.HOUR, 17);
-//    			shift.setStarts(shiftDay.getTime());
-//    			
-//    			shiftDay.set(Calendar.HOUR, 19);
-//    			shift.setEnds(shiftDay.getTime());
-//
-//    			shift.setServiceDay(day);
-//    			day.getShifts().add(shift);
-//    		}
+
     		period.getServiceDays().add(day);
     	}
     	
@@ -186,7 +122,6 @@ public class SerivePeriodsController {
     	ServicePeriod period = this.periodRepo.findById(periodId).get();
 
     	List<ServiceDay> serviceDays = this.daysRepo.findServiceDayByPeriod(period, Sort.by("date"));
-//    	List<ServiceDay> serviceDays = this.daysRepo.findWeeks(periodId);
     	List<ServiceWeek> serviceWeeks = groupByWeeks(serviceDays, period);
     	response.setObjects(serviceWeeks);
     	

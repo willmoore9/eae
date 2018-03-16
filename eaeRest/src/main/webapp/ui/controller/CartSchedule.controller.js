@@ -4,6 +4,12 @@ sap.ui.define([
 ], function(Controller, FormatUtils){
 	return Controller.extend("org.eae.tools.controller.CartSchedule", {
 		formatUtils : FormatUtils,
+
+		onAfterRendering : function() {
+			
+			
+		},
+		
 		onInit : function(){
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("cartSchedule").attachPatternMatched(function(oEvent){
@@ -13,6 +19,13 @@ sap.ui.define([
 				this._sScheduleId = scheduleId;
 				this.loadSericeDays(periodId);
 				objectPage.bindElement("/Schedule/" + periodId);
+//				objectPage.addEventDelegate({
+//					onAfterRendering:function() {
+//						var iWeekNumber = this._getCurrentWeek();
+//						this._scrollToWeekNumber(iWeekNumber);
+//					}.bind(this)
+//				})
+				
 			}.bind(this));
 		},
 		
@@ -63,6 +76,28 @@ sap.ui.define([
 			return false;
 		},
 
+		_getCurrentWeek : function() {
+			var d = new Date();
+		    d.setHours(0,0,0);
+		    d.setDate(d.getDate()+4-(d.getDay()||7));
+		    return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
+		},
+		
+		onScrollToCurrentWeekAction : function() {
+			this._scrollToWeekNumber(this._getCurrentWeek());
+		},
+		
+		_scrollToWeekNumber : function(iWeekNumber) {
+			var objectPage = this.getView().byId("cartSchedulePage");
+			var aSections = objectPage.getSections();
+			for(var i = 0; i < aSections.length; i++) {
+				var oSection = aSections[i];
+				if(parseInt(oSection.data("weekNumber")) == iWeekNumber) {
+					objectPage.scrollToSection(oSection.getId(), 1000); 
+					break;
+				} 
+			}
+		}
 
 	});
 });

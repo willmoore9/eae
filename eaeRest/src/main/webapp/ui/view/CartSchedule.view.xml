@@ -13,11 +13,17 @@
 					  >
 				<uxap:headerTitle>
 					<uxap:ObjectPageHeader objectTitle="{path:'info', formatter:'.formatHeaderTitle'}" objectSubtitle="{cartSchedule/cart/name}">
-					
+						<uxap:actions>
+							<uxap:ObjectPageHeaderActionButton text="{i18n>toCurrentWeek}" type="Emphasized" hideText="false" press="onScrollToCurrentWeekAction"/>
+						</uxap:actions>					
 					</uxap:ObjectPageHeader>
 				</uxap:headerTitle>
+
 				<uxap:sections>
 					<uxap:ObjectPageSection title="{parts:['i18n>cw', 'name']}">
+						<uxap:customData>
+							<core:CustomData key="weekNumber" value="{name}"/>
+						</uxap:customData>
 						<uxap:subSections>
 							<uxap:ObjectPageSubSection blocks="{path:'weekDays', templateShareable:true}">
 								<uxap:blocks>
