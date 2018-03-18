@@ -267,6 +267,24 @@ sap.ui.define([
 				and: false
 			})
 			oListBinding.filter(aFilters.length == 0 ? [] : oOrFilter, "Application");
-		}
+		},
+		
+		onSendInvitesForWeek : function(oEvent) {
+//			var oModel = this.getView().getModel();
+//			var week = ["1", "2"];
+//			var request = {
+//					shifts: {
+//					day:"1",
+//					day2:"2"
+//					}
+//			};
+//			
+//			oModel.post("rest/cartSchedule/sendShiftInvites/schedule/" + this._sScheduleId, "POST", request).then(function(){
+//				console.log("sent");
+//			}).catch(function(){
+//				console.log("error");
+//			});
+//			console.log("onSendInvitesForWeek");
+		}  
 	});
 });

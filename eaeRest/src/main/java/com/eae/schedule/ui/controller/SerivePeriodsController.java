@@ -11,6 +11,10 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +31,8 @@ import com.eae.schedule.repo.ServiceDayRepository;
 import com.eae.schedule.repo.ServicePeriodRepository;
 import com.eae.schedule.ui.model.Response;
 import com.eae.schedule.ui.model.ServiceWeek;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/periods")
@@ -281,8 +287,16 @@ public class SerivePeriodsController {
 //    }
     
     @RequestMapping(path="/download/{periodId}", method=RequestMethod.GET)
-    public ServicePeriod downloadPeriod(String id) {
-    	ServicePeriod period = this.periodRepo.findById(id).get();
-    	return period;
+    public ResponseEntity<byte[]> downloadPeriod(@PathVariable(name="periodId", required=true) String periodId) throws JsonProcessingException {
+    	ServicePeriod period = this.periodRepo.findById(periodId).get();
+	    ObjectMapper mapper = new ObjectMapper();
+	    byte[] output = mapper.writeValueAsBytes(period);
+
+	    HttpHeaders responseHeaders = new HttpHeaders();
+	    responseHeaders.set("charset", "utf-8");
+	    responseHeaders.setContentType(MediaType.valueOf("text/json"));
+	    responseHeaders.setContentLength(output.length);
+	    responseHeaders.set("Content-disposition", "attachment; filename=Period(" + period.getName() + ").json");
+	    return new ResponseEntity<byte[]>(output, responseHeaders, HttpStatus.OK);
     }
 }

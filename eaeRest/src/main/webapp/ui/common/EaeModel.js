@@ -218,7 +218,8 @@ sap.ui.define([
 					type: sType,
 					data: oParams,
 					success: fnSuccess,
-					error: fnError
+					error: fnError,
+					Traditional:true
 				});				
 			}.bind(this));
 			return oPromise;

@@ -92,8 +92,15 @@
         <property name="authenticationSuccessHandler" ref="customSuccessHandler" />
         <property name="filterProcessesUrl" value="/rest/login"/>
     </bean>
- 
- 
+
     <bean id="customSuccessHandler"
         class="com.eae.security.rest.CustomSuccessHandler" />
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename">
+			<!-- <value>email\messages</value> -->
+			<value>emailTmpl</value>
+		</property>
+	</bean>
  </beans>

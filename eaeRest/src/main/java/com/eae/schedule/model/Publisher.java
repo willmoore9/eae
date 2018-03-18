@@ -45,7 +45,9 @@ public class Publisher extends BaseObject implements Serializable {
 
 	@Column(name="PIN_CODE", length = 8)
 	private Integer pinCode = 101914;
-
+	
+//	@Column(name="LANG", length = 8)
+//	private String language;
 	
 	public String getName() {
 		return name;
@@ -110,4 +112,12 @@ public class Publisher extends BaseObject implements Serializable {
 	public void setPinCode(Integer pinCode) {
 		this.pinCode = pinCode;
 	}
+
+//	public String getLanguage() {
+//		return language;
+//	}
+//
+//	public void setLanguage(String language) {
+//		this.language = language;
+//	}
 }

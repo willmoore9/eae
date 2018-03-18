@@ -1,5 +1,5 @@
 <mvc:View controllerName="org.eae.tools.controller.PeriodsWorlkist"
-	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m">
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m" xmlns:u="sap.ui.unified">
 	<semantic:FullscreenPage id="periodWorklist"
 		navButtonPress="onNavBack" showNavButton="true" title="{i18n>servicePeriodWorklist}">
 		<semantic:content>
@@ -18,6 +18,21 @@
 					<Toolbar>
 						<Title id="tableHeader" text="{worklistView>/worklistTableTitle}" />
 						<ToolbarSpacer />
+													
+						<!-- <u:FileUploader
+									id="periodFileUploader"
+									name="uploadJSON"
+									tooltip="{i18n>uploadPeriod}"
+									uploadOnChange="true"
+									iconOnly="true"
+									uploadUrl="rest/periods/upload"
+									useMultipart="false"
+									sendXHR="true"
+									uploadComplete="onImportPeriodSuccess"
+									buttonOnly="true"
+									icon="sap-icon://upload"
+									/>
+						<Button style="Lite" icon="sap-icon://download" press="onDownloadPeriodPress"></Button> -->
 						<Button style="Lite" icon="sap-icon://add" press="onAddPeriodPress"></Button>
 						<Button style="Lite" icon="sap-icon://delete" press="onDeletePeriodPress"></Button>
 						<SearchField id="searchField" search="onSearch"

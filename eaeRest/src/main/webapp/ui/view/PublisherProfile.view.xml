@@ -40,7 +40,7 @@
 										labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
 										adjustLabelSpan="false" singleContainerFullSize="false" title="{i18n>authorization}">
 										<Label text="{i18n>email}"  type="Email" />
-										<Input value="{/PublisherData/Publisher/email}" enabled="false"/>
+										<Input value="{/PublisherData/Publisher/email}" />
 										<Label text="{i18n>pinCode}" />
 										<Input value="{/PublisherData/Publisher/pinCode}" type="Password" liveChange="onLivePasswordChange"/>
 									</forms:SimpleForm>

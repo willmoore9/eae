@@ -3,6 +3,7 @@ package com.eae.schedule.ui.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -130,4 +131,13 @@ public class CartScheduleController {
 		return response; 
     }
     
+    @RequestMapping(value="/sendShiftInvites/schedule/{scheduleId}", consumes={"application/json"}, produces={"application/json"}, method=RequestMethod.POST)
+    public Response sendBulkEmailInvites(@PathVariable(value="scheduleId") String scheduleId, @RequestBody Map shifts) {
+    	
+    	System.out.println("scheduleId " + scheduleId);
+    	System.out.println("shifts.length " + shifts.size());
+    	return new Response<>();
+    }
+    
+    Response<CartSchedule> response = new Response<CartSchedule>();
 }
