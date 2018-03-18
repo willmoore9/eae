@@ -1,0 +1,20 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<ActionSheet
+		showCancelButton="true"
+		placement="Bottom">
+		<buttons>
+			<Button text="{i18n>call}" press="onCallPhone">
+				<customData>
+					<core:CustomData key="phone" value="{publisher/telephone}" />
+				</customData>
+			</Button>
+ 			<Button text="{i18n>whatsup}" press="onWhatsup">
+				<customData>
+					<core:CustomData key="phone" value="{publisher/telephone}" />
+				</customData>
+			</Button>
+		</buttons>
+	</ActionSheet>
+</core:FragmentDefinition>

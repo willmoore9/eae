@@ -29,9 +29,6 @@ public class ServiceDay extends BaseObject implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-//	@Column(name="DELIVER_TO",length = 16)
-//	private String deliverTo;
-//	
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="DATE")
 	private Date date;

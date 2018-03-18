@@ -19,13 +19,6 @@ sap.ui.define([
 				this._sScheduleId = scheduleId;
 				this.loadSericeDays(periodId);
 				objectPage.bindElement("/Schedule/" + periodId);
-//				objectPage.addEventDelegate({
-//					onAfterRendering:function() {
-//						var iWeekNumber = this._getCurrentWeek();
-//						this._scrollToWeekNumber(iWeekNumber);
-//					}.bind(this)
-//				})
-				
 			}.bind(this));
 		},
 		
@@ -44,7 +37,7 @@ sap.ui.define([
 			var oModel = this.getView().getModel();
 			oModel.setProperty("/Schedule/" + periodId, {});
 		    //oModel.fetchData("rest/periods/" + periodId + "/weeks", "/Schedule/" + periodId + "/weeks", true, {}, true).
-			oModel.fetchData("rest/periods/period/" + periodId + "/schedule/" +this._sScheduleId + "/weeks" , "/Schedule/" + periodId + "/weeks", true, {}, true).
+			oModel.fetchData("rest/periods/period/" + periodId + "/schedule/" +this._sScheduleId + "/weeksToServe" , "/Schedule/" + periodId + "/weeks", true, {}, true).
 		    then(function(){
 		    	oModel.read("rest/periods/read/" + periodId).then(function(data){
 		    		oModel.setProperty("/Schedule/" + periodId + "/info", data);
@@ -76,27 +69,32 @@ sap.ui.define([
 			return false;
 		},
 
-		_getCurrentWeek : function() {
-			var d = new Date();
-		    d.setHours(0,0,0);
-		    d.setDate(d.getDate()+4-(d.getDay()||7));
-		    return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
-		},
-		
-		onScrollToCurrentWeekAction : function() {
-			this._scrollToWeekNumber(this._getCurrentWeek());
-		},
-		
-		_scrollToWeekNumber : function(iWeekNumber) {
-			var objectPage = this.getView().byId("cartSchedulePage");
-			var aSections = objectPage.getSections();
-			for(var i = 0; i < aSections.length; i++) {
-				var oSection = aSections[i];
-				if(parseInt(oSection.data("weekNumber")) == iWeekNumber) {
-					objectPage.scrollToSection(oSection.getId(), 1000); 
-					break;
-				} 
+		onShiftPublisherPress : function(oEvent) {
+			var oSource = oEvent.getSource();
+			console.log("onShiftPublisherPress");
+			
+			if(!this._oUserActionsDialog) {
+				this._oUserActionsDialog = sap.ui.xmlfragment("useActions", "org.eae.tools.view.fragments.ScheduleContactActions", this);
+				this.getView().addDependent(this._oUserActionsDialog);	
 			}
+			
+			this._oUserActionsDialog.setBindingContext(oSource.getBindingContext());
+			
+			this._oUserActionsDialog.openBy(oSource);
+		},
+		
+		onCallPhone : function(oEvent) {
+			var oSource = oEvent.getSource();
+			var phoneNumber = oSource.data("phone");
+			sap.m.URLHelper.triggerTel(phoneNumber);
+		},
+		
+		onWhatsup : function(oEvent) {
+			var oSource = oEvent.getSource();
+			var phoneNumber = oSource.data("phone");
+//			sap.m.URLHelper.redirect("whatsapp://contact/?phone=" + phoneNumber);
+			sap.m.URLHelper.redirect("https://api.whatsapp.com/send?phone=" + phoneNumber);
+			
 		}
 
 	});

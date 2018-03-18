@@ -12,10 +12,7 @@
 					  sections="{weeks}" showOnlyHighImportance="true" flexEnabled="true"
 					  >
 				<uxap:headerTitle>
-					<uxap:ObjectPageHeader objectTitle="{path:'info', formatter:'.formatHeaderTitle'}" objectSubtitle="{cartSchedule/cart/name}">
-						<uxap:actions>
-							<uxap:ObjectPageHeaderActionButton text="{i18n>toCurrentWeek}" type="Emphasized" hideText="false" press="onScrollToCurrentWeekAction"/>
-						</uxap:actions>					
+					<uxap:ObjectPageHeader objectTitle="{path:'info', formatter:'.formatHeaderTitle'}" objectSubtitle="{cartSchedule/cart/name}">				
 					</uxap:ObjectPageHeader>
 				</uxap:headerTitle>
 

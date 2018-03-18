@@ -44,6 +44,11 @@ public class SerivePeriodsController {
     	Response<ServicePeriod> response = new Response<ServicePeriod>();
     	Sort sortByFromDate = new Sort(Sort.Direction.ASC, "starts");
     	List<ServicePeriod> periods = (List<ServicePeriod>) this.periodRepo.findAll(sortByFromDate);
+    	
+    	for(ServicePeriod period : periods) {
+    		period.setServiceDays(null);
+    	}
+    	
     	response.setObjects(periods);
         return response; 
     }
@@ -136,6 +141,10 @@ public class SerivePeriodsController {
 
     	ServicePeriod period = this.periodRepo.findById(periodId).get();
 
+    	Calendar cal = Calendar.getInstance();
+    	int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+    	cal.add(Calendar.DATE, -(dayOfWeek - 1));
+    	
     	List<ServiceDay> serviceDays = this.daysRepo.findServiceDayByPeriod(period, Sort.by("date"));
     	List<ServiceWeek> serviceWeeks = groupByWeeks(serviceDays, period, scheduleId);
     	response.setObjects(serviceWeeks);
@@ -143,6 +152,27 @@ public class SerivePeriodsController {
     	return response;
     }
 
+    @RequestMapping(path="/period/{periodId}/schedule/{scheduleId}/weeksToServe", method=RequestMethod.GET)
+    public Response<ServiceWeek> loadServiceWeeksToServe(@PathVariable(name="periodId", required=true) String periodId, 
+    		@PathVariable(name="scheduleId", required=true) String scheduleId) {
+    	
+    	Response<ServiceWeek> response = new Response<ServiceWeek>();
+
+    	ServicePeriod period = this.periodRepo.findById(periodId).get();
+
+    	Calendar cal = Calendar.getInstance();
+    	int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+    	cal.add(Calendar.DATE, -(dayOfWeek - 1));
+    	Date after = cal.getTime();
+    	cal.add(Calendar.WEEK_OF_YEAR, 2);
+    	Date before = cal.getTime();
+    	
+    	List<ServiceDay> serviceDays = this.daysRepo.findServiceDayByPeriodAndDateBetween(period, after, before, Sort.by("date"));
+    	List<ServiceWeek> serviceWeeks = groupByWeeks(serviceDays, period, scheduleId);
+    	response.setObjects(serviceWeeks);
+    	
+    	return response;
+    }
 	private List<ServiceWeek> groupByWeeks(List<ServiceDay> serviceDays, ServicePeriod period, final String scheduleId) {
 		Calendar calendar = Calendar.getInstance();
 		
@@ -242,11 +272,17 @@ public class SerivePeriodsController {
     	return period;
     }
     
-    @RequestMapping(path="/readWeek/{periodId}/{from}/{to}", method=RequestMethod.GET)
-    public ServicePeriod readWeek(@PathVariable(name="periodId", required=true) String periodId,@PathVariable(name="from", required=true) String from, @PathVariable(name="to", required=true) String to){
-    	ServicePeriod period = this.periodRepo.findById(periodId).get();
-    	period.setIsShared(false);
-    	this.periodRepo.save(period);
+//    @RequestMapping(path="/readWeek/{periodId}/{from}/{to}", method=RequestMethod.GET)
+//    public ServicePeriod readWeek(@PathVariable(name="periodId", required=true) String periodId,@PathVariable(name="from", required=true) String from, @PathVariable(name="to", required=true) String to){
+//    	ServicePeriod period = this.periodRepo.findById(periodId).get();
+//    	period.setIsShared(false);
+//    	this.periodRepo.save(period);
+//    	return period;
+//    }
+    
+    @RequestMapping(path="/download/{periodId}", method=RequestMethod.GET)
+    public ServicePeriod downloadPeriod(String id) {
+    	ServicePeriod period = this.periodRepo.findById(id).get();
     	return period;
     }
 }
