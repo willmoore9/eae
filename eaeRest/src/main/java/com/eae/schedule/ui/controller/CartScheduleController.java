@@ -118,7 +118,11 @@ public class CartScheduleController {
     	List<String> emailList = new ArrayList<String>();
     	for(PublisherAssignment assignment : assignments) {
     		if(!assignment.getIsInvitationSent()) {
-    			emailList.add(assignment.getPublisher().getEmail());
+    			String email = assignment.getPublisher().getEmail();
+    			if(email != null && email.length() > 0 && email.contains("@")) {
+    				emailList.add(email);	
+    			}
+    			
     		}
     	}
 		EmailUtils.sendBulkInvite(bufferSubject.toString(),

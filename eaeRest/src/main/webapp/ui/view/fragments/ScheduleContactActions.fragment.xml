@@ -10,7 +10,7 @@
 					<core:CustomData key="phone" value="{publisher/telephone}" />
 				</customData>
 			</Button>
- 			<Button text="{i18n>whatsup}" press="onWhatsup">
+ 			<Button text="{i18n>whatsapp}" press="onWhatsup">
 				<customData>
 					<core:CustomData key="phone" value="{publisher/telephone}" />
 				</customData>

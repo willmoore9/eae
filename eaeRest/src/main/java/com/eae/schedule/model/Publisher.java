@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -48,6 +49,9 @@ public class Publisher extends BaseObject implements Serializable {
 	
 //	@Column(name="LANG", length = 8)
 //	private String language;
+	
+	@Transient
+	private Boolean wasAssignedToday;
 	
 	public String getName() {
 		return name;
@@ -113,6 +117,14 @@ public class Publisher extends BaseObject implements Serializable {
 		this.pinCode = pinCode;
 	}
 
+	public Boolean getWasAssignedToday() {
+		return wasAssignedToday;
+	}
+
+	public void setWasAssignedToday(Boolean wasAssignedToday) {
+		this.wasAssignedToday = wasAssignedToday;
+	}
+
 //	public String getLanguage() {
 //		return language;
 //	}
@@ -120,4 +132,6 @@ public class Publisher extends BaseObject implements Serializable {
 //	public void setLanguage(String language) {
 //		this.language = language;
 //	}
+	
+	
 }
