@@ -109,29 +109,36 @@ public class CartScheduleController {
     	StringBuffer bufferBody = new StringBuffer();
     	bufferBody.append(dateFormat.format(shift.getStarts()));
     	bufferBody.append("\n\r");
-    	bufferBody.append("From ").append(timeFormat.format(shift.getStarts())).append(" ").append("to ").append(timeFormat.format(shift.getEnds()));
+    	bufferBody.append("From/Von ").append(timeFormat.format(shift.getStarts())).append(" ").append("to/bis ").append(timeFormat.format(shift.getEnds()));
     	List<PublisherAssignment> assignments = publisherAssignmentRepo.findPublisherAssignmentByScheduleGuidAndShiftGuid(scheduleId, shiftId);
     	if(assignments.size() == 0) {
     		return response;
     	}
     	
     	List<String> emailList = new ArrayList<String>();
+    	List<PublisherAssignment> assignmentsToUpdate  = new ArrayList<PublisherAssignment>();
     	for(PublisherAssignment assignment : assignments) {
     		if(!assignment.getIsInvitationSent()) {
     			String email = assignment.getPublisher().getEmail();
     			if(email != null && email.length() > 0 && email.contains("@")) {
     				emailList.add(email);	
+    				assignment.setIsInvitationSent(true);
+    				assignmentsToUpdate.add(assignment);
     			}
     			
     		}
     	}
-		EmailUtils.sendBulkInvite(bufferSubject.toString(),
-				bufferBody.toString(), 
-				"EAE", 
-				assignments.get(0).getSchedule().getCart().getAddress(), 
-				shift.getStarts(),
-				shift.getEnds(),
-				emailList);
+    	if(emailList.size() > 0) {
+    		EmailUtils.sendBulkInvite(bufferSubject.toString(),
+    				bufferBody.toString(), 
+    				"EAE", 
+    				assignments.get(0).getSchedule().getCart().getAddress(), 
+    				shift.getStarts(),
+    				shift.getEnds(),
+    				emailList);	
+    	}
+		
+		this.publisherAssignmentRepo.saveAll(assignmentsToUpdate);
 		return response; 
     }
     

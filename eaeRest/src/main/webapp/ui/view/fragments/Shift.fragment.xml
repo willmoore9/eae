@@ -33,7 +33,7 @@
 			
 			<StandardListItem title="{publisher/name} {publisher/surname}" infoState="Error" 
 			iconDensityAware="false" type="Active" press=".onShiftPublisherPress" info="{= ${isCartCarrier} ? '#' : '' }"
-			visible="{path:'schedule', formatter:'.formatShiftAssignmentVisibility'}" highlight="{= ${isShiftLeader} ? 'Success' : 'None'}"/>
+			visible="{path:'schedule', formatter:'.formatShiftAssignmentVisibility'}" highlight="{= ${isShiftLeader} ? 'Success' : ${publisher/name}.indexOf('needed') > 0 ? 'Error'  : 'None'}"/>
 			
 			<!-- <CustomListItem  type="Active" press=".onShiftPublisherPress" 
 			visible="{path:'schedule', formatter:'.formatShiftAssignmentVisibility'}" 
