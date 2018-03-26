@@ -140,13 +140,21 @@ sap.ui.define([
 				shiftBinding : oBindingContextS,
 			};
 			
-			oModel.post("rest/shifts/unassign/" + oShiftObj.guid + "/schedule/" + this._sScheduleId + "/publisher/" + oPublisherObj.publisher.guid,
-					"POST",
-					"").then(function(aResults){
-						var oUpdatedShift = aResults.objects[0]; 
-						this.shiftBinding.getModel().setProperty(this.shiftBinding.getPath(), oUpdatedShift);
-						
-					}.bind(oShift));
+//			oModel.post("rest/shifts/unassign/" + oShiftObj.guid + "/schedule/" + this._sScheduleId + "/publisher/" + oPublisherObj.publisher.guid,
+//					"POST",
+//					"").then(function(aResults){
+//						var oUpdatedShift = aResults.objects[0]; 
+//						this.shiftBinding.getModel().setProperty(this.shiftBinding.getPath(), oUpdatedShift);
+//						
+//					}.bind(oShift));
+			
+			oModel.post("rest/shifts/unassign/assignment/" + oBindingContextP.getObject().guid,
+			"POST",
+			"").then(function(aResults){
+				var oUpdatedShift = aResults.objects[0]; 
+				this.shiftBinding.getModel().setProperty(this.shiftBinding.getPath(), oUpdatedShift);
+				
+			}.bind(oShift));
 		},
 		
 		onCloseAssignPublishersPress : function (oEvent) {

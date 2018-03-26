@@ -76,7 +76,10 @@ public class PublishersContoller {
 			savedPublisher.setCongregation(publisher.getCongregation());
 			savedPublisher.setEmail(publisher.getEmail());
 			savedPublisher.setTelephone(publisher.getTelephone());
-			savedPublisher.setPinCode(publisher.getPinCode());
+			if(publisher.getPinCode() != 0) {
+				savedPublisher.setPinCode(publisher.getPinCode());				
+			}
+
 			this.publisherRepo.saveAndFlush(savedPublisher);
 			
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

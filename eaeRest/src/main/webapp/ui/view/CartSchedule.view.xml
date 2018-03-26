@@ -13,6 +13,9 @@
 					  >
 				<uxap:headerTitle>
 					<uxap:ObjectPageHeader objectTitle="{path:'info', formatter:'.formatHeaderTitle'}" objectSubtitle="{cartSchedule/cart/name}">				
+						<uxap:actions>
+							<uxap:ObjectPageHeaderActionButton id="pdfSchedule" icon="sap-icon://pdf-attachment"  hideText="false" press="onDownloadPdfSchedule"/>
+						</uxap:actions>
 					</uxap:ObjectPageHeader>
 				</uxap:headerTitle>
 

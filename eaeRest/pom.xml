@@ -103,6 +103,18 @@
 		    <artifactId>biweekly</artifactId>
 		    <version>0.6.1</version>
 		</dependency>
+		
+	    <dependency>
+	  	<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.itextpdf.tool</groupId>
+			<artifactId>xmlworker</artifactId>
+			<version>5.4.1</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>

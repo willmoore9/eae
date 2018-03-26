@@ -116,35 +116,22 @@ public class ShiftsController {
 		return response;
 	}
 	
-	@RequestMapping(value="/unassign/{shiftId}/schedule/{scheduleId}/publisher/{publisherId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
-	public Response<Shift> unAssignPubisherToShift(@PathVariable(value="shiftId") String shiftId,
-			@PathVariable(value="scheduleId") String scheduleId,
-			@PathVariable(value="publisherId") String publisherId) {
+	@RequestMapping(value="/unassign/assignment/{publisherAssignmentId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
+	public Response<Shift> unAssignPubisherFromShift(@PathVariable(value="publisherAssignmentId") String publisherAssignmentId) {
 		Response<Shift> response = new Response<Shift>();
-
-		Shift shift = shiftRepo.findById(shiftId).get();
-		List<PublisherAssignment> assignedPublisher = shift.getAssignments();
+		PublisherAssignment assinmentToCancel = this.publisherAssignmentRepo.findById(publisherAssignmentId).get();
+		Shift shift = assinmentToCancel.getShift();
 		
-		for(PublisherAssignment assigmentToCancel : assignedPublisher) {
-			if(assigmentToCancel.getPublisher().getGuid().equals(publisherId) && assigmentToCancel.getSchedule().getGuid().equals(scheduleId)) {
-				assigmentToCancel.setSchedule(null);
-				publisherAssignmentRepo.save(assigmentToCancel);
-				if(!assigmentToCancel.getIsSelfAssigned()) {
-					assignedPublisher.remove(assigmentToCancel);
-				}
-				shift.setAssignments(assignedPublisher);
-				shiftRepo.save(shift);
-				response.setSuccessful(true);
-				response.addObject(shift);
-				break;
-			}
+		if(!assinmentToCancel.getIsSelfAssigned()) {
+			shift.getAssignments().remove(assinmentToCancel);
+			shiftRepo.save(shift);
+			this.publisherAssignmentRepo.deleteById(assinmentToCancel.getGuid());
+		} else {
+			assinmentToCancel.setSchedule(null);
+			this.publisherAssignmentRepo.save(assinmentToCancel);
 		}
-		
-		
-		shiftRepo.saveAndFlush(shift);
-		
+
 		response.addObject(shift);
-		
 		return response;
 	}
 	

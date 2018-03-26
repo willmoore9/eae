@@ -2,10 +2,20 @@ package com.eae.schedule.ui.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,13 +23,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eae.communication.email.EmailUtils;
+import com.eae.generator.HtmlGenerator;
+import com.eae.schedule.model.CartDelivery;
 import com.eae.schedule.model.CartSchedule;
 import com.eae.schedule.model.PublisherAssignment;
+import com.eae.schedule.model.ServiceDay;
+import com.eae.schedule.model.ServicePeriod;
 import com.eae.schedule.model.Shift;
 import com.eae.schedule.repo.CartScheduleRepository;
 import com.eae.schedule.repo.PublisherAssignmentRepository;
+import com.eae.schedule.repo.ServiceDayRepository;
+import com.eae.schedule.repo.ServicePeriodRepository;
 import com.eae.schedule.repo.ShiftRepository;
 import com.eae.schedule.ui.model.Response;
+import com.eae.schedule.ui.model.ServiceWeek;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/cartSchedule")
@@ -33,7 +51,12 @@ public class CartScheduleController {
 	
 	@Autowired
 	private ShiftRepository shiftRepo;
+
+	@Autowired
+	private ServiceDayRepository daysRepo;
 	
+	@Autowired
+	private ServicePeriodRepository periodRepo;
 	
     @RequestMapping(name="/", method=RequestMethod.GET)
     public Response<CartSchedule> getAll() {
@@ -110,6 +133,8 @@ public class CartScheduleController {
     	bufferBody.append(dateFormat.format(shift.getStarts()));
     	bufferBody.append("\n\r");
     	bufferBody.append("From/Von ").append(timeFormat.format(shift.getStarts())).append(" ").append("to/bis ").append(timeFormat.format(shift.getEnds()));
+    	bufferBody.append("Antworten Sie Nicht/Do not reply");
+    	
     	List<PublisherAssignment> assignments = publisherAssignmentRepo.findPublisherAssignmentByScheduleGuidAndShiftGuid(scheduleId, shiftId);
     	if(assignments.size() == 0) {
     		return response;
@@ -145,10 +170,76 @@ public class CartScheduleController {
     @RequestMapping(value="/sendShiftInvites/schedule/{scheduleId}", consumes={"application/json"}, produces={"application/json"}, method=RequestMethod.POST)
     public Response sendBulkEmailInvites(@PathVariable(value="scheduleId") String scheduleId, @RequestBody Map shifts) {
     	
-    	System.out.println("scheduleId " + scheduleId);
-    	System.out.println("shifts.length " + shifts.size());
     	return new Response<>();
     }
     
-    Response<CartSchedule> response = new Response<CartSchedule>();
+	@RequestMapping(value = "/downloadPdf/period/{periodId}/schedule/{scheduleId}", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> donwnloadPdf(@PathVariable(value="scheduleId") String scheduleId, 
+											   @PathVariable(value="periodId") String periodId) throws Exception {
+
+	    ServicePeriod period = this.periodRepo.findById(periodId).get();
+	    List<ServiceWeek> weeks = getCurrentTwoWeeks(period, scheduleId);
+	    HtmlGenerator gen = new HtmlGenerator(weeks, new Locale("de", "DE"));
+	    byte [] pdfBytes = gen.generatePdf();  
+
+	    HttpHeaders responseHeaders = new HttpHeaders();
+	    responseHeaders.set("charset", "utf-8");
+	    responseHeaders.setContentType(MediaType.valueOf("application/x-pdf"));
+	    responseHeaders.setContentLength(pdfBytes.length);
+	    responseHeaders.set("Content-disposition", "attachment; filename=Schedule.pdf");
+
+	    return new ResponseEntity<byte[]>(pdfBytes, responseHeaders, HttpStatus.OK);
+	}
+	
+	private List<ServiceWeek> getCurrentTwoWeeks(ServicePeriod period, String scheduleId) {
+    	Calendar cal = Calendar.getInstance();
+    	int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+    	cal.add(Calendar.DATE, -(dayOfWeek - 1));
+    	Date after = cal.getTime();
+    	cal.add(Calendar.WEEK_OF_YEAR, 2);
+    	Date before = cal.getTime();
+    	
+    	List<ServiceDay> serviceDays = this.daysRepo.findServiceDayByPeriodAndDateBetween(period, after, before, Sort.by("date"));
+    	return groupByWeeks(serviceDays, period, scheduleId);
+	}
+	
+	private List<ServiceWeek> groupByWeeks(List<ServiceDay> serviceDays, ServicePeriod period, final String scheduleId) {
+		Calendar calendar = Calendar.getInstance();
+		
+		List<ServiceWeek> weeks = new ArrayList<ServiceWeek>();
+		ServiceWeek week = new ServiceWeek();
+		week.setPeriod(period);
+		
+		for(ServiceDay day : serviceDays) {
+			Stream<CartDelivery> cartDeliveries = day.getDeliverTo().stream();
+			
+			List<CartDelivery> filtered = cartDeliveries.filter(delivery -> scheduleId.equalsIgnoreCase(delivery.getSchedule().getGuid())).collect(Collectors.toList());
+			day.setDeliverTo(filtered);
+
+			for(Shift shift: day.getShifts()) {
+				List<PublisherAssignment> filteredAssignments = shift.getAssignments().stream().
+						filter(assignment -> this.filterAssignmentsByScheduleId(assignment, scheduleId)).
+						collect(Collectors.toList());
+				shift.setAssignments(filteredAssignments);
+			}
+			
+			calendar.setTime(day.getDate());
+			if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY || weeks.size() == 0) {
+				week = new ServiceWeek();
+				week.setName(calendar.get(Calendar.WEEK_OF_YEAR) + "");
+				weeks.add(week);
+			}
+			week.getWeekDays().add(day);
+		}
+		return weeks;
+	}
+	
+	private boolean filterAssignmentsByScheduleId(PublisherAssignment assignment, String scheduleId) {
+		CartSchedule currentSchedule = assignment.getSchedule();
+		if(currentSchedule == null) {
+			return false;
+		}
+		
+		return scheduleId.equalsIgnoreCase(currentSchedule.getGuid());
+	}
 }

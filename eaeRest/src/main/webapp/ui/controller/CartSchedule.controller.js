@@ -17,6 +17,7 @@ sap.ui.define([
 				var periodId = oEvent.getParameter("arguments").periodId;
 				var scheduleId = oEvent.getParameter("arguments").scheduleId;
 				this._sScheduleId = scheduleId;
+				this._sPeriodId = periodId;
 				this.loadSericeDays(periodId);
 				objectPage.bindElement("/Schedule/" + periodId);
 			}.bind(this));
@@ -92,8 +93,13 @@ sap.ui.define([
 		onWhatsup : function(oEvent) {
 			var oSource = oEvent.getSource();
 			var phoneNumber = oSource.data("phone");
-//			sap.m.URLHelper.redirect("whatsapp://contact/?phone=" + phoneNumber);
 			sap.m.URLHelper.redirect("https://api.whatsapp.com/send?phone=" + phoneNumber);
+			
+		},
+		
+		onDownloadPdfSchedule : function(oEvent) {
+			var oModel = this.getView().getModel();
+			sap.m.URLHelper.redirect("rest/cartSchedule/downloadPdf/period/" + this._sPeriodId + "/schedule/" + this._sScheduleId);
 			
 		}
 
