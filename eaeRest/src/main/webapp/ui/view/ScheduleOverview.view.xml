@@ -26,7 +26,7 @@
 						<uxap:subSections>
 							<uxap:ObjectPageSubSection blocks="{path:'weekDays', templateShareable:true}">
 								<uxap:actions>
-									<Button icon="sap-icon://email" text="{parts:['i18n>sendInvitationForWeek', 'name']}" type="Transparent" press="onSendInvitesForWeek"></Button>
+									<!-- <Button icon="sap-icon://email" text="{parts:['i18n>sendInvitationForWeek', 'name']}" type="Transparent" press="onSendInvitesForWeek"></Button> -->
 								</uxap:actions>
 								<uxap:blocks>
 										<FlexBox

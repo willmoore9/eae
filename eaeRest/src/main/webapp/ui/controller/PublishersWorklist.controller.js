@@ -112,6 +112,14 @@ sap.ui.define([
 			var iPubCount = oEvent.getSource().getBinding("items").getLength();
 			
 			oTableHeader.setText(oPublishersText + "(" + iPubCount + ")");
+		},
+		
+		onItemPressed : function (oEvent) {
+			var oCtx = oEvent.getParameter("listItem").getBindingContext();
+			var oRouter = this.getOwnerComponent().getRouter();
+			oRouter.navTo("publisherProfile",{
+				publisherId : oCtx.getObject().guid
+			});
 		}
 	});
 });

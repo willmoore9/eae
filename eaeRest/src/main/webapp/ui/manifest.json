@@ -123,7 +123,7 @@
 			"target" : "login"
 		},
 		{
-			"pattern" : "publisherProfile/{publisherId}",
+			"pattern" : "publisherProfile/{publisherId}/:isMyAccount:",
 			"name" : "publisherProfile",
 			"target" : "publisherProfile"
 		}

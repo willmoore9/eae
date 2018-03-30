@@ -6,10 +6,25 @@ sap.ui.define([
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("publisherProfile").attachPatternMatched(function(oEvent){
 //				var objectPage = this.getView().byId("pubProfilePage");
+				this._periodId = oEvent.getParameter("arguments").publisherId;
+//				this.readUserInfo(this._periodId);
 				this.getOwnerComponent().readCurrentUserInfo();
+				debugger;
 			}.bind(this));
 		},
 		
+		readUserInfo : function(sUserId) {
+			var oModel = this.getModel();
+			oModel.read("rest/landing").then(function(oData){
+				this.getModel().setProperty("/PublisherData/Publisher",oData.publisher);
+				this.getModel().setProperty("/PublisherData/Period",oData.currentPeriod);
+				this.getModel().setProperty("/PublisherData/SharedSchedules",oData.sharedSchedules);
+			}.bind(this)).catch(function(data){
+				if(data.status === 401) {
+					this.getRouter().navTo("login");
+				}
+			}.bind(this));
+		},
 		
 		onNavBack : function(oEvent) {
 			var oRouter = this.getOwnerComponent().getRouter();

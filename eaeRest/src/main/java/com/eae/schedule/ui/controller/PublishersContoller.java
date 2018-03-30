@@ -177,4 +177,13 @@ public class PublishersContoller {
 		return response;
 	}
 	
+	@RequestMapping(value = "/read/{publisherId}", method = RequestMethod.GET)
+	public Response<Publisher> readPublisher(@PathVariable(value="publisherId") String publisherId) {
+		Response<Publisher> response = new Response<Publisher>();
+		Publisher publisher = this.publisherRepo.findById(publisherId).get();
+		response.addObject(publisher);
+		response.setSuccessful(true);
+		return response;
+	}
+	
 }

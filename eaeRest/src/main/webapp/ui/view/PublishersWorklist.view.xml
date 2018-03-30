@@ -5,7 +5,7 @@
 		<semantic:content>
 			<Table id="table" class="sapUiResponsiveMargin sapUiNoMarginTop"
 				growing="true" growingScrollToLoad="true" width="auto" 	mode="Delete" delete="handleDeletePublisher"
-				selectionChange="onSelectedPeriod" updateFinished="handleUpdateBinding"
+				selectionChange="onSelectedPeriod" updateFinished="handleUpdateBinding" itemPress="onItemPressed"
 				items="{
 							path: '/Publishers'
 						}">
@@ -51,7 +51,7 @@
 					</Column>
 				</columns>
 				<items>
-					<ColumnListItem>
+					<ColumnListItem type="Active">
 						<cells>
 							<Text text="{name}" />								
 							<Text text="{surname}" />	

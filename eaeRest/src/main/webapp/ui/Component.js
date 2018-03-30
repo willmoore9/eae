@@ -16,6 +16,9 @@ sap.ui.define([
 				Schedule : {},
 				PublisherData : {},
 				Publishers : [],
+				Temp : {
+					PublisherEdit : {}
+				},
 				ui: {
 					createPeriod : {
 						cartPoint : {
