@@ -6,19 +6,18 @@ sap.ui.define([
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("publisherProfile").attachPatternMatched(function(oEvent){
 //				var objectPage = this.getView().byId("pubProfilePage");
-				this._periodId = oEvent.getParameter("arguments").publisherId;
-//				this.readUserInfo(this._periodId);
+				this._publisherId = oEvent.getParameter("arguments").publisherId;
+				this._isEditMyProfile = oEvent.getParameter("arguments").isMyAccount;
 				this.getOwnerComponent().readCurrentUserInfo();
-				debugger;
+				this._readUserInfo(this._publisherId);
 			}.bind(this));
 		},
 		
-		readUserInfo : function(sUserId) {
-			var oModel = this.getModel();
-			oModel.read("rest/landing").then(function(oData){
-				this.getModel().setProperty("/PublisherData/Publisher",oData.publisher);
-				this.getModel().setProperty("/PublisherData/Period",oData.currentPeriod);
-				this.getModel().setProperty("/PublisherData/SharedSchedules",oData.sharedSchedules);
+		_readUserInfo : function(sUserId) {
+			var oModel = this.getView().getModel();
+			oModel.read("rest/publishers/read/" + sUserId).then(function(oData){
+				oModel.setProperty("/Temp/PublisherEdit/",oData.objects[0]);
+				debugger;				
 			}.bind(this)).catch(function(data){
 				if(data.status === 401) {
 					this.getRouter().navTo("login");
@@ -28,16 +27,20 @@ sap.ui.define([
 		
 		onNavBack : function(oEvent) {
 			var oRouter = this.getOwnerComponent().getRouter();
-			oRouter.navTo("landingPage");
+			if(this._isEditMyProfile) {
+				oRouter.navTo("landingPage");	
+			} else {
+				oRouter.navTo("overviewPublishers");
+			}
 			
-//			this.onCreatePublisherPress();
 		},
 		
 		onCreatePublisherPress : function() {
+			var oParams = this._getEditPublisher();
 			var oModel = this.getView().getModel();
-			var oParams = oModel.getProperty("/PublisherData/Publisher");
 			sap.ui.core.BusyIndicator.show();
-			oModel.createObject("rest/publishers/update/",
+			var sUpdatePath = this._isEditMyProfile ?  "rest/publishers/updateMyProfile" : "rest/publishers/update/";
+			oModel.createObject(sUpdatePath,
 					JSON.stringify(oParams),
 					"POST",
 					"/Publishers", 
@@ -65,6 +68,11 @@ sap.ui.define([
 				sap.m.MessageToast.show(sErrorMessage);
 				oEvent.getSource().setValue("");
 			}
+		},
+		
+		_getEditPublisher : function() {
+			var oModel = this.getView().getModel();
+			return oModel.getProperty("/Temp/PublisherEdit");
 		}
 	});
 });

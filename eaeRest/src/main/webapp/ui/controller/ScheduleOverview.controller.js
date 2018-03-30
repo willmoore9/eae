@@ -7,16 +7,12 @@ sap.ui.define([
 		onInit : function(){
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("overviewSchedule").attachPatternMatched(function(oEvent){
-				var objectPage = this.getView().byId("schedulePage");
+				var objectPage = this.getView().byId("overviewSchedule");
 				var periodId = oEvent.getParameter("arguments").periodId;
 				var scheduleId = oEvent.getParameter("arguments").scheduleId;
 				this._sScheduleId = scheduleId;
 				this.loadSericeDays(periodId);
 				objectPage.bindElement("/Schedule/" + periodId);
-				
-//				this.getView().byId("sharePeridodButton").bindProperty("visible", "{= ${/CartSchedules/" + scheduleId + "/isShared}}");
-//				this.getView().byId("unSharePeridodButton").bindProperty("visible", "/CartSchedules/" + scheduleId + "/isShared");
-				
 			}.bind(this));
 		},
 		

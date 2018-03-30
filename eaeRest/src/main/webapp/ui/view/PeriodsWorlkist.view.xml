@@ -1,7 +1,7 @@
 <mvc:View controllerName="org.eae.tools.controller.PeriodsWorlkist"
 	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m" xmlns:u="sap.ui.unified">
 	<semantic:FullscreenPage id="periodWorklist"
-		navButtonPress="onNavBack" showNavButton="true" title="{i18n>servicePeriodWorklist}">
+		navButtonPress="onNavBack" showNavButton="true" title="{i18n>servicePeriodWorklist}" showFooter="false">
 		<semantic:content>
 			<Table id="table" class="sapUiResponsiveMargin sapUiNoMarginTop"
 				growing="true" growingScrollToLoad="true" noDataText="{i18n>noServicePeriod}"

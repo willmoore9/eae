@@ -64,6 +64,20 @@ public class PublishersContoller {
 		return response;
 	}
 	
+	@RequestMapping(value="/updateMyProfile", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
+	public Response<Publisher> updateMyProfile(@RequestBody Publisher publisher) {
+		Response<Publisher> response = this.updatePublisher(publisher);
+		Publisher savedPublisher = response.getObjects().get(0);
+		if(savedPublisher != null) {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			@SuppressWarnings("unchecked")
+			List<GrantedAuthority> grantedAuths = (List<GrantedAuthority>) authentication.getAuthorities();
+			Authentication auth = new UsernamePasswordAuthenticationToken(savedPublisher, savedPublisher.getEmail() + ":" + savedPublisher.getPinCode(), grantedAuths);
+			SecurityContextHolder.getContext().setAuthentication(auth);
+		}
+		return response;
+	}
+	
 	@RequestMapping(value="/update", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
 	public Response<Publisher> updatePublisher(@RequestBody Publisher publisher) {
 		Response<Publisher> response = new Response<Publisher>();
@@ -81,15 +95,6 @@ public class PublishersContoller {
 			}
 
 			this.publisherRepo.saveAndFlush(savedPublisher);
-			
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			@SuppressWarnings("unchecked")
-			List<GrantedAuthority> grantedAuths = (List<GrantedAuthority>) authentication.getAuthorities();
-			Authentication auth = new UsernamePasswordAuthenticationToken(savedPublisher, savedPublisher.getEmail() + ":" + savedPublisher.getPinCode(), grantedAuths);
-			
-			SecurityContextHolder.getContext().setAuthentication(auth);
-			
-			response.addObject(savedPublisher);	
 		}
 		
 		

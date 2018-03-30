@@ -7,13 +7,13 @@
 	xmlns:l="sap.ui.layout"
 	xmlns:core="sap.ui.core">
 		<semantic:FullscreenPage id="overviewSchedule"
-		navButtonPress="onNavBack" showNavButton="true" title="{i18n>servicePeriodWorklist}">
+		navButtonPress="onNavBack" showNavButton="true" title="{path:'info', formatter:'.formatHeaderTitle'}"  showFooter="false">
 			<uxap:ObjectPageLayout id="schedulePage" enableLazyLoading="false" subSectionLayout="TitleOnLeft"
 					  showTitleInHeaderContent="true" showHeaderContent="false"
 					  sections="{weeks}" showOnlyHighImportance="true" flexEnabled="true"
 					  >
 				<uxap:headerTitle>
-					<uxap:ObjectPageHeader objectTitle="{path:'info', formatter:'.formatHeaderTitle'}">
+					<uxap:ObjectPageHeader objectTitle="">
 					
 					<uxap:actions>
 						<uxap:ObjectPageHeaderActionButton id="sharePerdiodButton" icon="sap-icon://share-2" text="{i18n>share}" hideText="false" type="Emphasized" press="onShareSchedule" visible="{= !${cartSchedule/isShared}}"/>

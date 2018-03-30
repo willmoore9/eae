@@ -6,13 +6,13 @@
 	xmlns:semantic="sap.m.semantic" 
 	xmlns:core="sap.ui.core">
 		<semantic:FullscreenPage id="cartSchedule"
-		navButtonPress="onNavBack" showNavButton="true" title="{i18n>shiftSchedule}">
+		navButtonPress="onNavBack" showNavButton="true" title="{path:'info', formatter:'.formatHeaderTitle'}" showFooter="false">
 			<uxap:ObjectPageLayout id="cartSchedulePage" enableLazyLoading="false" subSectionLayout="TitleOnLeft"
-					  showTitleInHeaderContent="true" showHeaderContent="false"
+					  showTitleInHeaderContent="false" showHeaderContent="false"
 					  sections="{weeks}" showOnlyHighImportance="true" flexEnabled="true"
 					  >
 				<uxap:headerTitle>
-					<uxap:ObjectPageHeader objectTitle="{path:'info', formatter:'.formatHeaderTitle'}" objectSubtitle="{cartSchedule/cart/name}">				
+					<uxap:ObjectPageHeader objectTitle="{cartSchedule/cart/name}">				
 						<uxap:actions>
 							<uxap:ObjectPageHeaderActionButton id="pdfSchedule" icon="sap-icon://pdf-attachment"  hideText="false" press="onDownloadPdfSchedule"/>
 						</uxap:actions>

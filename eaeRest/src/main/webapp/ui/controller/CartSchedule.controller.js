@@ -13,7 +13,7 @@ sap.ui.define([
 		onInit : function(){
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("cartSchedule").attachPatternMatched(function(oEvent){
-				var objectPage = this.getView().byId("cartSchedulePage");
+				var objectPage = this.getView().byId("cartSchedule");
 				var periodId = oEvent.getParameter("arguments").periodId;
 				var scheduleId = oEvent.getParameter("arguments").scheduleId;
 				this._sScheduleId = scheduleId;

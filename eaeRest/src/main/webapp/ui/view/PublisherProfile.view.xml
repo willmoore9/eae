@@ -24,25 +24,26 @@
 										adjustLabelSpan="false" title="{i18n>basicInfo}">
 
 										<Label text="{i18n>name}" />
-										<Input value="{/PublisherData/Publisher/name}" />
+										<Input value="{/Temp/PublisherEdit/name}" />
 										
 										<Label text="{i18n>surename}" />
-										<Input value="{/PublisherData/Publisher/surname}" />
+										<Input value="{/Temp/PublisherEdit/surname}" />
 										
 										<Label text="{i18n>congregation}" />
-										<Input value="{/PublisherData/Publisher/congregation}" />
+										<Input value="{/Temp/PublisherEdit/congregation}" />
 										
 										<Label text="{i18n>phoneNumber}" />
-										<Input value="{/PublisherData/Publisher/telephone}"  type="Tel"  />
+										<Input value="{/Temp/PublisherEdit/telephone}"  type="Tel"  />
 									</forms:SimpleForm>	
 									
 									<forms:SimpleForm layout="ResponsiveGridLayout"
 										labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
 										adjustLabelSpan="false" singleContainerFullSize="false" title="{i18n>authorization}">
 										<Label text="{i18n>email}"  type="Email" />
-										<Input value="{/PublisherData/Publisher/email}" />
+										<Input value="{/Temp/PublisherEdit/email}" />
 										<Label text="{i18n>pinCode}" />
-										<Input value="{/PublisherData/Publisher/pinCode}" type="Password" liveChange="onLivePasswordChange"/>
+										
+										<Input value="{/Temp/PublisherEdit/pinCode}" type="Password" liveChange="onLivePasswordChange"/>
 									</forms:SimpleForm>
 									
 								</uxap:blocks>
