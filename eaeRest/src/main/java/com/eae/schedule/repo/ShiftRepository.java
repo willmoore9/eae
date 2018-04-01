@@ -1,7 +1,6 @@
 package com.eae.schedule.repo;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;

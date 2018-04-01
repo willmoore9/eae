@@ -1,9 +1,12 @@
 package com.eae.schedule.ui.controller;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +26,10 @@ import com.eae.schedule.repo.PublisherAssignmentRepository;
 import com.eae.schedule.repo.PublisherRepository;
 import com.eae.schedule.repo.ServiceDayRepository;
 import com.eae.schedule.repo.ShiftRepository;
+import com.eae.schedule.ui.DtoUtils;
 import com.eae.schedule.ui.exception.PublisherAlreadyBookedException;
 import com.eae.schedule.ui.model.Response;
+import com.eae.schedule.ui.model.ServiceWeek;
 import com.eae.schedule.ui.model.StatusCode;
 
 @RestController
@@ -281,6 +286,27 @@ public class ShiftsController {
     	
     	day.getDeliverTo().add(deliverTo);
     	this.daysRepo.save(day);
+    	return response;
+    }
+	
+	
+	@RequestMapping(value="/approvedShifts/publisher/{publisherId}", method=RequestMethod.GET)
+    public Response<ServiceWeek> loadAssignedShiftsToUser(@PathVariable(value="publisherId") String publisherId) {
+    	Response<ServiceWeek> response = new Response<ServiceWeek>();
+    	Publisher publisher = this.pubisherRepo.findById(publisherId).get();
+    	
+    	Calendar cal = Calendar.getInstance();
+    	int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+    	cal.add(Calendar.DATE, -(dayOfWeek - 1));
+    	Date after = cal.getTime();
+    	cal.add(Calendar.WEEK_OF_YEAR, 2);
+    	Date before = cal.getTime();
+    	
+    	List<ServiceDay> days = this.daysRepo.findServiceDayByShiftsAssignmentsPublisherAndShiftsAssignmentsScheduleIsNotNullAndDateBetween(publisher, after,before, Sort.by("date"));
+    	
+    	List<ServiceWeek> weeks = DtoUtils.groupByWeeks(days, null);
+    	
+    	response.setObjects(weeks);
     	return response;
     }
 }

@@ -126,6 +126,11 @@
 			"pattern" : "publisherProfile/{publisherId}/:isMyAccount:",
 			"name" : "publisherProfile",
 			"target" : "publisherProfile"
+		},
+		{
+			"pattern" : "myShifts/{publisherId}",
+			"name" : "myShifts",
+			"target" : "myShifts"
 		}
 
 	  ],
@@ -176,6 +181,11 @@
 		},
 		"publisherProfile" : {
 		  "viewName" : "PublisherProfile",
+		  "viewLevel" : 2
+		
+		},
+		"myShifts" : {
+		  "viewName" : "MyShifts",
 		  "viewLevel" : 2
 		
 		}

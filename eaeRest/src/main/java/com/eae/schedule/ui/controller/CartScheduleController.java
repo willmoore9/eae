@@ -35,6 +35,7 @@ import com.eae.schedule.repo.PublisherAssignmentRepository;
 import com.eae.schedule.repo.ServiceDayRepository;
 import com.eae.schedule.repo.ServicePeriodRepository;
 import com.eae.schedule.repo.ShiftRepository;
+import com.eae.schedule.ui.DtoUtils;
 import com.eae.schedule.ui.model.Response;
 import com.eae.schedule.ui.model.ServiceWeek;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -133,6 +134,7 @@ public class CartScheduleController {
     	bufferBody.append(dateFormat.format(shift.getStarts()));
     	bufferBody.append("\n\r");
     	bufferBody.append("From/Von ").append(timeFormat.format(shift.getStarts())).append(" ").append("to/bis ").append(timeFormat.format(shift.getEnds()));
+    	bufferBody.append("\n\r");
     	bufferBody.append("Antworten Sie Nicht/Do not reply");
     	
     	List<PublisherAssignment> assignments = publisherAssignmentRepo.findPublisherAssignmentByScheduleGuidAndShiftGuid(scheduleId, shiftId);
@@ -200,47 +202,6 @@ public class CartScheduleController {
     	Date before = cal.getTime();
     	
     	List<ServiceDay> serviceDays = this.daysRepo.findServiceDayByPeriodAndDateBetween(period, after, before, Sort.by("date"));
-    	return groupByWeeks(serviceDays, period, scheduleId);
-	}
-	
-	private List<ServiceWeek> groupByWeeks(List<ServiceDay> serviceDays, ServicePeriod period, final String scheduleId) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setFirstDayOfWeek(Calendar.MONDAY);
-		
-		List<ServiceWeek> weeks = new ArrayList<ServiceWeek>();
-		ServiceWeek week = new ServiceWeek();
-		week.setPeriod(period);
-		
-		for(ServiceDay day : serviceDays) {
-			Stream<CartDelivery> cartDeliveries = day.getDeliverTo().stream();
-			
-			List<CartDelivery> filtered = cartDeliveries.filter(delivery -> scheduleId.equalsIgnoreCase(delivery.getSchedule().getGuid())).collect(Collectors.toList());
-			day.setDeliverTo(filtered);
-
-			for(Shift shift: day.getShifts()) {
-				List<PublisherAssignment> filteredAssignments = shift.getAssignments().stream().
-						filter(assignment -> this.filterAssignmentsByScheduleId(assignment, scheduleId)).
-						collect(Collectors.toList());
-				shift.setAssignments(filteredAssignments);
-			}
-			
-			calendar.setTime(day.getDate());
-			if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY || weeks.size() == 0) {
-				week = new ServiceWeek();
-				week.setName(calendar.get(Calendar.WEEK_OF_YEAR) + "");
-				weeks.add(week);
-			}
-			week.getWeekDays().add(day);
-		}
-		return weeks;
-	}
-	
-	private boolean filterAssignmentsByScheduleId(PublisherAssignment assignment, String scheduleId) {
-		CartSchedule currentSchedule = assignment.getSchedule();
-		if(currentSchedule == null) {
-			return false;
-		}
-		
-		return scheduleId.equalsIgnoreCase(currentSchedule.getGuid());
+    	return DtoUtils.groupByWeeks(serviceDays, period, scheduleId);
 	}
 }

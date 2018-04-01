@@ -19,6 +19,17 @@
 			</tileContent>
 		</GenericTile>	
 		
+		<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+			header="{i18n>myAssignedShifts}" 
+			press="navigateToMyShifts" visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
+			<tileContent>
+				<TileContent unit="" footer="{parts:[{path:'/PublisherData/Period/starts'},{path:'/PublisherData/Period/ends'}], formatter:'.formatPeriodDates'}">
+					<content>
+						<ImageContent src="sap-icon://appointment" />
+					</content>
+				</TileContent>
+			</tileContent>
+		</GenericTile>	
 	</Panel>
 	<Panel headerText="{i18n>schedulesTiles}" id="scheduleTiles" content="{/PublisherData/SharedSchedules}" visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
 		

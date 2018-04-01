@@ -4,35 +4,25 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eae.schedule.model.CartDelivery;
-import com.eae.schedule.model.CartSchedule;
-import com.eae.schedule.model.PublisherAssignment;
 import com.eae.schedule.model.ServiceDay;
 import com.eae.schedule.model.ServicePeriod;
 import com.eae.schedule.model.Shift;
 import com.eae.schedule.repo.ServiceDayRepository;
 import com.eae.schedule.repo.ServicePeriodRepository;
+import com.eae.schedule.ui.DtoUtils;
 import com.eae.schedule.ui.model.Response;
 import com.eae.schedule.ui.model.ServiceWeek;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/periods")
@@ -133,7 +123,7 @@ public class SerivePeriodsController {
     	ServicePeriod period = this.periodRepo.findById(periodId).get();
 
     	List<ServiceDay> serviceDays = this.daysRepo.findServiceDayByPeriod(period, Sort.by("date"));
-    	List<ServiceWeek> serviceWeeks = groupByWeeks(serviceDays, period);
+    	List<ServiceWeek> serviceWeeks = DtoUtils.groupByWeeks(serviceDays, period);
     	response.setObjects(serviceWeeks);
     	
     	return response;
@@ -152,7 +142,7 @@ public class SerivePeriodsController {
     	cal.add(Calendar.DATE, -(dayOfWeek - 1));
     	
     	List<ServiceDay> serviceDays = this.daysRepo.findServiceDayByPeriod(period, Sort.by("date"));
-    	List<ServiceWeek> serviceWeeks = groupByWeeks(serviceDays, period, scheduleId);
+    	List<ServiceWeek> serviceWeeks = DtoUtils.groupByWeeks(serviceDays, period, scheduleId);
     	response.setObjects(serviceWeeks);
     	
     	return response;
@@ -180,73 +170,11 @@ public class SerivePeriodsController {
     	Date before = cal.getTime();
     	
     	List<ServiceDay> serviceDays = this.daysRepo.findServiceDayByPeriodAndDateBetween(period, after, before, Sort.by("date"));
-    	List<ServiceWeek> serviceWeeks = groupByWeeks(serviceDays, period, scheduleId);
+    	List<ServiceWeek> serviceWeeks = DtoUtils.groupByWeeks(serviceDays, period, scheduleId);
     	response.setObjects(serviceWeeks);
     	
     	return response;
     }
-	private List<ServiceWeek> groupByWeeks(List<ServiceDay> serviceDays, ServicePeriod period, final String scheduleId) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setFirstDayOfWeek(Calendar.MONDAY);
-		
-		List<ServiceWeek> weeks = new ArrayList<ServiceWeek>();
-		ServiceWeek week = new ServiceWeek();
-		week.setPeriod(period);
-		
-		for(ServiceDay day : serviceDays) {
-			Stream<CartDelivery> cartDeliveries = day.getDeliverTo().stream();
-			
-			List<CartDelivery> filtered = cartDeliveries.filter(delivery -> scheduleId.equalsIgnoreCase(delivery.getSchedule().getGuid())).collect(Collectors.toList());
-			day.setDeliverTo(filtered);
-
-			for(Shift shift: day.getShifts()) {
-				List<PublisherAssignment> filteredAssignments = shift.getAssignments().stream().
-						filter(assignment -> this.filterAssignmentsByScheduleId(assignment, scheduleId)).
-						collect(Collectors.toList());
-				shift.setAssignments(filteredAssignments);
-			}
-			
-			calendar.setTime(day.getDate());
-			if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY || weeks.size() == 0) {
-				week = new ServiceWeek();
-				week.setName(calendar.get(Calendar.WEEK_OF_YEAR) + "");
-				weeks.add(week);
-			}
-			week.getWeekDays().add(day);
-		}
-		return weeks;
-	}
-	
-	
-	private boolean filterAssignmentsByScheduleId(PublisherAssignment assignment, String scheduleId) {
-		CartSchedule currentSchedule = assignment.getSchedule();
-		if(currentSchedule == null) {
-			return false;
-		}
-		
-		return scheduleId.equalsIgnoreCase(currentSchedule.getGuid());
-	}
-	
-	private List<ServiceWeek> groupByWeeks(List<ServiceDay> serviceDays, ServicePeriod period) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setFirstDayOfWeek(Calendar.MONDAY);
-		
-		List<ServiceWeek> weeks = new ArrayList<ServiceWeek>();
-		ServiceWeek week = new ServiceWeek();
-		week.setPeriod(period);
-		
-		for(ServiceDay day : serviceDays) {
-			day.getShifts().isEmpty();
-			calendar.setTime(day.getDate());
-			if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY || weeks.size() == 0) {
-				week = new ServiceWeek();
-				week.setName(calendar.get(Calendar.WEEK_OF_YEAR) + "");
-				weeks.add(week);
-			}
-			week.getWeekDays().add(day);
-		}
-		return weeks;
-	}
 	
     @RequestMapping(path="/delete/{periodId}", method=RequestMethod.DELETE)
     public Response<Object> deletePeriod(@PathVariable(name="periodId", required=true) String periodId) {
@@ -284,27 +212,5 @@ public class SerivePeriodsController {
     	period.setIsShared(false);
     	this.periodRepo.save(period);
     	return period;
-    }
-    
-//    @RequestMapping(path="/readWeek/{periodId}/{from}/{to}", method=RequestMethod.GET)
-//    public ServicePeriod readWeek(@PathVariable(name="periodId", required=true) String periodId,@PathVariable(name="from", required=true) String from, @PathVariable(name="to", required=true) String to){
-//    	ServicePeriod period = this.periodRepo.findById(periodId).get();
-//    	period.setIsShared(false);
-//    	this.periodRepo.save(period);
-//    	return period;
-//    }
-    
-    @RequestMapping(path="/download/{periodId}", method=RequestMethod.GET)
-    public ResponseEntity<byte[]> downloadPeriod(@PathVariable(name="periodId", required=true) String periodId) throws JsonProcessingException {
-    	ServicePeriod period = this.periodRepo.findById(periodId).get();
-	    ObjectMapper mapper = new ObjectMapper();
-	    byte[] output = mapper.writeValueAsBytes(period);
-
-	    HttpHeaders responseHeaders = new HttpHeaders();
-	    responseHeaders.set("charset", "utf-8");
-	    responseHeaders.setContentType(MediaType.valueOf("text/json"));
-	    responseHeaders.setContentLength(output.length);
-	    responseHeaders.set("Content-disposition", "attachment; filename=Period(" + period.getName() + ").json");
-	    return new ResponseEntity<byte[]>(output, responseHeaders, HttpStatus.OK);
     }
 }

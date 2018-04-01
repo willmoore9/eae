@@ -18,21 +18,7 @@
 					<Toolbar>
 						<Title id="tableHeader" text="{worklistView>/worklistTableTitle}" />
 						<ToolbarSpacer />
-													
-						<!-- <u:FileUploader
-									id="periodFileUploader"
-									name="uploadJSON"
-									tooltip="{i18n>uploadPeriod}"
-									uploadOnChange="true"
-									iconOnly="true"
-									uploadUrl="rest/periods/upload"
-									useMultipart="false"
-									sendXHR="true"
-									uploadComplete="onImportPeriodSuccess"
-									buttonOnly="true"
-									icon="sap-icon://upload"
-									/>
-						<Button style="Lite" icon="sap-icon://download" press="onDownloadPeriodPress"></Button> -->
+
 						<Button style="Lite" icon="sap-icon://add" press="onAddPeriodPress"></Button>
 						<Button style="Lite" icon="sap-icon://delete" press="onDeletePeriodPress"></Button>
 						<SearchField id="searchField" search="onSearch"
@@ -49,9 +35,6 @@
 					<Column id="dateToColumn">
 						<Text id="dateTo" text="{i18n>dateTo}" />
 					</Column>
-<!-- 					<Column id="yearColumn">
-						<Text id="year" text="{i18n>year}" />
-					</Column> -->
 				</columns>
 				<items>
 					<ColumnListItem press="onNavigateToPeriod" type="Navigation">
@@ -67,7 +50,6 @@
 									formatter: '._formatDate'
 							}" />	
 								
-							<!-- <Text text="{year}" /> -->
 						</cells>
 					</ColumnListItem>
 				</items>

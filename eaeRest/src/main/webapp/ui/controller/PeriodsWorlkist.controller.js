@@ -134,14 +134,6 @@ sap.ui.define([
 		
 		beforeOpenAddServicePeriod : function() {
 			this.getView().getModel().fetchData("rest/cartLocations", "/CartLocations", true);
-		},
-		
-		onDownloadPeriodPress : function(oEvent) {
-			if(!this._oSelected) {
-				return;
-			}			
-			var oModel = this.getView().getModel();
-			sap.m.URLHelper.redirect("rest/periods/download/" + this._oSelected.getBindingContext().getProperty("guid"));		
 		}
 	});
 });
