@@ -30,6 +30,7 @@ sap.ui.define([
 		},
 
 		formatShiftAssignmentVisibility : function(oSchedule) {
+			debugger;
 			if(!oSchedule) {
 				return false;
 			} 

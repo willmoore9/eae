@@ -304,6 +304,14 @@ public class ShiftsController {
     	
     	List<ServiceDay> days = this.daysRepo.findServiceDayByShiftsAssignmentsPublisherAndShiftsAssignmentsScheduleIsNotNullAndDateBetween(publisher, after,before, Sort.by("date"));
     	
+    	for(ServiceDay day : days) {
+    		for(Shift shift : day.getShifts()) {
+    			for(PublisherAssignment assign : shift.getAssignments()) {
+    				
+    			}
+    		}
+    	}
+    	
     	List<ServiceWeek> weeks = DtoUtils.groupByWeeks(days, null);
     	
     	response.setObjects(weeks);

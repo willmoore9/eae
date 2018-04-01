@@ -30,7 +30,7 @@
 			
 			<StandardListItem title="{publisher/name} {publisher/surname}" infoState="Error" 
 			iconDensityAware="false" type="Active" press=".onShiftPublisherPress" info="{= ${isCartCarrier} ? '#' : '' }"
-			 highlight="{= ${isShiftLeader} ? 'Success' : ${publisher/name}.indexOf('needed') > 0 ? 'Error'  : 'None'}"/>
+			visible="{path:'', formatter:'.formatShiftAssignmentVisibility'}" highlight="{= ${isShiftLeader} ? 'Success' : ${publisher/name}.indexOf('needed') > 0 ? 'Error'  : 'None'}"/>
 			
 		</items>
 	</List>

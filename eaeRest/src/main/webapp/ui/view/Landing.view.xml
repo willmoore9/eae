@@ -21,7 +21,7 @@
 		
 		<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
 			header="{i18n>myAssignedShifts}" 
-			press="navigateToMyShifts" visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
+			press="navigateToMyShifts" visible="false">
 			<tileContent>
 				<TileContent unit="" footer="{parts:[{path:'/PublisherData/Period/starts'},{path:'/PublisherData/Period/ends'}], formatter:'.formatPeriodDates'}">
 					<content>
