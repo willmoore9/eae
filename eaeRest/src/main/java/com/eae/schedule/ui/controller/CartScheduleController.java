@@ -205,6 +205,7 @@ public class CartScheduleController {
 	
 	private List<ServiceWeek> groupByWeeks(List<ServiceDay> serviceDays, ServicePeriod period, final String scheduleId) {
 		Calendar calendar = Calendar.getInstance();
+		calendar.setFirstDayOfWeek(Calendar.MONDAY);
 		
 		List<ServiceWeek> weeks = new ArrayList<ServiceWeek>();
 		ServiceWeek week = new ServiceWeek();
