@@ -42,8 +42,12 @@
 										<Label text="{i18n>email}"  type="Email" />
 										<Input value="{/Temp/PublisherEdit/email}" />
 										<Label text="{i18n>pinCode}" />
-										
+																				
 										<Input value="{/Temp/PublisherEdit/pinCode}" type="Password" liveChange="onLivePasswordChange"/>
+
+										<Label text="{i18n>isAdmin}"  visible="{/PublisherData/Publisher/isAdmin}"/>										
+										<CheckBox selected="{/Temp/PublisherEdit/isAdmin}" visible="{/PublisherData/Publisher/isAdmin}" />
+
 									</forms:SimpleForm>
 									
 								</uxap:blocks>

@@ -6,7 +6,9 @@ sap.ui.define([
 	return Controller.extend("org.eae.tools.controller.Landing", {
 		onInit : function(){
 			var oRouter = this.getOwnerComponent().getRouter();
+			
 			oRouter.getRoute("landingPage").attachPatternMatched(function(oEvent){
+				sap.ui.core.BusyIndicator.show(1000);
 				this.getOwnerComponent().readCurrentUserInfo();
 			}.bind(this));
 		},

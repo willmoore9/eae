@@ -137,10 +137,6 @@ public class SerivePeriodsController {
 
     	ServicePeriod period = this.periodRepo.findById(periodId).get();
 
-    	Calendar cal = Calendar.getInstance();
-    	int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-    	cal.add(Calendar.DATE, -(dayOfWeek - 1));
-    	
     	List<ServiceDay> serviceDays = this.daysRepo.findServiceDayByPeriod(period, Sort.by("date"));
     	List<ServiceWeek> serviceWeeks = DtoUtils.groupByWeeks(serviceDays, period, scheduleId);
     	response.setObjects(serviceWeeks);
@@ -158,14 +154,13 @@ public class SerivePeriodsController {
 
     	Calendar cal = Calendar.getInstance();
     	cal.setFirstDayOfWeek(Calendar.MONDAY);
-    	int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-    	cal.add(Calendar.DATE, - (dayOfWeek));
+    	cal.add(Calendar.DAY_OF_MONTH, -2);
     	Date after = cal.getTime();
     	cal.add(Calendar.WEEK_OF_YEAR, 2);
     	
-    	if(dayOfWeek == 1) {
-    		cal.add(Calendar.DAY_OF_WEEK, 1);
-    	}
+//    	if(dayOfWeek == 1) {
+//    		cal.add(Calendar.DAY_OF_WEEK, 1);
+//    	}
     	
     	Date before = cal.getTime();
     	

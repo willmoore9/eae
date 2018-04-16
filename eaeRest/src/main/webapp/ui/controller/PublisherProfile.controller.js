@@ -8,8 +8,12 @@ sap.ui.define([
 //				var objectPage = this.getView().byId("pubProfilePage");
 				this._publisherId = oEvent.getParameter("arguments").publisherId;
 				this._isEditMyProfile = oEvent.getParameter("arguments").isMyAccount;
-				this.getOwnerComponent().readCurrentUserInfo();
-				this._readUserInfo(this._publisherId);
+				if(this._isEditMyProfile) {
+					this.getOwnerComponent().readCurrentUserInfo();	
+				} else {
+					this._readUserInfo(this._publisherId);
+				}				
+				
 			}.bind(this));
 		},
 		
@@ -17,7 +21,6 @@ sap.ui.define([
 			var oModel = this.getView().getModel();
 			oModel.read("rest/publishers/read/" + sUserId).then(function(oData){
 				oModel.setProperty("/Temp/PublisherEdit/",oData.objects[0]);
-				debugger;				
 			}.bind(this)).catch(function(data){
 				if(data.status === 401) {
 					this.getRouter().navTo("login");

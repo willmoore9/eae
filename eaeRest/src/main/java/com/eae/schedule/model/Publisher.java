@@ -2,8 +2,12 @@ package com.eae.schedule.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -47,8 +51,12 @@ public class Publisher extends BaseObject implements Serializable {
 	@Column(name="PIN_CODE", length = 8)
 	private Integer pinCode = 101914;
 	
-//	@Column(name="LANG", length = 8)
-//	private String language;
+	@Column(name="LANG", length = 8)
+	private String language;
+	
+	@OneToOne(cascade={CascadeType.REMOVE}, fetch=FetchType.EAGER, optional=true)
+	@JoinColumn(name="CONSENT_GUID")
+	private Consent consent;
 	
 	@Transient
 	private Boolean wasAssignedToday;
@@ -125,13 +133,21 @@ public class Publisher extends BaseObject implements Serializable {
 		this.wasAssignedToday = wasAssignedToday;
 	}
 
-//	public String getLanguage() {
-//		return language;
-//	}
-//
-//	public void setLanguage(String language) {
-//		this.language = language;
-//	}
+	public Consent getConsent() {
+		return consent;
+	}
+
+	public void setConsent(Consent concent) {
+		this.consent = concent;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
 	
 	
 }

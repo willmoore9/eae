@@ -10,6 +10,8 @@ sap.ui.define([
     	},
 		
 		init : function(){
+			
+			console.log("Component.init");
 			UIComponent.prototype.init.apply(this, arguments);
 			
 			var oJsonModel = new EaeModel({
@@ -72,7 +74,13 @@ sap.ui.define([
 				this.getModel().setProperty("/PublisherData/Publisher",oData.publisher);
 				this.getModel().setProperty("/PublisherData/Period",oData.currentPeriod);
 				this.getModel().setProperty("/PublisherData/SharedSchedules",oData.sharedSchedules);
+				oModel.setProperty("/Temp/PublisherEdit/",oData.publisher);
+				sap.ui.core.BusyIndicator.hide();
+				if(oData.publisher.name != "eae" && (oData.publisher.consent == null || oData.publisher.consent.status == 'NO')) {
+					//this.getRouter().navTo("myConsents");
+				}
 			}.bind(this)).catch(function(data){
+				sap.ui.core.BusyIndicator.hide();
 				if(data.status === 401) {
 					this.getRouter().navTo("login");
 				}

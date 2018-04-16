@@ -2,6 +2,7 @@ package com.eae.schedule.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +21,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eae.communication.email.EmailUtils;
+import com.eae.schedule.model.Consent;
+import com.eae.schedule.model.ConsentStatus;
 import com.eae.schedule.model.Publisher;
 import com.eae.schedule.model.PublisherAssignment;
 import com.eae.schedule.model.ServicePeriod;
 import com.eae.schedule.model.Shift;
+import com.eae.schedule.repo.ConsentRepository;
 import com.eae.schedule.repo.PublisherAssignmentRepository;
 import com.eae.schedule.repo.PublisherRepository;
 import com.eae.schedule.repo.ServicePeriodRepository;
 import com.eae.schedule.repo.ShiftRepository;
 import com.eae.schedule.ui.model.LandingDTO;
 import com.eae.schedule.ui.model.Response;
+import com.eae.schedule.ui.model.StatusCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
@@ -47,6 +52,9 @@ public class PublishersContoller {
 	
 	@Autowired
 	private ShiftRepository shiftRepo;
+	
+	@Autowired
+	private ConsentRepository consentRepo;
 	
     @RequestMapping(name="/", method=RequestMethod.GET)
     public Response<Publisher> getAll() {
@@ -90,11 +98,13 @@ public class PublishersContoller {
 			savedPublisher.setCongregation(publisher.getCongregation());
 			savedPublisher.setEmail(publisher.getEmail());
 			savedPublisher.setTelephone(publisher.getTelephone());
+			savedPublisher.setIsAdmin(publisher.getIsAdmin());
 			if(publisher.getPinCode() != 0) {
 				savedPublisher.setPinCode(publisher.getPinCode());				
 			}
 
 			this.publisherRepo.saveAndFlush(savedPublisher);
+			response.addObject(savedPublisher);
 		}
 		
 		
@@ -190,5 +200,28 @@ public class PublishersContoller {
 		response.setSuccessful(true);
 		return response;
 	}
+	
+	@RequestMapping(value = "/concent/publisher/{publisherId}", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE})
+	public Response<Publisher> concent(@PathVariable(value="publisherId") String publisherId, @RequestBody Map<String, String> map) {
+		Response<Publisher> response = new Response<Publisher>();
+		Publisher publisher = this.publisherRepo.findById(publisherId).get();
+		String concentStatusConde = map.get("concentStatusCode");
+		Consent concent = new Consent();
+		if("YES".equals(concentStatusConde)) {
+			concent.setStatus(ConsentStatus.YES);
+		} else {
+			concent.setStatus(ConsentStatus.NO);
+		}
+		concent.setPublisher(publisher);
+		publisher.setConsent(concent);
+		
+		this.consentRepo.save(concent);
+		this.publisherRepo.save(publisher);
+		
+		response.addObject(publisher);
+		response.setSuccessful(true);
+		return response;
+	}
+	
 	
 }

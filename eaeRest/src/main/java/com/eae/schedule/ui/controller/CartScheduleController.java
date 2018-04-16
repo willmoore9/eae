@@ -7,8 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eae.communication.email.EmailUtils;
 import com.eae.generator.HtmlGenerator;
-import com.eae.schedule.model.CartDelivery;
 import com.eae.schedule.model.CartSchedule;
 import com.eae.schedule.model.PublisherAssignment;
 import com.eae.schedule.model.ServiceDay;
@@ -38,7 +35,6 @@ import com.eae.schedule.repo.ShiftRepository;
 import com.eae.schedule.ui.DtoUtils;
 import com.eae.schedule.ui.model.Response;
 import com.eae.schedule.ui.model.ServiceWeek;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/cartSchedule")

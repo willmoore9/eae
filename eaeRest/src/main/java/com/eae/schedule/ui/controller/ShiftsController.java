@@ -303,13 +303,12 @@ public class ShiftsController {
     	Publisher publisher = this.pubisherRepo.findById(publisherId).get();
     	
     	Calendar cal = Calendar.getInstance();
-    	int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-    	cal.add(Calendar.DATE, -(dayOfWeek - 1));
+    	cal.add(Calendar.DATE, - 2);
     	Date after = cal.getTime();
     	cal.add(Calendar.WEEK_OF_YEAR, 2);
     	Date before = cal.getTime();
     	
-    	List<ServiceDay> days = this.daysRepo.findServiceDayByShiftsAssignmentsPublisherAndShiftsAssignmentsScheduleIsNotNullAndDateBetween(publisher, after,before, Sort.by("date"));
+    	List<ServiceDay> days = this.daysRepo.findServiceDayByShiftsAssignmentsPublisherAndShiftsAssignmentsScheduleIsNotNullAndDateBetween(publisher, after, before, Sort.by("date"));
     	
     	Map<Shift, CartSchedule> shiftScheduleMap = new HashMap<Shift, CartSchedule>();
     	Set<ServiceDay> filteredDays = new HashSet<ServiceDay>();
@@ -320,8 +319,7 @@ public class ShiftsController {
     				if(assign.getPublisher().getGuid().equals(publisherId) && assign.getSchedule() != null) {
     					List<PublisherAssignment> assignFiltered = shift.getAssignments().stream().filter(allAssign -> allAssign.getSchedule() == assign.getSchedule()).collect(Collectors.toList());
     					shift.setAssignments(assignFiltered);
-    					shiftScheduleMap.put(shift, assign.getSchedule()); 
-    					
+    					shiftScheduleMap.put(shift, assign.getSchedule());
     				}
     			}
     		}

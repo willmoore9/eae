@@ -1,0 +1,43 @@
+<mvc:View 
+	controllerName="org.eae.tools.controller.ConcentOverview"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form"
+	>
+	<Panel>
+		<FormattedText htmlText="{i18n>gdprText}"/>
+	</Panel>
+	
+		<f:SimpleForm
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="1"
+			labelSpanL="1"
+			labelSpanM="1"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+			<Label text="{i18n>phoneNumber}" />
+			<MaskInput mask = "+cc ccc ccccccc"  placeholderSymbol = "+ " placeholder = "{i18n>phoneNumber}" id="telMaskedInput" change="livePhoneValidation">
+				<rules>
+					<MaskInputRule maskFormatSymbol = "c" regex = "[0-9]"/>
+				</rules>
+			</MaskInput>
+			<Label text="{i18n>agree}" />
+			<CheckBox selected="{= ${/PublisherData/Publisher/consent/status} === 'YES'}"  select="onAgree"></CheckBox>
+
+			</f:content>
+		</f:SimpleForm>	
+		<Panel>
+			<Button id="saveMyConsent" text="{i18n>ok}" press="onSave"/>
+		</Panel>
+</mvc:View>

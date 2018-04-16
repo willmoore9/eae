@@ -89,6 +89,11 @@ sap.ui.define([
 				var congregationFilter = new sap.ui.model.Filter("congregation", sap.ui.model.FilterOperator.Contains, sQuery);
 				var pinCodeFilter = new sap.ui.model.Filter("pinCode", sap.ui.model.FilterOperator.EQ, sQuery);
 				var emailFilter = new sap.ui.model.Filter("email", sap.ui.model.FilterOperator.Contains, sQuery);
+				if(sQuery.indexOf("isAdmin")==0) {
+					var isAdmin = new sap.ui.model.Filter("isAdmin", sap.ui.model.FilterOperator.EQ, true);
+					aFilters.push(isAdmin);
+				}
+				
 				aFilters.push(nameFilter);
 				aFilters.push(surnameFilter);
 				aFilters.push(congregationFilter);

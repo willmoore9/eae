@@ -131,6 +131,11 @@
 			"pattern" : "myShifts/{publisherId}",
 			"name" : "myShifts",
 			"target" : "myShifts"
+		},
+		{
+			"pattern" : "myConsents",
+			"name" : "myConsents",
+			"target" : "myConsents"
 		}
 
 	  ],
@@ -187,8 +192,12 @@
 		"myShifts" : {
 		  "viewName" : "MyShifts",
 		  "viewLevel" : 2
-		
+		},
+		"myConsents" : {
+		  "viewName" : "ConcentOverview",
+		  "viewLevel" : 2
 		}
+
 	  }
 	}
   }
