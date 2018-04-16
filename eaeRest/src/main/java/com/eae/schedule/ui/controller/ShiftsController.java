@@ -1,9 +1,16 @@
 package com.eae.schedule.ui.controller;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -304,13 +311,23 @@ public class ShiftsController {
     	
     	List<ServiceDay> days = this.daysRepo.findServiceDayByShiftsAssignmentsPublisherAndShiftsAssignmentsScheduleIsNotNullAndDateBetween(publisher, after,before, Sort.by("date"));
     	
+    	Map<Shift, CartSchedule> shiftScheduleMap = new HashMap<Shift, CartSchedule>();
+    	Set<ServiceDay> filteredDays = new HashSet<ServiceDay>();
+    	
     	for(ServiceDay day : days) {
     		for(Shift shift : day.getShifts()) {
     			for(PublisherAssignment assign : shift.getAssignments()) {
-    				
+    				if(assign.getPublisher().getGuid().equals(publisherId) && assign.getSchedule() != null) {
+    					List<PublisherAssignment> assignFiltered = shift.getAssignments().stream().filter(allAssign -> allAssign.getSchedule() == assign.getSchedule()).collect(Collectors.toList());
+    					shift.setAssignments(assignFiltered);
+    					shiftScheduleMap.put(shift, assign.getSchedule()); 
+    					
+    				}
     			}
     		}
     	}
+    	
+    	
     	
     	List<ServiceWeek> weeks = DtoUtils.groupByWeeks(days, null);
     	
