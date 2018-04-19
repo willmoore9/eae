@@ -70,15 +70,19 @@ sap.ui.define([
 		
 		readCurrentUserInfo : function() {
 			var oModel = this.getModel();
+			sap.ui.core.BusyIndicator.show(700);
 			oModel.read("rest/landing").then(function(oData){
 				this.getModel().setProperty("/PublisherData/Publisher",oData.publisher);
 				this.getModel().setProperty("/PublisherData/Period",oData.currentPeriod);
 				this.getModel().setProperty("/PublisherData/SharedSchedules",oData.sharedSchedules);
 				oModel.setProperty("/Temp/PublisherEdit/",oData.publisher);
 				sap.ui.core.BusyIndicator.hide();
-				if(oData.publisher.name != "eae" && (oData.publisher.consent == null || oData.publisher.consent.status == 'NO')) {
-					//this.getRouter().navTo("myConsents");
+				if(oData.publisher.name != "eae") {
+					if(oData.publisher.consent == null || oData.publisher.consent.status == 'NO') {
+						this.getRouter().navTo("myConsents");
+					}	
 				}
+				
 			}.bind(this)).catch(function(data){
 				sap.ui.core.BusyIndicator.hide();
 				if(data.status === 401) {

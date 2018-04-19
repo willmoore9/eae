@@ -5,16 +5,16 @@
 	xmlns:core="sap.ui.core"
 	xmlns:f="sap.ui.layout.form"
 	>
-	<Panel>
+	<Panel height="100%">
 		<FormattedText htmlText="{i18n>gdprText}"/>
-	</Panel>
+	
 	
 		<f:SimpleForm
 			editable="true"
 			layout="ResponsiveGridLayout"
-			labelSpanXL="1"
-			labelSpanL="1"
-			labelSpanM="1"
+			labelSpanXL="12" 
+			labelSpanL="12" 
+			labelSpanM="12" 
 			labelSpanS="12"
 			adjustLabelSpan="false"
 			emptySpanXL="4"
@@ -24,10 +24,11 @@
 			columnsXL="1"
 			columnsL="1"
 			columnsM="1"
+			
 			singleContainerFullSize="false" >
 			<f:content>
 			<Label text="{i18n>phoneNumber}" />
-			<MaskInput mask = "+cc ccc ccccccc"  placeholderSymbol = "+ " placeholder = "{i18n>phoneNumber}" id="telMaskedInput" change="livePhoneValidation">
+			<MaskInput mask = "+cc ccc ccccccccc"  placeholderSymbol = "+ " placeholder = "{i18n>phoneNumber}" id="telMaskedInput" change="livePhoneValidation">
 				<rules>
 					<MaskInputRule maskFormatSymbol = "c" regex = "[0-9]"/>
 				</rules>
@@ -37,7 +38,7 @@
 
 			</f:content>
 		</f:SimpleForm>	
-		<Panel>
+		
 			<Button id="saveMyConsent" text="{i18n>ok}" press="onSave"/>
 		</Panel>
 </mvc:View>

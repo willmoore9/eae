@@ -59,8 +59,14 @@ public class PublishersContoller {
     @RequestMapping(name="/", method=RequestMethod.GET)
     public Response<Publisher> getAll() {
     	Response<Publisher> response = new Response<Publisher>();
-    	List<Publisher> periods = (List<Publisher>) this.publisherRepo.findAll();
-    	response.setObjects(periods);
+    	List<Publisher> publishers = (List<Publisher>) this.publisherRepo.findAll();
+
+    	for(Publisher publisher : publishers) {
+    		publisher.setPassword(null);
+    		publisher.setPinCode(null);
+    	}
+    	
+    	response.setObjects(publishers);
         return response; 
     }
     

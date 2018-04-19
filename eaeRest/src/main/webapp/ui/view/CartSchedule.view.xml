@@ -25,12 +25,12 @@
 							<core:CustomData key="weekNumber" value="{name}"/>
 						</uxap:customData>
 						<uxap:subSections>
-							<uxap:ObjectPageSubSection blocks="{path:'weekDays', templateShareable:true}">
+							<uxap:ObjectPageSubSection id="cartWeekDays" blocks="{path:'weekDays', templateShareable:true}">
 								<uxap:blocks>
 										<FlexBox
 											direction="Column"
 											alignItems="Left"
-											renderType="Bare">
+											renderType="Bare" id="shifts">
 											<items>
 											<Panel content="{path:'shifts', templateShareable:true}">
 												<headerToolbar>
@@ -43,7 +43,7 @@
 													<core:Fragment fragmentName="org.eae.tools.view.fragments.ShiftView" type="XML"/>
 												</content>
 											</Panel>
-											<TextArea editable="false" maxLength="255" width="100%" cols="0" rows="3" change="onLocationTodeliverChange" value="{= ${deliverTo/0/location}}"/>
+											<TextArea editable="false" maxLength="255" width="100%" cols="0" rows="3" change="onLocationTodeliverChange" value="{= ${deliverTo/0/location}}" visible="{path:'deliverTo/0/location', formatter:'.formatCommentVisibility'}" />
 											</items>
 										</FlexBox>
 								</uxap:blocks>

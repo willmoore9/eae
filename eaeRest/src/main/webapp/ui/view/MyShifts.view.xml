@@ -18,12 +18,12 @@
 							<core:CustomData key="weekNumber" value="{name}"/>
 						</uxap:customData>
 						<uxap:subSections>
-							<uxap:ObjectPageSubSection blocks="{path:'weekDays', templateShareable:true}">
+							<uxap:ObjectPageSubSection id="myShiftDays" blocks="{path:'weekDays', templateShareable:true}">
 								<uxap:blocks>
 										<FlexBox
 											direction="Column"
 											alignItems="Left"
-											renderType="Bare">
+											renderType="Bare" id="shifts">
 											<items>
 											<Panel content="{path:'shifts', templateShareable:true}">
 												<headerToolbar>
@@ -33,7 +33,7 @@
 													</Toolbar>
 												</headerToolbar>
 												<content>
-													<core:Fragment fragmentName="org.eae.tools.view.fragments.MyShiftView" type="XML"/>
+													<core:Fragment fragmentName="org.eae.tools.view.fragments.MyApprovedShifts" type="XML"/>
 												</content>
 											</Panel>
 											</items>

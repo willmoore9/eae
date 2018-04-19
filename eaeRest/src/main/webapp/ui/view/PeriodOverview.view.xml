@@ -23,9 +23,9 @@
 				<uxap:sections>
 					<uxap:ObjectPageSection title="{parts:['i18n>cw', 'name']}">
 						<uxap:subSections>
-							<uxap:ObjectPageSubSection blocks="{path:'weekDays', templateShareable:true}">
+							<uxap:ObjectPageSubSection id="periodDays" blocks="{path:'weekDays', templateShareable:true}">
 								<uxap:blocks>
-									<Panel content="{path:'shifts', templateShareable:true}" backgroundDesign="Transparent">
+									<Panel content="{path:'shifts', templateShareable:true}" backgroundDesign="Transparent" id="shifts">
 										<headerToolbar>
 											<Toolbar>	
 												<Title text="{parts:['date'], formatter:'.formatUtils.formatDayTitle'}"/>

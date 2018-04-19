@@ -7,6 +7,7 @@ sap.ui.define([
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("myConsents").attachPatternMatched(function(oEvent){
 				this.getOwnerComponent().readCurrentUserInfo();
+				sap.ui.core.BusyIndicator.hide();
 			}.bind(this));
 		},
 		
@@ -28,6 +29,10 @@ sap.ui.define([
 		onSave : function(oEvent) {
 			var oModel = this.getView().getModel();
 			var sPhoneNumer = this.getView().byId("telMaskedInput").getValue().split(" ").join("");
+			
+			while(sPhoneNumer.indexOf("_") >0) {
+				sPhoneNumer = sPhoneNumer.replace("_", "");
+			}
 			
 			oModel.setProperty("/PublisherData/Publisher/telephone", sPhoneNumer);
 			

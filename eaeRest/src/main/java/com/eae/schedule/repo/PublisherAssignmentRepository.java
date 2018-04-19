@@ -11,4 +11,5 @@ public interface PublisherAssignmentRepository extends JpaRepository<PublisherAs
 	List<PublisherAssignment> findPublisherAssignmentByScheduleGuid(String guid);
 	List<PublisherAssignment> findPublisherAssignmentByScheduleGuidAndShiftGuid(String schduleGuid, String shiftGuid);
 	List<PublisherAssignment> findByPublisher(Publisher publisher);
+	List<PublisherAssignment> findByPublisherAndScheduleGuidNotNullAndScheduleIsShared(Publisher publisher, boolean isScheduleShared);
 }

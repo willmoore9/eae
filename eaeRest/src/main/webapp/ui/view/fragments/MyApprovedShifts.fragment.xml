@@ -1,0 +1,39 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	
+	<List
+		enableBusyIndicator="true" headerText="{parts:[{path:'starts'}, {path:'ends'}], formatter: '.formatUtils.formatShiftTitle'}" growing="true" 
+		items="{
+			path: 'assignments',templateShareable:true
+		}">
+		<headerToolbar>
+			<Toolbar>
+			<Text text="{parts: [
+									'starts',
+									'ends'
+								],
+								formatter: '.formatUtils.formatShiftTitle'}"></Text>
+			<ToolbarSpacer />
+			<Text text="{= ${assignments/0/schedule/cart/name}}" />
+			</Toolbar>
+		</headerToolbar>
+		<items>
+			<!-- 			return new sap.m.StandardListItem(sId, {
+				title:"{publisher/name} {publisher/surname}",
+				infoState: "Error",
+				iconDensityAware:false,
+				press: this.onShiftPublisherPress.bind(this),
+				type:"Active",
+				visible : (oAssignment != null && oAssignment.schedule != null && oAssignment.schedule.guid === this._sScheduleId)
+			})  -->
+			
+			<StandardListItem title="{publisher/name} {publisher/surname}" infoState="Error" 
+			iconDensityAware="false" type="Active" press=".onShiftPublisherPress" info="{= ${isCartCarrier} ? '#' : '' }"
+			highlight="{= ${isShiftLeader} ? 'Success' : ${publisher/name}.indexOf('needed') > 0 ? 'Error'  : 'None'}"/>
+			
+		</items>
+	</List>
+
+</core:FragmentDefinition>

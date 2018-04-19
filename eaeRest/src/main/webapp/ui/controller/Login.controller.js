@@ -15,8 +15,8 @@ sap.ui.define([
 			model.login(username, pass).then(function(data){
 				var oRouter = this.getOwnerComponent().getRouter();
 				oRouter.navTo("");
-				var oComp = this.getOwnerComponent()
-				oComp.readCurrentUserInfo();
+//				var oComp = this.getOwnerComponent()
+//				oComp.readCurrentUserInfo();
 				sap.ui.core.BusyIndicator.hide();
 			}.bind(this)).catch(function(){
 				var sErrorMessage = this.getView().getModel("i18n").getProperty("loginFailed");

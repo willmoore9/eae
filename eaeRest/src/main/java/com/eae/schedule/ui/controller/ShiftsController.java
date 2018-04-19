@@ -303,33 +303,43 @@ public class ShiftsController {
     	Publisher publisher = this.pubisherRepo.findById(publisherId).get();
     	
     	Calendar cal = Calendar.getInstance();
-    	cal.add(Calendar.DATE, - 2);
-    	Date after = cal.getTime();
-    	cal.add(Calendar.WEEK_OF_YEAR, 2);
-    	Date before = cal.getTime();
+    	cal.add(Calendar.DAY_OF_MONTH, -1);
     	
-    	List<ServiceDay> days = this.daysRepo.findServiceDayByShiftsAssignmentsPublisherAndShiftsAssignmentsScheduleIsNotNullAndDateBetween(publisher, after, before, Sort.by("date"));
+    	List<PublisherAssignment> assignments = publisherAssignmentRepo.findByPublisherAndScheduleGuidNotNullAndScheduleIsShared(publisher, true);
     	
-    	Map<Shift, CartSchedule> shiftScheduleMap = new HashMap<Shift, CartSchedule>();
-    	Set<ServiceDay> filteredDays = new HashSet<ServiceDay>();
-    	
-    	for(ServiceDay day : days) {
-    		for(Shift shift : day.getShifts()) {
-    			for(PublisherAssignment assign : shift.getAssignments()) {
-    				if(assign.getPublisher().getGuid().equals(publisherId) && assign.getSchedule() != null) {
-    					List<PublisherAssignment> assignFiltered = shift.getAssignments().stream().filter(allAssign -> allAssign.getSchedule() == assign.getSchedule()).collect(Collectors.toList());
-    					shift.setAssignments(assignFiltered);
-    					shiftScheduleMap.put(shift, assign.getSchedule());
-    				}
-    			}
+    	List<ServiceDay> days = new ArrayList<ServiceDay>();
+    	Date now = cal.getTime();
+    	for(PublisherAssignment pubAssign : assignments) {
+    		Shift sShift = pubAssign.getShift();
+    		ServiceDay sDay = sShift.getServiceDay();
+    		
+    		if(sDay.getDate().before(now)) {
+    			continue;
     		}
+    		
+    		if(isPresentDay(days, sDay)) {
+    			sDay.getShifts().add(sShift);
+    			continue;
+    		}
+    		sDay.getShifts().clear();
+    		sDay.getShifts().add(sShift);
+    		days.add(sDay);
     	}
     	
-    	
-    	
+    	days = days.stream().sorted((day1, day2) -> day1.getDate().compareTo(day2.getDate())).collect(Collectors.toList());
     	List<ServiceWeek> weeks = DtoUtils.groupByWeeks(days, null);
     	
     	response.setObjects(weeks);
     	return response;
     }
+	
+	private boolean isPresentDay(List<ServiceDay> days, ServiceDay day) {
+		for(ServiceDay storedDay : days) {
+			if(storedDay.getGuid().equals(day.getGuid()) ) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }

@@ -101,6 +101,10 @@ sap.ui.define([
 			var oModel = this.getView().getModel();
 			sap.m.URLHelper.redirect("rest/cartSchedule/downloadPdf/period/" + this._sPeriodId + "/schedule/" + this._sScheduleId);
 			
+		},
+		
+		formatCommentVisibility : function(sText) {
+			return !!sText;
 		}
 
 	});

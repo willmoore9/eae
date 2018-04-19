@@ -18,7 +18,7 @@
 				</TileContent>
 			</tileContent>
 		</GenericTile>	
-<!-- 		
+ 		
 		<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
 			header="{i18n>myAssignedShifts}" 
 			press="navigateToMyShifts" visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
@@ -29,7 +29,7 @@
 					</content>
 				</TileContent>
 			</tileContent>
-		</GenericTile> -->	
+		</GenericTile>
 	</Panel>
 	<Panel headerText="{i18n>schedulesTiles}" id="scheduleTiles" content="{/PublisherData/SharedSchedules}" visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
 		
