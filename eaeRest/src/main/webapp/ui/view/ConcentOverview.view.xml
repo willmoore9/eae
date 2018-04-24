@@ -27,7 +27,7 @@
 			
 			singleContainerFullSize="false" >
 			<f:content>
-			<Label text="{i18n>phoneNumber}" />
+			<Label text="{i18n>phoneNumber} (format: +49 171 11111111)" />
 			<MaskInput mask = "+cc ccc ccccccccc"  placeholderSymbol = "+ " placeholder = "{i18n>phoneNumber}" id="telMaskedInput" change="livePhoneValidation">
 				<rules>
 					<MaskInputRule maskFormatSymbol = "c" regex = "[0-9]"/>

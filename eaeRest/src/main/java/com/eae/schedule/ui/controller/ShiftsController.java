@@ -327,6 +327,12 @@ public class ShiftsController {
     	}
     	
     	days = days.stream().sorted((day1, day2) -> day1.getDate().compareTo(day2.getDate())).collect(Collectors.toList());
+    	
+    	for(ServiceDay day : days) {
+    		List<Shift> shifts = day.getShifts().stream().sorted((shift1, shift2) -> shift1.getStarts().compareTo(shift2.getStarts())).collect(Collectors.toList());
+    		day.setShifts(shifts);
+    	}
+    	
     	List<ServiceWeek> weeks = DtoUtils.groupByWeeks(days, null);
     	
     	response.setObjects(weeks);

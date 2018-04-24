@@ -23,9 +23,9 @@
 			header="{i18n>myAssignedShifts}" 
 			press="navigateToMyShifts" visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
 			<tileContent>
-				<TileContent unit="" footer="{parts:[{path:'/PublisherData/Period/starts'},{path:'/PublisherData/Period/ends'}], formatter:'.formatPeriodDates'}">
+				<TileContent unit="">
 					<content>
-						<ImageContent src="sap-icon://appointment" />
+						<ImageContent src="sap-icon://employee-approvals" />
 					</content>
 				</TileContent>
 			</tileContent>

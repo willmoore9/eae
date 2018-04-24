@@ -34,7 +34,9 @@ sap.ui.define([
 				sPhoneNumer = sPhoneNumer.replace("_", "");
 			}
 			
-			oModel.setProperty("/PublisherData/Publisher/telephone", sPhoneNumer);
+			if(sPhoneNumer.length > 4) {
+				oModel.setProperty("/PublisherData/Publisher/telephone", sPhoneNumer);
+			}
 			
 			var oPub = oModel.getObject("/PublisherData/Publisher");
 			

@@ -57,12 +57,16 @@ public class DtoUtils {
 		ServiceWeek week = new ServiceWeek();
 		week.setPeriod(period);
 		
+		Integer weekNumber = -1;
+		
 		for(ServiceDay day : serviceDays) {
 			day.getShifts().isEmpty();
 			calendar.setTime(day.getDate());
-			if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY || weeks.size() == 0) {
+			if(calendar.get(Calendar.WEEK_OF_YEAR) != weekNumber) {
 				week = new ServiceWeek();
-				week.setName(calendar.get(Calendar.WEEK_OF_YEAR) + "");
+				Integer newWeekNumer = calendar.get(Calendar.WEEK_OF_YEAR);
+				weekNumber = newWeekNumer;
+				week.setName(newWeekNumer + "");
 				weeks.add(week);
 			}
 			week.getWeekDays().add(day);
