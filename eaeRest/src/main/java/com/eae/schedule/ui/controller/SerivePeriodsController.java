@@ -5,8 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,8 +25,7 @@ import com.eae.schedule.ui.model.ServiceWeek;
 @RestController
 @RequestMapping("/periods")
 public class SerivePeriodsController {
-	Logger log = Logger.getLogger(SerivePeriodsController.class.getName());
-	
+
 	@Autowired
 	private ServicePeriodRepository periodRepo;
 
@@ -65,7 +62,6 @@ public class SerivePeriodsController {
     	Calendar to = Calendar.getInstance();
     	to.set(Calendar.ZONE_OFFSET, zoneOffset);
     	to.setTime(period.getEnds());
-    	log.log(Level.DEBUG, "create period");
     	if(from.after(to)) {
     		response.setStatus("500");
     		response.setSuccessful(false);
