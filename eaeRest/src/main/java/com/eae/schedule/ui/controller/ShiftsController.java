@@ -311,6 +311,7 @@ public class ShiftsController {
     	Date now = cal.getTime();
     	for(PublisherAssignment pubAssign : assignments) {
     		Shift sShift = pubAssign.getShift();
+    		sShift.setAssignments(sShift.filterBySchedule(pubAssign.getSchedule()));
     		ServiceDay sDay = sShift.getServiceDay();
     		
     		if(sDay.getDate().before(now)) {

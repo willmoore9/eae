@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import javax.persistence.TemporalType;
 
 import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -76,6 +78,20 @@ public class Shift extends BaseObject implements Serializable {
 		this.ends = ends;
 	}
 
+	public List<PublisherAssignment> filterBySchedule(CartSchedule schedule) {
+		List<PublisherAssignment> assinments = this.getAssignments();
+		List<PublisherAssignment> scheduleAssignments = new ArrayList<PublisherAssignment>();
+		for(int i = 0; i < assinments.size(); i++) {
+			PublisherAssignment assignment = assinments.get(i);
+			if (assignment.getSchedule() != null && 
+				assignment.getSchedule().getGuid().equals(schedule.getGuid())) {
+				scheduleAssignments.add(assignment);
+			}
+		}
+		
+		return scheduleAssignments;
+//		return this.getAssignments().stream().filter(assignment -> assignment.getSchedule() != null && assignment.getSchedule().getGuid().equals(schedule.getGuid())).collect(Collectors.toList());
+	}
 //	public List<Publisher> getAssignable() {
 //		return assignable;
 //	}
