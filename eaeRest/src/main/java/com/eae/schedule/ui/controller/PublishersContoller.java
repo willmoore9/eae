@@ -229,5 +229,11 @@ public class PublishersContoller {
 		return response;
 	}
 	
+	@RequestMapping(value="/updateMyProfile/publisher/{publisherId}/cart/{cartLocationId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
+	public Response<Publisher> assignCartToPublisher(@PathVariable(value="publisherId") String publisherId, @PathVariable(value="cartLocationId") String cartLocationId) {
+		Response<Publisher> response = new Response<Publisher>();
+		
+		return response;
+	}
 	
 }

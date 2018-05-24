@@ -136,6 +136,11 @@
 			"pattern" : "myConsents",
 			"name" : "myConsents",
 			"target" : "myConsents"
+		},
+		{
+			"pattern" : "myCartPlaces",
+			"name" : "myCartPlaceWorklist",
+			"target" : "myCartPlaceWorklist"
 		}
 
 	  ],
@@ -195,6 +200,10 @@
 		},
 		"myConsents" : {
 		  "viewName" : "ConcentOverview",
+		  "viewLevel" : 2
+		},
+		"myCartPlaceWorklist" : {
+		  "viewName" : "MyCartsWorklist",
 		  "viewLevel" : 2
 		}
 

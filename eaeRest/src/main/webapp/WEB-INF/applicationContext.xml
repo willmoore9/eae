@@ -93,11 +93,11 @@
     <bean id="customSuccessHandler"
         class="com.eae.security.rest.CustomSuccessHandler" />
 
-	<bean id="messageSource"
+	<bean id="emailMessageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename">
 			<!-- <value>email\messages</value> -->
-			<value>emailTmpl</value>
+			<value>email</value>
 		</property>
 	</bean>
  </beans>

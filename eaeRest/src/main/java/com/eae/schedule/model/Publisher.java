@@ -1,12 +1,15 @@
 package com.eae.schedule.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -60,6 +63,14 @@ public class Publisher extends BaseObject implements Serializable {
 	
 	@Transient
 	private Boolean wasAssignedToday;
+	
+//	@OneToMany(fetch=FetchType.EAGER)
+//	@JoinTable(
+//			name = "PUBLISHER_CART_ASSIGN",
+//			joinColumns = { @JoinColumn(name="PUBLISHER_GUID",referencedColumnName="GUID") },
+//			inverseJoinColumns = {@JoinColumn(name="CART_GUID", referencedColumnName="GUID")}
+//	)
+//	private List<CartPoint> carts;
 	
 	public String getName() {
 		return name;

@@ -38,7 +38,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
 						grantedAuths.add(new PublisherAuthority());
 						grantedAuths.add(new AdminAuthority());
 						Authentication auth = new UsernamePasswordAuthenticationToken(role, userName + ":" + password, grantedAuths);
-						System.out.println(auth.getAuthorities());
 						return auth;
 					
 				} else {

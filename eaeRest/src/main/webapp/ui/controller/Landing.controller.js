@@ -77,6 +77,15 @@ sap.ui.define([
 			oRouter.navTo("myShifts", {
 				publisherId : oModel.getProperty("/PublisherData/Publisher/guid")
 			});	
+		},
+		
+		navigateToMyCarts : function() {
+			var oRouter = this.getOwnerComponent().getRouter();
+			var oModel = this.getView().getModel();
+			sap.ui.core.BusyIndicator.show(1000);
+			oRouter.navTo("myShifts", {
+				publisherId : oModel.getProperty("/PublisherData/Publisher/guid")
+			});	
 		}
 	});
 });
