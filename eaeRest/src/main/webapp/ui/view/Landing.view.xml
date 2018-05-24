@@ -30,6 +30,19 @@
 				</TileContent>
 			</tileContent>
 		</GenericTile>
+		
+		
+		<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+			header="{i18n>myAssignedCarts}" 
+			press="navigateToMyCarts" visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
+			<tileContent>
+				<TileContent unit="">
+					<content>
+						<ImageContent src="sap-icon://cart" />
+					</content>
+				</TileContent>
+			</tileContent>
+		</GenericTile>		
 	</Panel>
 	<Panel headerText="{i18n>schedulesTiles}" id="scheduleTiles" content="{/PublisherData/SharedSchedules}" visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
 		

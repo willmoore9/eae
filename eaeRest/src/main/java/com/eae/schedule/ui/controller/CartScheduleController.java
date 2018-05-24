@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -54,6 +55,9 @@ public class CartScheduleController {
 	
 	@Autowired
 	private ServicePeriodRepository periodRepo;
+	
+    @Autowired
+    private MessageSource emailMessageSource;
 	
     @RequestMapping(name="/", method=RequestMethod.GET)
     public Response<CartSchedule> getAll() {
@@ -125,6 +129,8 @@ public class CartScheduleController {
     	bufferSubject.append(summaryFormat.format(shift.getStarts()));
     	bufferSubject.append(" - ");
     	bufferSubject.append(timeFormat.format(shift.getEnds()));
+    	
+    	String emailContent = this.emailMessageSource.getMessage("emailContent", null, Locale.ENGLISH);
     	
     	StringBuffer bufferBody = new StringBuffer();
     	bufferBody.append(dateFormat.format(shift.getStarts()));
