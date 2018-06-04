@@ -16,9 +16,10 @@
          
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 
-	<context:component-scan base-package="com.eae.schedule.repo" />
+	<context:component-scan base-package="com.eae.schedule.repo, com.eae.config, com.eae.security.rest, com.eae.security.service" />
+	
     <mvc:annotation-driven />
-    
+
 	<jpa:repositories base-package="com.eae.schedule.repo" entity-manager-factory-ref="entityManagerFactory" transaction-manager-ref="transactionManager" />
 
 
@@ -31,13 +32,22 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 	
-	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	<!-- 
+ 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
     	<property name="jndiName" value="java:comp/env/jdbc/eaeDB"/>
 	</bean>
-
+	 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	    <property name="driverClassName" value="${jdbc.driver}" />
+	    <property name="url" value="${jdbc.url}" />
+	    <property name="username" value="${jdbc.username}"/>
+	    <property name="password" value="${jdbc.password}"/>
+	    <!-- <property name="connectionCachingEnabled" value="true"/> -->
+	</bean>
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="dataSource"  />
 		<property name="loadTimeWeaver">
 			<!-- <bean class="org.springframework.instrument.classloading.tomcat.TomcatLoadTimeWeaver" /> -->
 			<bean class="org.springframework.instrument.classloading.ReflectiveLoadTimeWeaver" />
@@ -57,7 +67,7 @@
 	
  	<sec:global-method-security pre-post-annotations="enabled"/>
     
-    <context:component-scan base-package="com.eae.security.rest, com.eae.security.service" />
+    
     
      <sec:http entry-point-ref="customEntryPoint" use-expressions="true" >
         <sec:custom-filter ref="authenticationFilter" before="PRE_AUTH_FILTER" />
