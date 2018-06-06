@@ -7,7 +7,7 @@
 		enableBusyIndicator="true" headerText="{parts:[{path:'starts'}, {path:'ends'}], formatter: '.formatUtils.formatShiftTitle'}" growing="true" 
 		items="{
 			path: 'assignments',templateShareable:true
-		}">
+		}" noDataText="{i18n>noShift}">
 		<headerToolbar>
 			<Toolbar>
 			<Text text="{parts: [

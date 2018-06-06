@@ -64,13 +64,13 @@ public class Publisher extends BaseObject implements Serializable {
 	@Transient
 	private Boolean wasAssignedToday;
 	
-//	@OneToMany(fetch=FetchType.EAGER)
-//	@JoinTable(
-//			name = "PUBLISHER_CART_ASSIGN",
-//			joinColumns = { @JoinColumn(name="PUBLISHER_GUID",referencedColumnName="GUID") },
-//			inverseJoinColumns = {@JoinColumn(name="CART_GUID", referencedColumnName="GUID")}
-//	)
-//	private List<CartPoint> carts;
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinTable(
+			name = "PUBLISHER_CART_ASSIGN",
+			joinColumns = { @JoinColumn(name="PUBLISHER_GUID",referencedColumnName="GUID") },
+			inverseJoinColumns = {@JoinColumn(name="CART_GUID", referencedColumnName="GUID")}
+	)
+	private List<CartPoint> carts;
 	
 	public String getName() {
 		return name;
@@ -159,6 +159,15 @@ public class Publisher extends BaseObject implements Serializable {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
+
+	public List<CartPoint> getCarts() {
+		return carts;
+	}
+
+	public void setCarts(List<CartPoint> carts) {
+		this.carts = carts;
+	}
+	
 	
 	
 }

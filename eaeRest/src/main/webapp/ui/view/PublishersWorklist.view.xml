@@ -45,10 +45,13 @@
 					<Column id="emailColumn">
 						<Text id="email" text="{i18n>email}" />
 					</Column>
-
  					<Column id="defaultPin">
 						<Text id="defaultPinAction" text="{i18n>defaultPin}" />
 					</Column>
+ 					<Column id="addToCart">
+						<Text id="addToCartAction" text="{i18n>assignToCart}" />
+					</Column>					
+					
 				</columns>
 				<items>
 					<ColumnListItem type="Active">
@@ -58,6 +61,7 @@
 							<Text text="{congregation}" />	
 							<Text text="{email}" />	
 							<Button text="{i18n>setDefaultPin}" press="onSetDefaultPin"></Button>
+							<Button text="{i18n>assignToCart}" press="onAssignToCart"></Button>
 						</cells>
 					</ColumnListItem>
 				</items>

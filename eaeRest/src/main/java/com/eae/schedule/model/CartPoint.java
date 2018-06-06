@@ -1,10 +1,15 @@
 package com.eae.schedule.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -26,6 +31,14 @@ public class CartPoint extends BaseObject implements Serializable{
 	public String getName() {
 		return name;
 	}
+	
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinTable(
+			name = "CART_PUBLISHER_ASSIGN",
+			joinColumns = { @JoinColumn(name="CART_GUID",referencedColumnName="GUID") },
+			inverseJoinColumns = {@JoinColumn(name="PUBLISHER_GUID", referencedColumnName="GUID")}
+	)
+	private List<Publisher> assignedPublishers;
 
 	public void setName(String name) {
 		this.name = name;
@@ -46,6 +59,12 @@ public class CartPoint extends BaseObject implements Serializable{
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
-	
+
+	public List<Publisher> getAssignedPublishers() {
+		return assignedPublishers;
+	}
+
+	public void setAssignedPublishers(List<Publisher> assignedPublishers) {
+		this.assignedPublishers = assignedPublishers;
+	}
 }

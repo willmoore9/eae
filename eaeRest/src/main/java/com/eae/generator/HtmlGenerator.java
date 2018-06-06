@@ -87,7 +87,9 @@ public class HtmlGenerator {
 					for(PublisherAssignment assignemnt : shift.getAssignments()) {
 						String tel = assignemnt.getPublisher().getTelephone() == null ? "--" : assignemnt.getPublisher().getTelephone();
 						String cong = assignemnt.getPublisher().getCongregation() == null ? "--" : assignemnt.getPublisher().getCongregation();
-						String tableCellInner = assignemnt.getPublisher().getName() + " " + assignemnt.getPublisher().getSurname() + " (" + tel + ") " + cong;
+						String name = assignemnt.getPublisher().getName() == null ? "--" : assignemnt.getPublisher().getName();
+						String surname = assignemnt.getPublisher().getSurname() == null ? "--" : assignemnt.getPublisher().getSurname();
+						String tableCellInner = name + " " + surname + " (" + tel + ") " + cong;
 						if(assignemnt.getIsShiftLeader()) {
 							dayStrBuffer.append("<div align=\"left\" style=\"  padding-bottom: 5px;\"><u>" + tableCellInner + "</u></div>");	
 						} else {

@@ -34,6 +34,15 @@
 										
 										<Label text="{i18n>phoneNumber}" />
 										<Input value="{/Temp/PublisherEdit/telephone}"  type="Tel"  />
+										
+										<Label text="{i18n>language}" />
+										<Select
+											forceSelection="false" change="onLanguageSelected" selectedKey="{/Temp/PublisherEdit/language}">
+											<core:Item key="EN" text="English" />
+											<core:Item key="DE" text="German" />
+											<core:Item key="RU" text="Russian" />
+										</Select>										
+										
 									</forms:SimpleForm>	
 									
 									<forms:SimpleForm layout="ResponsiveGridLayout"

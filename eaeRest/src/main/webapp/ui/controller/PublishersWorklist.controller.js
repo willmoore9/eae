@@ -125,6 +125,17 @@ sap.ui.define([
 			oRouter.navTo("publisherProfile",{
 				publisherId : oCtx.getObject().guid
 			});
+		},
+		
+		onAssignToCart : function(oEvent) {
+			var oModel = this.getView().getModel();
+			if(!this._oCartAssignment) {
+				this._oCartAssignment = sap.ui.xmlfragment("cartAssign", "org.eae.tools.view.fragments.AddToCartPopover", this);
+				this.getView().addDependent(this._oCartAssignment);	
+			}
+			
+			this._oCartAssignment.openBy(oEvent.getSource());
+			
 		}
 	});
 });

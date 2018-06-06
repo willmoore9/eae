@@ -21,12 +21,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eae.communication.email.EmailUtils;
+import com.eae.schedule.model.CartPoint;
 import com.eae.schedule.model.Consent;
 import com.eae.schedule.model.ConsentStatus;
 import com.eae.schedule.model.Publisher;
 import com.eae.schedule.model.PublisherAssignment;
 import com.eae.schedule.model.ServicePeriod;
 import com.eae.schedule.model.Shift;
+import com.eae.schedule.repo.CartPointRepository;
 import com.eae.schedule.repo.ConsentRepository;
 import com.eae.schedule.repo.PublisherAssignmentRepository;
 import com.eae.schedule.repo.PublisherRepository;
@@ -55,6 +57,9 @@ public class PublishersContoller {
 	
 	@Autowired
 	private ConsentRepository consentRepo;
+	
+	@Autowired
+	private CartPointRepository cartPointRepo;
 	
     @RequestMapping(name="/", method=RequestMethod.GET)
     public Response<Publisher> getAll() {
@@ -105,6 +110,7 @@ public class PublishersContoller {
 			savedPublisher.setEmail(publisher.getEmail());
 			savedPublisher.setTelephone(publisher.getTelephone());
 			savedPublisher.setIsAdmin(publisher.getIsAdmin());
+			savedPublisher.setLanguage(publisher.getLanguage());
 			if(publisher.getPinCode() != 0) {
 				savedPublisher.setPinCode(publisher.getPinCode());				
 			}
@@ -229,11 +235,40 @@ public class PublishersContoller {
 		return response;
 	}
 	
-	@RequestMapping(value="/updateMyProfile/publisher/{publisherId}/cart/{cartLocationId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
+	@RequestMapping(value="/assignToCart/publisher/{publisherId}/cart/{cartLocationId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
 	public Response<Publisher> assignCartToPublisher(@PathVariable(value="publisherId") String publisherId, @PathVariable(value="cartLocationId") String cartLocationId) {
 		Response<Publisher> response = new Response<Publisher>();
-		
+		Publisher publisher = this.publisherRepo.findById(publisherId).get();
+		CartPoint cartPoint = this.cartPointRepo.findById(cartLocationId).get();
+		publisher.getCarts().add(cartPoint);
+		this.publisherRepo.save(publisher);
+		this.publisherRepo.flush();
 		return response;
 	}
 	
+	@RequestMapping(value="/unassignFromCart/publisher/{publisherId}/cart/{cartLocationId}", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
+	public Response<Publisher> unassignFromCartPublisher(@PathVariable(value="publisherId") String publisherId, @PathVariable(value="cartLocationId") String cartLocationId) {
+		Response<Publisher> response = new Response<Publisher>();
+		Publisher publisher = this.publisherRepo.findById(publisherId).get();
+
+		CartPoint cart2Remove = null;
+		for(CartPoint cart : publisher.getCarts()) {
+			if(cart.getGuid().equalsIgnoreCase(cartLocationId)) {
+				cart2Remove = cart;
+				break;
+			}
+		}
+		
+		publisher.getCarts().remove(cart2Remove);
+		this.publisherRepo.save(publisher);
+		this.publisherRepo.flush();
+		return response;
+	}
+	
+	
+	@RequestMapping(value="/assignedToCarts/publisher/{publisherId}", method=RequestMethod.GET, consumes={"application/json"}, produces={"application/json"})
+	public Response<Publisher> getAssignedPublishersToCart(@PathVariable(value="publisherId") String publisherId, @PathVariable(value="cartLocationId") String cartLocationId) {
+		Response<Publisher> response = new Response<Publisher>();
+		return response;
+	}
 }

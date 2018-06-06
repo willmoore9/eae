@@ -76,6 +76,11 @@ sap.ui.define([
 		_getEditPublisher : function() {
 			var oModel = this.getView().getModel();
 			return oModel.getProperty("/Temp/PublisherEdit");
+		},
+		
+		onLanguageSelected : function(oEvent) {
+			var oModel = this.getView().getModel();
+			oModel.setProperty("/Temp/PublisherEdit/language", oEvent.getParameter("selectedItem").getKey());
 		}
 	});
 });

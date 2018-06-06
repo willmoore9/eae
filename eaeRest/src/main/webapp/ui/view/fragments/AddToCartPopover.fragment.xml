@@ -1,0 +1,22 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<ResponsivePopover
+		class="sapUiPopupWithPadding"
+		placement="Bottom" >
+		<content>
+			<List id="cartPoint"
+				enableBusyIndicator="true" headerText="{i18n>selectUser}" growing="false" 
+				items="{
+					path: 'carts'
+				}">
+				<headerToolbar>
+					<Toolbar>
+						<SearchField liveChange="onPublisherSearch" width="100%"/>
+					</Toolbar>
+				</headerToolbar>
+				<StandardListItem title="{name}" iconDensityAware="false" iconInset="false" />
+			</List>
+		</content>
+	</ResponsivePopover>
+</core:FragmentDefinition>
