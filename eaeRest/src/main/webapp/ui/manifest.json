@@ -141,7 +141,13 @@
 			"pattern" : "myCartPlaces",
 			"name" : "myCartPlaceWorklist",
 			"target" : "myCartPlaceWorklist"
+		},
+		{
+			"pattern" : "publicationLangs",
+			"name" : "publicationLangs",
+			"target" : "publicationLangsWorklist"
 		}
+		
 
 	  ],
 	  "targets": {
@@ -205,7 +211,11 @@
 		"myCartPlaceWorklist" : {
 		  "viewName" : "MyCartsWorklist",
 		  "viewLevel" : 2
-		}
+		},
+		"publicationLangsWorklist" : {
+		  "viewName" : "PublicationLanguagesWorklist",
+		  "viewLevel" : 2
+		}		
 
 	  }
 	}

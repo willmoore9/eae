@@ -1,0 +1,39 @@
+<core:FragmentDefinition 
+	xmlns="sap.m" 
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<Dialog
+		title="{i18n>createPublicationLanguage}">
+		<f:SimpleForm
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+				<Label text="{i18n>isoCode}" />
+				<Input value="{/ui/createLanguage/isoCode}" />
+				<Label text="{i18n>languageWtCode}" />
+				<Input value="{/ui/createLanguage/wtCode}" />
+				<Label text="{i18n>languageName}" />
+				<Input value="{/ui/createLanguage/langName}" />
+				<Label text="{i18n>languageOriginalName}" />
+				<Input value="{/ui/createLanguage/originaLangName}" />
+			</f:content>
+		</f:SimpleForm>
+		<buttons>
+			<Button text="{i18n>ok}" press="onCreateLanguageRecord"></Button>
+			<Button text="{i18n>cancel}" press="onCancelCreateLanguageRecord"></Button>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

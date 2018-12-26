@@ -1,0 +1,46 @@
+<mvc:View controllerName="org.eae.tools.controller.PublicationLanguagesWorklist"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m" xmlns:u="sap.ui.unified">
+	<semantic:FullscreenPage id="publicationLanguagesWorklist"
+		navButtonPress="onNavBack" showNavButton="true" title="{i18n>manageLanguages}" showFooter="false">
+		<semantic:content>
+			<Table id="table" class="sapUiResponsiveMargin sapUiNoMarginTop"
+				growing="true" growingScrollToLoad="true" width="auto" 	mode="Delete" delete="handleDeleteLanguage"
+				updateFinished="handleUpdateBinding"
+				items="{
+							path: '/PublicationLanguages'
+						}">
+				<headerToolbar>
+					<Toolbar>
+						<Title id="tableHeader"/>
+						<ToolbarSpacer />
+						<Button style="Lite" icon="sap-icon://add" press="onAddLanguage"></Button>
+					</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column id="nameColumn">
+						<Text id="isoCode" text="{i18n>isoCode}" />
+					</Column>
+					<Column id="wtCodeColumn">
+						<Text id="wtCode" text="{i18n>wtCode}" />
+					</Column>
+					<Column id="langNameColumn">
+						<Text id="langName" text="{i18n>languageName}" />
+					</Column>
+					<Column id="originaLangNameColumn">
+						<Text id="originaLangName" text="{i18n>originaLangName}" />
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem type="Active">
+						<cells>
+							<Text text="{isoCode}" />								
+							<Text text="{wtCode}" />	
+							<Text text="{langName}" />	
+							<Text text="{originaLangName}" />	
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</semantic:content>
+	</semantic:FullscreenPage>
+</mvc:View>

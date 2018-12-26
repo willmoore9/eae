@@ -86,6 +86,13 @@ sap.ui.define([
 			oRouter.navTo("myShifts", {
 				publisherId : oModel.getProperty("/PublisherData/Publisher/guid")
 			});	
+		},
+		
+		naviagateToPublicationLanguagesManage : function() {
+			var oRouter = this.getOwnerComponent().getRouter();
+			var oModel = this.getView().getModel();
+			sap.ui.core.BusyIndicator.show(1000);
+			oRouter.navTo("publicationLangs", {});	
 		}
 	});
 });
