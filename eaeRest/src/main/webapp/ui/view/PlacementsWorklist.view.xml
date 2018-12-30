@@ -1,0 +1,49 @@
+<mvc:View controllerName="org.eae.tools.controller.PlacementsWorklist"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m" xmlns:u="sap.ui.unified">
+	<semantic:FullscreenPage id="placementsWorklist"
+		navButtonPress="onNavBack" showNavButton="true" title="{i18n>managePlacements}" showFooter="false">
+		<semantic:content>
+			<Table id="table" class="sapUiResponsiveMargin sapUiNoMarginTop"
+				growing="true" growingScrollToLoad="true" width="auto" 	mode="Delete" delete="handleDeletePlacement"
+				updateFinished="handleUpdateBinding"
+				items="{
+							path: '/Placements'
+						}">
+				<headerToolbar>
+					<Toolbar>
+						<Title id="tableHeader"/>
+						<ToolbarSpacer />
+						<Button style="Lite" icon="sap-icon://add" press="onAddPlacement"></Button>
+					</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column id="nameColumn">
+						<Text id="englihName" text="{i18n>englishName}" />
+					</Column>
+					<Column id="typeColumn">
+						<Text id="type" text="{i18n>placementType}" />
+					</Column>
+					<Column id="languageColumn">
+						<Text id="language" text="{i18n>languageName}" />
+					</Column>
+					<Column id="wtPlacementIndexColumn">
+						<Text id="wtPlacemenyIndex" text="{i18n>wtIndex}" />
+					</Column>
+					<Column id="placementLangColumn">
+						<Text id="placementLang" text="{i18n>language}" />
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem type="Active">
+						<cells>
+							<Text text="{englishName}" />
+							<Text text="{type}" />	
+							<Text text="{wtIndex}" />	
+							<Text text="{language/langName}" />	
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</semantic:content>
+	</semantic:FullscreenPage>
+</mvc:View>

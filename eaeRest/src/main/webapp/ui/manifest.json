@@ -146,6 +146,11 @@
 			"pattern" : "publicationLangs",
 			"name" : "publicationLangs",
 			"target" : "publicationLangsWorklist"
+		},
+		{
+			"pattern" : "placements",
+			"name" : "placements",
+			"target" : "placementsWorklist"
 		}
 		
 
@@ -215,7 +220,11 @@
 		"publicationLangsWorklist" : {
 		  "viewName" : "PublicationLanguagesWorklist",
 		  "viewLevel" : 2
-		}		
+		},
+		"placementsWorklist" : {
+		  "viewName" : "PlacementsWorklist",
+		  "viewLevel" : 2
+		}	
 
 	  }
 	}

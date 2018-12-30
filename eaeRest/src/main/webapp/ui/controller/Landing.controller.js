@@ -93,6 +93,15 @@ sap.ui.define([
 			var oModel = this.getView().getModel();
 			sap.ui.core.BusyIndicator.show(1000);
 			oRouter.navTo("publicationLangs", {});	
-		}
+		},
+		
+		navigateToPlacementTypesManage : function() {
+			var oRouter = this.getOwnerComponent().getRouter();
+			var oModel = this.getView().getModel();
+			sap.ui.core.BusyIndicator.show(1000);
+			oRouter.navTo("placements", {});	
+		},
+		
+
 	});
 });

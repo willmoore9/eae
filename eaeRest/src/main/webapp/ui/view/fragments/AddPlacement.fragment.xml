@@ -1,0 +1,39 @@
+<core:FragmentDefinition 
+	xmlns="sap.m" 
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<Dialog
+		title="{i18n>createPlacement}">
+		<f:SimpleForm
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+				<Label text="{i18n>englishName}" />
+				<Input value="{/ui/createPlacement/englishName}" />
+				<Label text="{i18n>placementType}" />
+				<Input value="{/ui/createPlacement/type}" />
+				<Label text="{i18n>wtIndex}" />
+				<Input value="{/ui/createPlacement/wtIndex}" />
+				<Label text="{i18n>language}" />
+				<Input value="{/ui/createPlacement/language}" />
+			</f:content>
+		</f:SimpleForm>
+		<buttons>
+			<Button text="{i18n>ok}" press="onCreatePlacementRecord"></Button>
+			<Button text="{i18n>cancel}" press="onCancelCreatePlacemenntRecord"></Button>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>
