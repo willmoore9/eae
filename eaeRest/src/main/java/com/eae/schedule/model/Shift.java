@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,7 +18,6 @@ import javax.persistence.TemporalType;
 
 import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 

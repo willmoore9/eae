@@ -21,7 +21,8 @@ sap.ui.define([
 		},		
 		
 		onAddPlacement : function(oEvent) {
-			var oCreateData = this.getView().getModel().setProperty("/ui/createPlacement", {});
+			this.getView().getModel().fetchData("rest/publicationLangs", "/PublicationLanguages", true);
+			this._initEmptyPlacement();
 			if(!this._oNewPlacement) {
 				this._oNewPlacement = sap.ui.xmlfragment("createPublisher", "org.eae.tools.view.fragments.AddPlacement", this);
 				this.getView().addDependent(this._oNewPlacement);	
@@ -50,12 +51,25 @@ sap.ui.define([
 				this._oNewPlacement.close();
 			}.bind(this));
 			
-			var oCreateData = this.getView().getModel().setProperty("/ui/createPlacement", {});
+			this._initEmptyPlacement();
 
 		},
 		
 		onCancelCreatePlacementRecord : function(oEvent) {
 			this._oNewPlacement.close();
+		},
+		
+		handleDeletePlacement : function(oEvent) {
+			var guidToDelete = oEvent.getParameter("listItem").getBindingContext().getProperty("guid");
+			var oModel = this.getView().getModel();
+			oModel.removeById("rest/placements/delete/" + guidToDelete).then(function(){
+				this.refreshTable();
+			}.bind(this))	
+		},
+		
+		_initEmptyPlacement : function() {
+			this.getView().getModel().setProperty("/ui/createPlacement", {});
+			this.getView().getModel().setProperty("/ui/createPlacement/language", {});
 		}
 	});
 });

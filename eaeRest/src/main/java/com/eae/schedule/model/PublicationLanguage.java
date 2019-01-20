@@ -1,8 +1,11 @@
 package com.eae.schedule.model;
 
-import com.eae.schedule.model.BaseObject;
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * Entity implementation class for Entity: PublicationLanguage

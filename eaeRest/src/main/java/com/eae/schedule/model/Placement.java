@@ -1,8 +1,12 @@
 package com.eae.schedule.model;
 
-import com.eae.schedule.model.BaseObject;
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 /**
  * Entity implementation class for Entity: PlacementType
@@ -12,10 +16,8 @@ import javax.persistence.*;
 public class Placement extends BaseObject implements Serializable {
 
 	@Basic
-    @Enumerated(EnumType.STRING)
 	@Column(length=32, name="TYPE")
-	private PlementType type;
-	
+	private String type;
 
 	@Basic
 	@Column(length=32, name="WT_INDEX")
@@ -25,12 +27,13 @@ public class Placement extends BaseObject implements Serializable {
 	@Column(length=128, name="ENG_NAME")
 	private String englishName;
 	
-	@OneToOne(fetch=FetchType.EAGER)
-	@JoinTable(
-			name = "PLACEMENT_LANGUAGE",
-			joinColumns = { @JoinColumn(name="LANGUAGE_GUID",referencedColumnName="GUID") },
-			inverseJoinColumns = {@JoinColumn(name="PLACEMENT_GUID", referencedColumnName="GUID")}
-	)
+//	@OneToOne(fetch=FetchType.EAGER)
+//	@JoinTable(
+//			name = "PLACEMENT_LANGUAGE",
+//			joinColumns = { @JoinColumn(name="PLACEMENT_GUID",referencedColumnName="GUID") },
+//			inverseJoinColumns = {@JoinColumn(name="LANGUAGE_GUID", referencedColumnName="GUID")}
+//	)
+	@OneToOne(optional=true, cascade={CascadeType.DETACH})
 	private PublicationLanguage language;
 	
 	private static final long serialVersionUID = 1L;
@@ -39,11 +42,11 @@ public class Placement extends BaseObject implements Serializable {
 		super();
 	}
 
-	public PlementType getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(PlementType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 

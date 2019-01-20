@@ -23,10 +23,7 @@
 					<Column id="typeColumn">
 						<Text id="type" text="{i18n>placementType}" />
 					</Column>
-					<Column id="languageColumn">
-						<Text id="language" text="{i18n>languageName}" />
-					</Column>
-					<Column id="wtPlacementIndexColumn">
+					<Column id="placementWtIndexColumn">
 						<Text id="wtPlacemenyIndex" text="{i18n>wtIndex}" />
 					</Column>
 					<Column id="placementLangColumn">

@@ -28,7 +28,12 @@
 				<Label text="{i18n>wtIndex}" />
 				<Input value="{/ui/createPlacement/wtIndex}" />
 				<Label text="{i18n>language}" />
-				<Input value="{/ui/createPlacement/language}" />
+				<ComboBox
+					items="{
+						path: '/PublicationLanguages'
+					}" selectedKey="{/ui/createPlacement/language/guid}">
+					<core:ListItem key="{guid}" text="{langName}"/>
+				</ComboBox>
 			</f:content>
 		</f:SimpleForm>
 		<buttons>

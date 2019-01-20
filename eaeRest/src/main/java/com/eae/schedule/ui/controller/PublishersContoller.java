@@ -36,7 +36,6 @@ import com.eae.schedule.repo.ServicePeriodRepository;
 import com.eae.schedule.repo.ShiftRepository;
 import com.eae.schedule.ui.model.LandingDTO;
 import com.eae.schedule.ui.model.Response;
-import com.eae.schedule.ui.model.StatusCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
