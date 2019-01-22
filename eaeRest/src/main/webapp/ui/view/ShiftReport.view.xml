@@ -1,0 +1,71 @@
+<mvc:View controllerName="org.eae.tools.controller.PublishersWorklist"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m" xmlns:u="sap.ui.unified">
+	<semantic:FullscreenPage id="shiftReport"
+		navButtonPress="onNavBack" showNavButton="true" title="{i18n>managePublishersRecords}" showFooter="false">
+		<semantic:content>
+<!-- 			<Table id="table" class="sapUiResponsiveMargin sapUiNoMarginTop"
+				growing="true" growingScrollToLoad="true" width="auto" 	mode="Delete" delete="handleDeletePublisher"
+				selectionChange="onSelectedPeriod" updateFinished="handleUpdateBinding" itemPress="onItemPressed"
+				items="{
+							path: '/ReportPlacements'
+						}">
+				<headerToolbar>
+					<Toolbar>
+						<Title id="tableHeader"/>
+						<ToolbarSpacer />
+						<Button style="Lite" icon="sap-icon://add" press="onAddPublisherPress"></Button>
+							
+						<u:FileUploader
+									id="fileUploader"
+									name="uploadJSON"
+									tooltip="{i18n>uploadPublishers}"
+									uploadOnChange="true"
+									iconOnly="true"
+									uploadUrl="rest/publishers/upload"
+									useMultipart="false"
+									sendXHR="true"
+									uploadComplete="onImportPublishersSuccess"
+									buttonOnly="true"
+									icon="sap-icon://upload"
+									/>
+						<Button style="Lite" icon="sap-icon://download" press="onDownloadPublishersPress"></Button>
+						<SearchField liveChange="onPublisherSearch" width="12rem" />
+					</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column id="nameColumn">
+						<Text id="publisherName" text="{i18n>name}" />
+					</Column>
+					<Column id="surenameColumn">
+						<Text id="publisherSurename" text="{i18n>surename}" />
+					</Column>
+					<Column id="congregationColumn">
+						<Text id="congregation" text="{i18n>congregation}" />
+					</Column>
+					<Column id="emailColumn">
+						<Text id="email" text="{i18n>email}" />
+					</Column>
+ 					<Column id="defaultPin">
+						<Text id="defaultPinAction" text="{i18n>defaultPin}" />
+					</Column>
+ 					<Column id="addToCart">
+						<Text id="addToCartAction" text="{i18n>assignToCart}" />
+					</Column>					
+					
+				</columns>
+				<items>
+					<ColumnListItem type="Active">
+						<cells>
+							<Text text="{name}" />								
+							<Text text="{surname}" />	
+							<Text text="{congregation}" />	
+							<Text text="{email}" />	
+							<Button text="{i18n>setDefaultPin}" press="onSetDefaultPin"></Button>
+							<Button text="{i18n>assignToCart}" press="onAssignToCart"></Button>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+ -->		</semantic:content>
+	</semantic:FullscreenPage>
+</mvc:View>

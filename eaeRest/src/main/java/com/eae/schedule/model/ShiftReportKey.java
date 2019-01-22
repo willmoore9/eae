@@ -12,19 +12,19 @@ public class ShiftReportKey implements Serializable {
 	String shiftGuid;
 
 	String scheduleGuid;
-//	
-//	public String getScheduleGuid() {
-//		return scheduleGuid;
-//	}
-//
-//	public ShiftReportKey() {
-//	}
-//	
-//	public ShiftReportKey(String shift, String schedule) {
-//		shiftGuid = shift;
-//		scheduleGuid = schedule;
-//	}
-//	
+	
+	public String getScheduleGuid() {
+		return scheduleGuid;
+	}
+
+	public ShiftReportKey() {
+	}
+	
+	public ShiftReportKey(String shift, String schedule) {
+		shiftGuid = shift;
+		scheduleGuid = schedule;
+	}
+	
 	@Override
 	public int hashCode() {
 		// TODO Auto-generated method stub
