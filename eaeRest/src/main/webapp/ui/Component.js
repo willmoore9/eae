@@ -18,8 +18,12 @@ sap.ui.define([
 				Schedule : {},
 				PublisherData : {},
 				Publishers : [],
+				Placements : [],
 				Temp : {
 					PublisherEdit : {}
+				},
+				ShiftReport : {
+					
 				},
 				ui: {
 					createPeriod : {
@@ -44,6 +48,9 @@ sap.ui.define([
 						}
 					},
 					createCartLocation : {
+						
+					},
+					createPlacementTitle : {
 						
 					}
 					

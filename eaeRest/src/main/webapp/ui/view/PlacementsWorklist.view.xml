@@ -5,7 +5,7 @@
 		<semantic:content>
 			<Table id="table" class="sapUiResponsiveMargin sapUiNoMarginTop"
 				growing="true" growingScrollToLoad="true" width="auto" 	mode="Delete" delete="handleDeletePlacement"
-				updateFinished="handleUpdateBinding"
+				updateFinished="handleUpdateBinding" itemPress="onNavigateToPlacement"
 				items="{
 							path: '/Placements'
 						}">

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,6 +20,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
 /**
  * Entity implementation class for Entity: ShiftReport
@@ -29,29 +31,21 @@ public class ShiftReport implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	@JoinColumns(value= {
-			@JoinColumn(name="SCHEDULE_GUID", referencedColumnName="GUID"),
-			@JoinColumn(name="SHIFT_GUID", referencedColumnName="GUID")
-	})
 	private ShiftReportKey key; 
 //	
 //	@Id
 //	private String guid;
-	@OneToOne(cascade={CascadeType.DETACH})
-//	@JoinColumns(value= {
-//			@JoinColumn(name="SHIFT_GUID", referencedColumnName="GUID")			
-//	})	
+	@OneToOne(cascade={CascadeType.DETACH}, fetch=FetchType.EAGER)
+	@JoinColumn(name="SHIFTGUID", referencedColumnName="GUID", insertable=false, updatable=false)			
 //	@MapsId(value="shiftGuid")
 	private Shift shift;
 		
-	@OneToOne(cascade={CascadeType.DETACH})
-//	@JoinColumns(value= {
-//			@JoinColumn(name="SCHEDULE_GUID", referencedColumnName="GUID")			
-//	})
+	@OneToOne(cascade={CascadeType.DETACH}, fetch=FetchType.EAGER)
+	@JoinColumn(name="SCHEDULEGUID", referencedColumnName="GUID", insertable=false, updatable=false)			
 //	@MapsId(value="scheduleGuid")
 	private CartSchedule schedule;
 	
-	@OneToMany(mappedBy="report", cascade={CascadeType.DETACH, CascadeType.REMOVE}, fetch=FetchType.LAZY, orphanRemoval=true)
+	@OneToMany(mappedBy="report", cascade={CascadeType.REMOVE}, fetch=FetchType.EAGER, orphanRemoval=true)
 	@JsonIgnore
 	private List<ShiftReportItem> items = new ArrayList<>();
 
@@ -119,5 +113,11 @@ public class ShiftReport implements Serializable {
 
 	public void setUpdated(Date updated) {
 		this.updated = updated;
+	}
+	
+	public ShiftReportItem findReportItem(String placementGuid) {
+		List<ShiftReportItem> items = this.getItems();
+		Optional<ShiftReportItem> targetItemOptional = items.stream().filter(item -> item.getPlacement().getGuid().equals(placementGuid)).findFirst();
+		return targetItemOptional.orElse(null);
 	}
 }

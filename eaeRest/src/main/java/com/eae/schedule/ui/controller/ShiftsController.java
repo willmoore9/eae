@@ -153,7 +153,9 @@ public class ShiftsController {
 				response.setSuccessful(true);
 				response.addObject(shift);
 				assignedPublisher.remove(assigmentToCancel);
+				publisherAssignmentRepo.delete(assigmentToCancel);
 				shiftRepo.saveAndFlush(shift);
+
 				break;
 			}
 		}

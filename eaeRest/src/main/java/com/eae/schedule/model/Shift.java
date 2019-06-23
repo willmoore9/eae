@@ -27,6 +27,14 @@ public class Shift extends BaseObject implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	public Shift () {
+		
+	}
+	
+	public Shift (String guid) {
+		this.setGuid(guid);
+	}
+	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="SERVICEDAY_GUID", nullable=false)
 	@JsonBackReference
@@ -40,7 +48,7 @@ public class Shift extends BaseObject implements Serializable {
 	@Column(name="ENDS")
 	private Date ends;
 	
-	@OneToMany(mappedBy="shift", fetch=FetchType.EAGER, cascade={CascadeType.REMOVE})
+	@OneToMany(mappedBy="shift", fetch=FetchType.EAGER)
 	@JoinFetch(JoinFetchType.OUTER)
 	private List<PublisherAssignment> assignments = new ArrayList<PublisherAssignment>();
 

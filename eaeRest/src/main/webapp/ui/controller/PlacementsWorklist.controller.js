@@ -70,6 +70,15 @@ sap.ui.define([
 		_initEmptyPlacement : function() {
 			this.getView().getModel().setProperty("/ui/createPlacement", {});
 			this.getView().getModel().setProperty("/ui/createPlacement/language", {});
+		},
+		
+		onNavigateToPlacement : function (oEvent) {
+			var oPlacement = oEvent.getParameter("srcControl").getBindingContext().getObject();
+			oPlacement.guid
+			var oRouter = this.getOwnerComponent().getRouter();
+			oRouter.navTo("placementOverview", {
+				placementId : oPlacement.guid
+			});
 		}
 	});
 });

@@ -1,0 +1,7 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Link press="onBreadCrumbLinkPress" text="">
+		<core:CustomData key="path" value="{}" />
+	</Link>
+</core:FragmentDefinition>

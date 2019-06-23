@@ -24,7 +24,7 @@ public class PublicationLanguage extends BaseObject implements Serializable {
 	private String wtCode;
 	
 	@Basic
-	@Column(name="LANG_NAME",length = 8)
+	@Column(name="LANG_NAME",length = 64)
 	private String langName;
 	
 	@Basic
@@ -38,6 +38,10 @@ public class PublicationLanguage extends BaseObject implements Serializable {
 		super();
 	}
 
+	public PublicationLanguage(String guid) {
+		this.setGuid(guid);
+	}
+	
 	public String getIsoCode() {
 		return isoCode;
 	}

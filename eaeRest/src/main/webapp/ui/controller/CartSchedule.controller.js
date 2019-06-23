@@ -37,7 +37,6 @@ sap.ui.define([
 			
 			var oModel = this.getView().getModel();
 			oModel.setProperty("/Schedule/" + periodId, {});
-		    //oModel.fetchData("rest/periods/" + periodId + "/weeks", "/Schedule/" + periodId + "/weeks", true, {}, true).
 			oModel.fetchData("rest/periods/period/" + periodId + "/schedule/" +this._sScheduleId + "/weeksToServe" , "/Schedule/" + periodId + "/weeks", true, {}, true).
 		    then(function(){
 		    	oModel.read("rest/periods/read/" + periodId).then(function(data){
@@ -105,7 +104,17 @@ sap.ui.define([
 		
 		formatCommentVisibility : function(sText) {
 			return !!sText;
+		},
+		
+		navigateToShiftReport : function(oEvent) {
+			var oRouter = this.getOwnerComponent().getRouter();
+			var oBindingContext = oEvent.getSource().getBindingContext();
+			var oShift = oBindingContext.getObject();
+			oRouter.navTo("shiftReport", {
+				shiftId : oShift.guid,
+				scheduleId : this._sScheduleId
+				
+			});
 		}
-
 	});
 });

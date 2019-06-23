@@ -17,6 +17,10 @@ public class ShiftReportKey implements Serializable {
 		return scheduleGuid;
 	}
 
+	public String getShiftGuid() {
+		return shiftGuid;
+	}
+
 	public ShiftReportKey() {
 	}
 	

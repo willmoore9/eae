@@ -23,7 +23,7 @@ sap.ui.define([
 						cache: false,
 						data: {
 							username:user,
-							password:pass,	
+							password:pass,
 						},
 
 					    type: "POST",
@@ -55,6 +55,7 @@ sap.ui.define([
 				var object = {};
 //				object[sPathToMergeResult] = oData.objects;
 //				this.setData(object, bMerge);
+				this._createPath(sPathToMergeResult);
 				this.setProperty(sPathToMergeResult, oData.objects);
 				this.fireRequestCompleted({url : sURL, type : sType, async : bAsync, headers: mHeaders,
 					info : "cache=" + bCache + ";bMerge=" + bMerge, infoObject: {cache : bCache, merge : bMerge}, success: true});
@@ -100,6 +101,20 @@ sap.ui.define([
 			}
 		},
 		
+		_createPath: function(path) {
+			var aParts = path.split("/");
+			var sCurrentPath = "";
+			for(var i = 0; i < aParts.length; i++) {
+				sCurrentPath += aParts[i];
+				if(!this.getProperty(sCurrentPath)) {
+					this.setProperty(sCurrentPath, {});
+				} 
+				if(aParts.length -1 !== i) {
+					sCurrentPath +="/";	
+				}
+			}
+		},
+		
 		removeById : function(sUrl, id) {
 			var oPromise = new Promise(function(resolve, reject){
 				var fnSuccess = function(oData) {
@@ -142,6 +157,7 @@ sap.ui.define([
 				var object = {};
 //				object[sPathToMergeResult] = oData.objects;
 //				this.setData(object, bMerge);
+				this._createPath(sPathToMergeResult);
 				if(isArray) {
 					var oArray = this.getProperty(sPathToMergeResult);
 					oArray.push(oData.objects[0]);

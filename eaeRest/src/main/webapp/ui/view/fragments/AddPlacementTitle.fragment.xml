@@ -1,0 +1,40 @@
+<core:FragmentDefinition 
+	xmlns="sap.m" 
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<Dialog
+		title="{i18n>createPlacementTitle}">
+		<f:SimpleForm
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+				<Label text="{i18n>title}" />
+				<Input value="{/ui/createPlacementTitle/title}" />
+				<Label text="{i18n>language}" />
+				<ComboBox
+					items="{
+						path: '/PublicationLanguages'
+					}" selectedKey="{/ui/createPlacementTitle/language/guid}">
+					<core:ListItem key="{guid}" text="{langName}"/>
+				</ComboBox>
+			</f:content>
+		</f:SimpleForm>
+		<buttons>
+			<Button text="{i18n>ok}" press="onCreatePlacementTitleRecord"></Button>
+			<Button text="{i18n>cancel}" press="onCancelCreatePlacemenntTitleRecord"></Button>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,80 @@
+<mvc:View
+	controllerName="org.eae.tools.controller.PlacementOverview"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:uxap="sap.uxap"
+	xmlns:semantic="sap.m.semantic" 
+	xmlns:core="sap.ui.core"
+	xmlns:forms="sap.ui.layout.form">
+		<semantic:FullscreenPage id="placementPage"
+		navButtonPress="onNavBack" showNavButton="true" title="{i18n>placementDetail}">
+			<uxap:ObjectPageLayout id="placementPageLayout" enableLazyLoading="false" subSectionLayout="TitleOnTop"
+					  showTitleInHeaderContent="true" showHeaderContent="false">
+				
+				<uxap:headerTitle>
+					<uxap:ObjectPageHeader objectTitle="{ }" />
+				</uxap:headerTitle>
+				<uxap:sections>
+					<uxap:ObjectPageSection title="  " id="mainInfoSection">
+ 						<uxap:subSections>
+							<uxap:ObjectPageSubSection title="{i18n>basicInfo}">
+								<uxap:blocks>
+									<forms:SimpleForm layout="ResponsiveGridLayout"
+										labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
+										adjustLabelSpan="false" >
+										<Label text="{i18n>englishName}" />
+										<Input value="{englishName}" />
+										<Label text="{placementType}" />
+										<Input value="{type}" />
+										<Label text="{i18n>wtIndex}" />
+										<Input value="{wtIndex}" />
+										<Label text="{i18n>language}" />
+										<ComboBox
+											items="{
+												path: '/PublicationLanguages'
+											}" selectedKey="{language/guid}">
+											<core:ListItem key="{guid}" text="{langName}"/>
+										</ComboBox>
+									</forms:SimpleForm>	
+									
+								</uxap:blocks>
+							</uxap:ObjectPageSubSection>
+							<uxap:ObjectPageSubSection title="{i18n>titles}" id="titlesSection">
+								<uxap:blocks>
+									<Table id="titlesTable" items="{path:'titles'}" mode="SingleSelectLeft">
+										<headerToolbar>
+											<Toolbar>
+												<ToolbarSpacer />
+												<Button style="Lite" icon="sap-icon://add" press="onAddPlacementTitle"></Button>
+												<Button style="Lite" icon="sap-icon://delete" press="onDeletePlacementTitle"></Button>
+											</Toolbar>
+										</headerToolbar>
+										<columns>
+											<Column id="langColumn">
+												<Text id="languageColumn" text="{i18n>language}" />
+											</Column>
+											<Column id="translatedName">
+												<Text id="translatedNameColumn" text="{i18n>translatedName}" />
+											</Column>
+										</columns>
+										<items>
+											<ColumnListItem type="Active">
+												<cells>
+													<Text text="{language/langName}" />
+													<Text text="{title}" />	
+												</cells>
+											</ColumnListItem>
+										</items>
+									</Table>
+								</uxap:blocks>
+							</uxap:ObjectPageSubSection>
+						</uxap:subSections>
+					</uxap:ObjectPageSection>
+				</uxap:sections>
+			</uxap:ObjectPageLayout>
+			<semantic:saveAction>
+				<semantic:SaveAction press="onSavePublisherData"/>
+			</semantic:saveAction>
+			
+		</semantic:FullscreenPage>
+</mvc:View>

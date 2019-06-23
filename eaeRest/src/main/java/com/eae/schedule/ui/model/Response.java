@@ -7,6 +7,8 @@ public class Response<T> {
 
 	private List<T> objects;
 	
+	private T object;
+	
 	private Boolean successful;
 	
 	private String status;
@@ -52,6 +54,15 @@ public class Response<T> {
 	public void setTotal(Integer total) {
 		this.total = total;
 	}
+
+	public T getObject() {
+		return object;
+	}
+
+	public void setObject(T object) {
+		this.object = object;
+	}
+	
 	
 	
 }

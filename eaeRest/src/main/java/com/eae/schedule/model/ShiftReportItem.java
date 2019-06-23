@@ -22,11 +22,7 @@ public class ShiftReportItem extends BaseObject implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumns(value= {
-			@JoinColumn(name="SCHEDULE_GUID", referencedColumnName="GUID"),
-			@JoinColumn(name="SHIFT_GUID", referencedColumnName="GUID")
-	})
+	@ManyToOne(fetch=FetchType.LAZY, cascade= {CascadeType.DETACH})
 	@JsonBackReference
 	private ShiftReport report;
 	

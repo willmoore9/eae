@@ -71,6 +71,11 @@
 	  },
 	  "routes": [
 		{
+		  "pattern": "home",
+		  "name": "home",
+		  "target": "landing"
+		},
+		{
 		  "pattern": "",
 		  "name": "landingPage",
 		  "target": "landing"
@@ -151,7 +156,17 @@
 			"pattern" : "placements",
 			"name" : "placements",
 			"target" : "placementsWorklist"
-		}
+		},
+		{
+			"pattern" : "placementsOverview/{placementId}",
+			"name" : "placementOverview",
+			"target" : "placementOverview"
+		},
+		{
+			"pattern" : "shiftReport/schedule/{scheduleId}/shift/{shiftId}",
+			"name" : "shiftReport",
+			"target" : "shiftReportTree"
+		}	
 		
 
 	  ],
@@ -224,8 +239,15 @@
 		"placementsWorklist" : {
 		  "viewName" : "PlacementsWorklist",
 		  "viewLevel" : 2
-		}	
-
+		},
+		"shiftReportTree" : {
+		  "viewName" : "ShiftReport",
+		  "viewLevel" : 3
+		},
+		"placementOverview" : {
+		  "viewName" : "PlacementOverview",
+		  "viewLevel" : 2
+		}
 	  }
 	}
   }

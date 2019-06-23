@@ -14,7 +14,7 @@ sap.ui.define([
 			sap.ui.core.BusyIndicator.show(500);
 			model.login(username, pass).then(function(data){
 				var oRouter = this.getOwnerComponent().getRouter();
-				oRouter.navTo("");
+				oRouter.navTo("landingPage");
 //				var oComp = this.getOwnerComponent()
 //				oComp.readCurrentUserInfo();
 				sap.ui.core.BusyIndicator.hide();

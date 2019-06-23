@@ -1,0 +1,22 @@
+<core:FragmentDefinition 
+	xmlns="sap.m" 
+	xmlns:core="sap.ui.core">
+	<Dialog type="Message" title="{displayCode}" afterClose="onAfterCloseReportItem" beforeOpen="onBeforeOpenReportItem">
+		<content>
+			<HBox justifyContent="Center">
+				<StepInput
+					value="{count}"
+					displayValuePrecision="{displayValuePrecision}"
+					width="120px"
+					step="1"
+					change="onChangeReportItem"/>
+			</HBox>
+		</content>
+		<beginButton>
+			<Button text="{i18n>ok}" press="onConfirmReportItemModify"></Button>
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>cancel}" press="onCancelReportItemModify"></Button>		
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

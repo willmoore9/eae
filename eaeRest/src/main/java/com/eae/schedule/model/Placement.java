@@ -1,11 +1,13 @@
 package com.eae.schedule.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -27,17 +29,19 @@ public class Placement extends BaseObject implements Serializable {
 	@Column(length=128, name="ENG_NAME")
 	private String englishName;
 	
-//	@OneToOne(fetch=FetchType.EAGER)
-//	@JoinTable(
-//			name = "PLACEMENT_LANGUAGE",
-//			joinColumns = { @JoinColumn(name="PLACEMENT_GUID",referencedColumnName="GUID") },
-//			inverseJoinColumns = {@JoinColumn(name="LANGUAGE_GUID", referencedColumnName="GUID")}
-//	)
 	@OneToOne(optional=true, cascade={CascadeType.DETACH})
 	private PublicationLanguage language;
 	
+	@OneToMany(mappedBy="placement", cascade=CascadeType.REMOVE)
+	private List<PlacementTitle> titles;
+	
 	private static final long serialVersionUID = 1L;
 
+	public Placement(String guid) {
+		super();
+		this.setGuid(guid);
+	}
+	
 	public Placement() {
 		super();
 	}
@@ -73,7 +77,12 @@ public class Placement extends BaseObject implements Serializable {
 	public void setLanguage(PublicationLanguage language) {
 		this.language = language;
 	}
-   
-	
-	
+
+	public List<PlacementTitle> getTitles() {
+		return titles;
+	}
+
+	public void setTitles(List<PlacementTitle> titles) {
+		this.titles = titles;
+	}
 }
