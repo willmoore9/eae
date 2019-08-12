@@ -10,6 +10,7 @@ sap.ui.define([
 		
 		__shiftId : "",
 		__scheduleId : "",
+		__reportId : "",
 		
 		__all_langs : "All Languages",
 		
@@ -22,7 +23,7 @@ sap.ui.define([
 				this.__scheduleId = oEvent.getParameter("arguments").scheduleId;
 				this.__currentName = this.__all_langs;
 				this.refreshTable(this.__scheduleId, this.__shiftId);
-				this.__currentPath = "/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId + "/0/root";
+				this.__currentPath = "/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId + "/root";
 			}.bind(this));
 
 		},
@@ -42,10 +43,17 @@ sap.ui.define([
 		
 		refreshTable : function(scheduleId, shiftId) {
 			var lang = sap.ui.getCore().getConfiguration().getLanguage().split("-")[0];
-			this.getView().getModel().fetchData("rest/shiftReport/report/" + scheduleId + "/" + shiftId, 
-					"/ShiftReport/schedule/" + scheduleId + "/shift/" + shiftId, true, {"lang" : lang});
+			var path = "/ShiftReport/schedule/" + scheduleId + "/shift/" + shiftId;
+			var oModel = this.getView().getModel();
+			oModel.post("rest/shiftReport/report/" + scheduleId + "/" + shiftId, "GET", {"lang" : lang}).then(
+				function(data) {
+					this.__reportId = data.object.report.guid;
+					oModel.createPath(path);
+					oModel.setProperty(path, data.object);
+				}.bind(this)
+			);
 			
-			var sRootPath = "/ShiftReport/schedule/" + scheduleId + "/shift/" + shiftId + "/0/root";
+			var sRootPath = "/ShiftReport/schedule/" + scheduleId + "/shift/" + shiftId + "/root";
 			this.getView().byId("idShiftReportTable").bindElement(sRootPath);
 			var breadCrumb = this.getView().byId("navBreadCrumb");
 			breadCrumb.setCurrentLocationText(this.__currentName);
@@ -121,7 +129,7 @@ sap.ui.define([
 			
 			if(index == 0) {
 				this.__currentName=this.__all_langs;
-				this.__currentPath = "/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId + "/0/root";
+				this.__currentPath = "/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId + "/root";
 			} else {
 				this.__currentName=oBreadCrumbLink.data("name");
 				this.__currentPath = oBreadCrumbLink.data("path");
@@ -148,7 +156,7 @@ sap.ui.define([
 			console.log("onConfirmReportItemModify " + currentCount);
 			this.__count = -1;
 			
-			oModel.post("rest/shiftReport/report/"+ this.__scheduleId + "/" + this.__shiftId + "/placenent/" +guid+ "/count/" + currentCount, "POST", {})
+			oModel.post("rest/shiftReport/report/" + this.__reportId+ "/placenent/" + guid + "/count/" + currentCount, "POST", {})
 			.then(function(resp) {
 				console.log("POST of count done");
 			}.bind(this)).catch(function(error){

@@ -10,15 +10,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eae.schedule.model.CartSchedule;
 import com.eae.schedule.model.Placement;
 import com.eae.schedule.model.PublicationLanguage;
+import com.eae.schedule.model.Shift;
 import com.eae.schedule.model.ShiftReport;
 import com.eae.schedule.model.ShiftReportItem;
-import com.eae.schedule.model.ShiftReportKey;
+import com.eae.schedule.repo.CartScheduleRepository;
 import com.eae.schedule.repo.PlacementsRepository;
 import com.eae.schedule.repo.PublicationLangsRepository;
 import com.eae.schedule.repo.ShiftReportItemRepository;
 import com.eae.schedule.repo.ShiftReportRepository;
+import com.eae.schedule.repo.ShiftRepository;
 import com.eae.schedule.ui.model.Response;
 import com.eae.schedule.ui.model.report.ReportDTO;
 
@@ -30,7 +33,13 @@ public class ShiftReportController {
 	private ShiftReportRepository shiftReportRepo;
 	
 	@Autowired
+	private ShiftRepository shiftRepo;
+	
+	@Autowired
 	private PlacementsRepository placementsRepo;
+	
+	@Autowired
+	private CartScheduleRepository cartScheduleRepo;
 	
 	@Autowired
 	private ShiftReportItemRepository reporItem;
@@ -47,13 +56,12 @@ public class ShiftReportController {
 		return response;
 	}
 
-	@RequestMapping(value="/report/{scheduleId}/{shiftId}/placenent/{placementId}/count/{count}", method=RequestMethod.POST)
-	public Response<Object> addPlacement(@PathVariable(value="scheduleId") String scheduleId, @PathVariable(value="shiftId") String shiftId,
+	@RequestMapping(value="/report/{reportId}/placenent/{placementId}/count/{count}", method=RequestMethod.POST)
+	public Response<Object> addPlacement(@PathVariable(value="reportId") String reportId,
 										@PathVariable(value="placementId") String placementId, @PathVariable(value="count") String count) {
-		ShiftReportKey key = new ShiftReportKey(shiftId, scheduleId);
 		
 		Response<Object> response = new Response<Object>();
-    	ShiftReport report = shiftReportRepo.findById(key).get();
+    	ShiftReport report = shiftReportRepo.findById(reportId).get();
     	ShiftReportItem item = report.findReportItem(placementId);
     	
     	if(item != null) {
@@ -73,10 +81,9 @@ public class ShiftReportController {
 	}
 	
 	@RequestMapping(value="/delete/{scheduleId}/{shiftId}", method=RequestMethod.DELETE)
-    public Response<Object> deletePeriod(@PathVariable(value="scheduleId") String scheduleId, @PathVariable(value="shiftId") String shiftId) {
-		ShiftReportKey key = new ShiftReportKey(shiftId, scheduleId);
+    public Response<Object> deletePeriod(@PathVariable(value="reportId") String reportId) {
 		Response<Object> response = new Response<Object>();
-    	this.shiftReportRepo.deleteById(key);
+    	this.shiftReportRepo.deleteById(reportId);
     	response.setSuccessful(true);
     	return response;
     }
@@ -87,27 +94,27 @@ public class ShiftReportController {
 														 @RequestParam(value = "lang", required = false) String lang
 			) {
 	
-		ShiftReportKey key = new ShiftReportKey(shiftId, scheduleId);
-    	ShiftReport report = null;
-    	
     	List<Placement> allPlacements = this.placementsRepo.findAll();
     	List<PublicationLanguage> allLanguages = this.langRepo.findAll();
     	
+    	CartSchedule schedule = this.cartScheduleRepo.findById(scheduleId).get();
+    	Shift shift = this.shiftRepo.findById(shiftId).get();
     	
-		Optional<ShiftReport> alreadyExist = shiftReportRepo.findById(key);
-		List<ShiftReportItem> reportItems = null;
-		if(alreadyExist.isPresent()) {
-			report = alreadyExist.get();
-			reportItems = report.getItems();
-		} else {
+    	ShiftReport report = null;
+    	
+    	List<ShiftReport> reportList = this.shiftReportRepo.findByShiftAndSchedule(new Shift(shiftId), new CartSchedule(scheduleId));
+    	if(reportList != null && reportList.size() == 0) {
 			report = new ShiftReport();
-			report.setKey(key);
+			report.setSchedule(schedule);
+			report.setShift(shift);
 			report = shiftReportRepo.saveAndFlush(report);	
-		}
-    	
+    	} else {
+    		report = reportList.get(0);
+    	}
+
 		ReportDTO reportDto = new ReportDTO(report, allPlacements, allLanguages, lang);
 		Response<ReportDTO> response = new Response<ReportDTO>();
-		response.addObject(reportDto);
+		response.setObject(reportDto);
     	response.setSuccessful(true);
     	return response;
 	}

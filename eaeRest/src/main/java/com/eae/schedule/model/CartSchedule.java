@@ -1,10 +1,14 @@
 package com.eae.schedule.model;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -32,6 +36,9 @@ public class CartSchedule extends BaseObject implements Serializable {
 	@JoinColumn(referencedColumnName="GUID", nullable=true)
 	private ServicePeriod period;
 	
+	@OneToMany(mappedBy="schedule", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	private List<ShiftReport> shiftReports;
+	
 	public CartPoint getCart() {
 		return cart;
 	}
@@ -55,4 +62,14 @@ public class CartSchedule extends BaseObject implements Serializable {
 	public void setIsShared(Boolean isShared) {
 		this.isShared = isShared;
 	}
+
+	public List<ShiftReport> getShiftReports() {
+		return shiftReports;
+	}
+
+	public void setShiftReports(List<ShiftReport> shiftReports) {
+		this.shiftReports = shiftReports;
+	}
+	
+	
 }

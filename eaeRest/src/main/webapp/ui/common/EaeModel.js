@@ -115,6 +115,10 @@ sap.ui.define([
 			}
 		},
 		
+		createPath: function(path) {
+			this._createPath(path)
+		},
+		
 		removeById : function(sUrl, id) {
 			var oPromise = new Promise(function(resolve, reject){
 				var fnSuccess = function(oData) {

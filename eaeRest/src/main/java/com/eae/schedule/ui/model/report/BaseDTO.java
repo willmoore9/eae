@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.eae.schedule.model.ShiftReportKey;
-
 public class BaseDTO implements Serializable {
 
 	/**
@@ -23,7 +21,7 @@ public class BaseDTO implements Serializable {
 	
 	private String type;
 	
-	private ShiftReportKey key;
+	private String key;
 	
 	public int getCount() {
 		return count;
@@ -69,11 +67,11 @@ public class BaseDTO implements Serializable {
 		this.guid = guid;
 	}
 
-	public ShiftReportKey getKey() {
+	public String getKey() {
 		return key;
 	}
 
-	public void setKey(ShiftReportKey key) {
+	public void setKey(String key) {
 		this.key = key;
 	}
 	

@@ -65,7 +65,7 @@ public class ReportDTO implements Serializable {
 				}
 				
 				leaf.setDisplayCode(display);
-				leaf.setKey(this.report.getKey());
+				leaf.setKey(this.report.getGuid());
 				leaf.setCount(this.getCountOfPlacements(placement));
 				branch.addChild(leaf);
 			}

@@ -24,7 +24,14 @@
 				<Label text="{i18n>englishName}" />
 				<Input value="{/ui/createPlacement/englishName}" />
 				<Label text="{i18n>placementType}" />
-				<Input value="{/ui/createPlacement/type}" />
+				<Select selectedKey="{/ui/createPlacement/type}" forceSelection="true" >
+					<items>
+						<core:Item key="NONE" text="" />
+						<core:Item key="BROCHURE" text="{i18n>placement_brochure}" />
+						<core:Item key="VIDEO" text="{i18n>placement_video}" />
+						<core:Item key="TRACT" text="{i18n>placement_tract}" />
+					</items>
+				</Select>
 				<Label text="{i18n>wtIndex}" />
 				<Input value="{/ui/createPlacement/wtIndex}" />
 				<Label text="{i18n>language}" />

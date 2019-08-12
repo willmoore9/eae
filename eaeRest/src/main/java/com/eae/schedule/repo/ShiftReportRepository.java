@@ -8,9 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.eae.schedule.model.CartSchedule;
 import com.eae.schedule.model.Shift;
 import com.eae.schedule.model.ShiftReport;
-import com.eae.schedule.model.ShiftReportKey;
 
 
-public interface ShiftReportRepository extends JpaRepository<ShiftReport, ShiftReportKey>{
+public interface ShiftReportRepository extends JpaRepository<ShiftReport, String>{
 	List<ShiftReport> findByShiftAndSchedule(Shift shift, CartSchedule schedule);
 }

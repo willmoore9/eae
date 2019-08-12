@@ -52,6 +52,10 @@ public class Shift extends BaseObject implements Serializable {
 	@JoinFetch(JoinFetchType.OUTER)
 	private List<PublisherAssignment> assignments = new ArrayList<PublisherAssignment>();
 
+	
+	@OneToMany(mappedBy="shift", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	private List<ShiftReport> shiftReports;
+	
 	public List<PublisherAssignment> getAssignments() {
 		return assignments;
 	}
@@ -121,4 +125,14 @@ public class Shift extends BaseObject implements Serializable {
 //	public void setTrolleyCarrier(Publisher trolleyCarrier) {
 //		this.trolleyCarrier = trolleyCarrier;
 //	}
+
+	public List<ShiftReport> getShiftReports() {
+		return shiftReports;
+	}
+
+	public void setShiftReports(List<ShiftReport> shiftReports) {
+		this.shiftReports = shiftReports;
+	}
+	
+	
 }
