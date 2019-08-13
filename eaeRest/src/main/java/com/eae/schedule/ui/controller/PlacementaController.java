@@ -3,18 +3,14 @@ package com.eae.schedule.ui.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eae.schedule.model.Placement;
 import com.eae.schedule.model.PlacementTitle;
-import com.eae.schedule.model.PublicationLanguage;
-import com.eae.schedule.model.Publisher;
 import com.eae.schedule.repo.PlacementTitleRepository;
 import com.eae.schedule.repo.PlacementsRepository;
 import com.eae.schedule.ui.model.Response;

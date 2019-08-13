@@ -2,7 +2,6 @@ package com.eae.schedule.ui.model.report;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.eae.schedule.model.Constants;
 import com.eae.schedule.model.Placement;
@@ -10,7 +9,6 @@ import com.eae.schedule.model.PlacementTitle;
 import com.eae.schedule.model.PublicationLanguage;
 import com.eae.schedule.model.ShiftReport;
 import com.eae.schedule.model.ShiftReportItem;
-import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
 public class ReportDTO implements Serializable {
 	
