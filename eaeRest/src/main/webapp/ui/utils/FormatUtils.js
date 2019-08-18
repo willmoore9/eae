@@ -31,6 +31,27 @@ sap.ui.define([
 	
 			return oDateFormat.format(oStarts)  + " - " + oDateFormat.format(oEnds);
 		},
+		
+		formatDateRange : function(oDateString) {
+			var oDate= new Date(oDateString);
+			
+			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+			    pattern: "E, MMM d"
+			});
+			
+			return oDateFormat.format(oDate);
+		},
+		
+		formatTimeRange : function(oDateStringFrom, oDateStringTo) {
+			var oDateFrom = new Date(oDateStringFrom);
+			var oDateTo = new Date(oDateStringTo);
+
+			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+			    pattern: "HH:mm"
+			});
+			
+			return oDateFormat.format(oDateFrom) + " - " + oDateFormat.format(oDateTo);
+		}
 
 	};
 });

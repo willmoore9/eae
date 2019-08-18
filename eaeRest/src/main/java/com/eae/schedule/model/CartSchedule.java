@@ -8,9 +8,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="SCHEDULE")
@@ -36,7 +39,13 @@ public class CartSchedule extends BaseObject implements Serializable {
 	@JoinColumn(referencedColumnName="GUID", nullable=true)
 	private ServicePeriod period;
 	
-	@OneToMany(mappedBy="schedule", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+//	@OneToMany(mappedBy="schedule", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@OneToMany
+	@JoinTable(name = "REPORT_SCHEDULE",
+            joinColumns = {@JoinColumn(name = "SCHEDULE_ID", referencedColumnName = "GUID")},
+            inverseJoinColumns = {@JoinColumn(name = "REPORT_ID", referencedColumnName = "GUID")}
+    )
+	@JsonIgnore
 	private List<ShiftReport> shiftReports;
 	
 	public CartPoint getCart() {

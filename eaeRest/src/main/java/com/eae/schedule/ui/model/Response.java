@@ -13,7 +13,7 @@ public class Response<T> {
 	
 	private String status;
 	
-	private Integer total;
+	private Long total;
 
 	public Response() {
 		this.objects = new ArrayList<T>();
@@ -47,11 +47,11 @@ public class Response<T> {
 		return this.objects.add(t);
 	}
 
-	public Integer getTotal() {
+	public Long getTotal() {
 		return total;
 	}
 
-	public void setTotal(Integer total) {
+	public void setTotal(Long total) {
 		this.total = total;
 	}
 

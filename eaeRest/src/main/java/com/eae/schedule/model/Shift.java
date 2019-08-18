@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -20,6 +21,7 @@ import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="SHIFT")
@@ -53,7 +55,13 @@ public class Shift extends BaseObject implements Serializable {
 	private List<PublisherAssignment> assignments = new ArrayList<PublisherAssignment>();
 
 	
-	@OneToMany(mappedBy="shift", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+//	@OneToMany(mappedBy="shift", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@OneToMany
+	@JoinTable(name = "REPORT_SHIFT",
+            joinColumns = {@JoinColumn(name = "SHIFT_ID", referencedColumnName = "GUID")},
+            inverseJoinColumns = {@JoinColumn(name = "REPORT_ID", referencedColumnName = "GUID")}
+    )
+	@JsonIgnore
 	private List<ShiftReport> shiftReports;
 	
 	public List<PublisherAssignment> getAssignments() {

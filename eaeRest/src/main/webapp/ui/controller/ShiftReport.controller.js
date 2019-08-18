@@ -1,4 +1,4 @@
-sap.ui.define([
+	sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/m/Link",
     "sap/ui/core/routing/History"
@@ -50,6 +50,7 @@ sap.ui.define([
 					this.__reportId = data.object.report.guid;
 					oModel.createPath(path);
 					oModel.setProperty(path, data.object);
+					sap.ui.core.BusyIndicator.hide();
 				}.bind(this)
 			);
 			

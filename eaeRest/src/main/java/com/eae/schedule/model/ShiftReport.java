@@ -14,9 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -35,22 +37,28 @@ public class ShiftReport extends BaseObject implements Serializable {
 	@Column(name="ENDS")
 	private Date ends;
 	
-	@ManyToOne(optional=true, cascade = {CascadeType.REMOVE})
+	@ManyToOne(cascade = {CascadeType.DETACH})
     @JoinTable(name = "REPORT_SHIFT",
-    	joinColumns = { @JoinColumn(name = "REPORT_ID", referencedColumnName = "GUID", nullable = true) },
-    	inverseJoinColumns = { @JoinColumn(name = "SHIFT_ID", referencedColumnName = "GUID", nullable = true) }
-    )		
+    	joinColumns = { @JoinColumn(name = "REPORT_ID", referencedColumnName = "GUID") },
+    	inverseJoinColumns = { @JoinColumn(name = "SHIFT_ID", referencedColumnName = "GUID") }
+    )
+	@JsonBackReference
 	private Shift shift;
 		
-	@ManyToOne(optional=true, cascade = {CascadeType.REMOVE})
+	@ManyToOne(cascade = {CascadeType.DETACH})
     @JoinTable(name = "REPORT_SCHEDULE",
-    	joinColumns = { @JoinColumn(name = "REPORT_ID", referencedColumnName = "GUID", nullable = true) },
-    	inverseJoinColumns = { @JoinColumn(name = "SCHEDULE_ID", referencedColumnName = "GUID", nullable = true) }
+    	joinColumns = { @JoinColumn(name = "REPORT_ID", referencedColumnName = "GUID") },
+    	inverseJoinColumns = { @JoinColumn(name = "SCHEDULE_ID", referencedColumnName = "GUID") }
     )	
+	@JsonBackReference
 	private CartSchedule schedule;
 	
+	@OneToOne
+	@JoinColumn(referencedColumnName="GUID", nullable=true)
+	private CartPoint cart;
+	
+	
 	@OneToMany(mappedBy="report", cascade = { CascadeType.REMOVE }, fetch=FetchType.EAGER, orphanRemoval=true)
-	@JsonIgnore
 	private List<ShiftReportItem> items = new ArrayList<>();
 
 	public Shift getShift() {
@@ -84,4 +92,30 @@ public class ShiftReport extends BaseObject implements Serializable {
 		Optional<ShiftReportItem> targetItemOptional = items.stream().filter(item -> item.getPlacement().getGuid().equals(placementGuid)).findFirst();
 		return targetItemOptional.orElse(null);
 	}
+
+	public Date getStarts() {
+		return starts;
+	}
+
+	public void setStarts(Date starts) {
+		this.starts = starts;
+	}
+
+	public Date getEnds() {
+		return ends;
+	}
+
+	public void setEnds(Date ends) {
+		this.ends = ends;
+	}
+
+	public CartPoint getCart() {
+		return cart;
+	}
+
+	public void setCart(CartPoint cart) {
+		this.cart = cart;
+	}
+	
+	
 }

@@ -1,0 +1,61 @@
+<mvc:View controllerName="org.eae.tools.controller.PlacementsReportWorklist"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m" xmlns:u="sap.ui.unified" >
+	<semantic:FullscreenPage id="placementsReportsWorklist"
+		navButtonPress="onNavBack" showNavButton="true" title="{i18n>managePlacementsReports}" showFooter="false">
+		<semantic:content>
+		
+			<Table id="table" class="sapUiResponsiveMargin sapUiNoMarginTop"
+				growing="true" growingScrollToLoad="true" width="auto" mode="Delete" delete="handleDeleteShiftReport"
+				selectionChange="onSelectedShiftReport" updateFinished="handleUpdateBinding" itemPress="onItemPressed"
+				items="{
+							path: '/ShiftReports'
+						}">
+				<infoToolbar>
+				</infoToolbar>
+				<headerToolbar>
+					<OverflowToolbar id="otbSubheader" height="100%">
+						<!-- <Title text="{i18n>reports}" level="H2"/> -->
+				
+						<DatePicker width="200px" placeholder="From ..."
+							change="handleChange" />
+									
+						<DatePicker width="200px" placeholder="To ..."
+							change="handleChange" />
+						<ToolbarSpacer width="40px" />
+				
+				
+						<Button text="Filter" press="onSearch" icon="sap-icon://filter" />
+					</OverflowToolbar>
+				</headerToolbar>
+				<columns>
+					<Column id="trolleys">
+						<Text text="{i18n>trolleys}" />
+					</Column>
+					<Column id="date">
+						<Text id="reportFrom" text="{i18n>date}" />
+					</Column>
+ 					<Column id="time">
+						<Text text="{i18n>time}" />
+					</Column>
+					<Column id="placementsCount">
+						<Text text="{i18n>placementsCount}" />
+					</Column>
+					<Column id="videosCount">
+						<Text text="{i18n>videosCount}" />
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem type="Active">
+						<cells>
+							<Text text="{trolley}" />	
+							<Text text="{path:'from', formatter: '.formatUtils.formatDayTitle'}" />
+							<Text text="{parts:['from','to'], formatter: '.formatUtils.formatTimeRange'}" />								
+							<Text text="{placementsCount}" />
+							<Text text="{videosCount}" />	
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</semantic:content>
+	</semantic:FullscreenPage>
+</mvc:View>

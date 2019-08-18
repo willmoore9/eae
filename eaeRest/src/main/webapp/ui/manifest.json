@@ -166,6 +166,16 @@
 			"pattern" : "shiftReport/schedule/{scheduleId}/shift/{shiftId}",
 			"name" : "shiftReport",
 			"target" : "shiftReportTree"
+		},
+		{
+			"pattern" : "placementsReport",
+			"name" : "placementsReport",
+			"target" : "placementsReportWorklist"
+		},
+		{
+			"pattern" : "placementsReportOverview/{reportId}",
+			"name" : "placementsReportOverview",
+			"target" : "placementsReportOverview"
 		}	
 		
 
@@ -246,6 +256,14 @@
 		},
 		"placementOverview" : {
 		  "viewName" : "PlacementOverview",
+		  "viewLevel" : 2
+		},
+		"placementsReportOverview" : {
+		  "viewName" : "PlacementsReportOverview",
+		  "viewLevel" : 2
+		},
+		"placementsReportWorklist" : {
+		  "viewName" : "PlacementsReportWorklist",
 		  "viewLevel" : 2
 		}
 	  }

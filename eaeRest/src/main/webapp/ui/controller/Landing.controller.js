@@ -101,7 +101,12 @@ sap.ui.define([
 			sap.ui.core.BusyIndicator.show(1000);
 			oRouter.navTo("placements", {});	
 		},
-		
+		navigateToPlacementsReport : function(){
+			var oRouter = this.getOwnerComponent().getRouter();
+			var oModel = this.getView().getModel();
+			sap.ui.core.BusyIndicator.show(1000);
+			oRouter.navTo("placementsReport", {});
+		}
 
 	});
 });

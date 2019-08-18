@@ -126,6 +126,19 @@
 			
 			<GenericTile
 				class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+				header="{i18n>viewPlacementsReport}"
+				press="navigateToPlacementsReport">
+				<tileContent>
+					<TileContent unit="" footer="">
+						<content>
+							<ImageContent src="sap-icon://manager-insight" />
+						</content>
+					</TileContent>
+				</tileContent>
+			</GenericTile>
+						
+			<GenericTile
+				class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
 				header="{i18n>managePublicationLanguages}"
 				subheader="{i18n>managePublicationLanguages}"
 				press="naviagateToPublicationLanguagesManage">
