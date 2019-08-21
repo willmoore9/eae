@@ -1,21 +1,48 @@
 <mvc:View controllerName="org.eae.tools.controller.ShiftReport"
-	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m" xmlns:core="sap.ui.core">
-	<semantic:FullscreenPage id="shiftReport"
-		navButtonPress="onNavBack" showNavButton="true" title="{i18n>reportShiftItems}" showFooter="false">
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+	<semantic:SemanticPage id="shiftReport"
+		navButtonPress="onNavBack" showNavButton="false"  headerExpanded = "false" title="{i18n>reportShiftItems}" showFooter="false" preserveHeaderStateOnScroll="false" toggleHeaderOnTitleClick="true">
+		<semantic:titleHeading>
+			<f:SimpleForm id="reportOverview"
+				title = "{i18n>shiftReport}"
+				editable="false"
+				layout="ResponsiveGridLayout"
+				labelSpanXL="4"
+				labelSpanL="4"
+				labelSpanM="12"
+				labelSpanS="12"
+				adjustLabelSpan="false"
+				emptySpanXL="0"
+				emptySpanL="0"
+				emptySpanM="0"
+				emptySpanS="0"
+				columnsXL="2"
+				columnsL="2"
+				columnsM="2"
+				singleContainerFullSize="true" >
+				<f:content>
+					<Label text="{i18n>videos}" />
+					<Text value="2" />
+					<Label text="{i18n>placements}" />
+					<Text value="1" />
+				</f:content>
+			</f:SimpleForm>
+		</semantic:titleHeading>
 		<semantic:content>
+
 			<Table
 				inset="false"
 				id="idShiftReportTable"
 				itemPress="selectPublicationItem" 	
 				alternateRowColors="true"	
 				items="{
-							path: 'children'
+							path: 'children',
+							factory : '.calcutateReportItem'
 						}"
 				>
 				<headerToolbar>
 					<Toolbar>
 						<Breadcrumbs id="navBreadCrumb" />
-						
 					</Toolbar>
 				</headerToolbar>
 				<columns>
@@ -28,16 +55,10 @@
 						<Text text="{i18n>count}" />
 					</Column>
 				</columns>
- 				<items>
+				<dependents>
 					<core:Fragment fragmentName="org.eae.tools.view.fragments.ShiftReportItem" type="XML"/>
-				</items>
-			    <swipeContent>
-			      <Button
-			        text="Delete Item"
-			        type="Reject"
-			        press="handleReject" />
-			    </swipeContent>
+				</dependents>
 			</Table>
 		</semantic:content>
-	</semantic:FullscreenPage>
+	</semantic:SemanticPage>
 </mvc:View>

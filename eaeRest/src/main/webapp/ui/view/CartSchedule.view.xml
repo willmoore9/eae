@@ -6,7 +6,7 @@
 	xmlns:semantic="sap.m.semantic" 
 	xmlns:core="sap.ui.core">
 		<semantic:FullscreenPage id="cartSchedule"
-		navButtonPress="onNavBack" showNavButton="true" title="{path:'info', formatter:'.formatHeaderTitle'}" showFooter="false">
+		navButtonPress="onNavBack" showNavButton="false" title="{path:'info', formatter:'.formatHeaderTitle'}" showFooter="false">
 			<uxap:ObjectPageLayout id="cartSchedulePage" enableLazyLoading="false" subSectionLayout="TitleOnLeft"
 					  showTitleInHeaderContent="false" showHeaderContent="false"
 					  sections="{weeks}" showOnlyHighImportance="true" flexEnabled="true"

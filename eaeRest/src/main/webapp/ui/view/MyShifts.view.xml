@@ -6,7 +6,7 @@
 	xmlns:semantic="sap.m.semantic" 
 	xmlns:core="sap.ui.core">
 		<semantic:FullscreenPage id="myShifts"
-		navButtonPress="onNavBack" showNavButton="true" title="{i18n>myAssignedShifts}" showFooter="false">
+		navButtonPress="onNavBack" showNavButton="false" title="{i18n>myAssignedShifts}" showFooter="false">
 			<uxap:ObjectPageLayout id="myShiftsPage" enableLazyLoading="false" subSectionLayout="TitleOnLeft"
 					  showTitleInHeaderContent="false" showHeaderContent="false"
 					  sections="{/PublisherData/MyShifts}" showOnlyHighImportance="true" flexEnabled="true"

@@ -7,7 +7,7 @@
 	xmlns:core="sap.ui.core"
 	xmlns:forms="sap.ui.layout.form">
 		<semantic:FullscreenPage id="placementPage"
-		navButtonPress="onNavBack" showNavButton="true" title="{i18n>placementDetail}">
+		navButtonPress="onNavBack" showNavButton="false" title="{i18n>placementDetail}">
 			<uxap:ObjectPageLayout id="placementPageLayout" enableLazyLoading="false" subSectionLayout="TitleOnTop"
 					  showTitleInHeaderContent="true" showHeaderContent="false">
 				

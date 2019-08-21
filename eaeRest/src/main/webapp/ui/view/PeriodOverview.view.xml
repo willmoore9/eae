@@ -6,7 +6,7 @@
 	xmlns:semantic="sap.m.semantic" 
 	xmlns:core="sap.ui.core">
 		<semantic:FullscreenPage id="overviewPeriod"
-		navButtonPress="onNavBack" showNavButton="true" title="{i18n>servicePeriodWorklist}">
+		navButtonPress="onNavBack" showNavButton="false" title="{i18n>servicePeriodWorklist}">
 			<uxap:ObjectPageLayout id="periodPage" enableLazyLoading="false" subSectionLayout="TitleOnLeft"
 					  showTitleInHeaderContent="true" showHeaderContent="false"
 					  sections="{weeks}" showOnlyHighImportance="true" flexEnabled="true" showFooter="false"

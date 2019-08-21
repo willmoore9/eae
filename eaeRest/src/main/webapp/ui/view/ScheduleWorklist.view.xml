@@ -1,7 +1,7 @@
 <mvc:View controllerName="org.eae.tools.controller.ScheduleWorklist"
 	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m">
 	<semantic:FullscreenPage id="scheduleWorklist"
-		navButtonPress="onNavBack" showNavButton="true" title="{i18n>manageCartSchedules}" showFooter="false">
+		navButtonPress="onNavBack" showNavButton="false" title="{i18n>manageCartSchedules}" showFooter="false">
 		<semantic:content>
 			<Table id="table" class="sapUiResponsiveMargin sapUiNoMarginTop"
 				growing="true" growingScrollToLoad="true" width="auto" 	mode="SingleSelectLeft"

@@ -12,13 +12,15 @@
 		__scheduleId : "",
 		__reportId : "",
 		
-		__all_langs : "All Languages",
+		__all_langs : "All",
 		
 		__count : -1,
 		
 		onInit : function(){
 			var oRouter = this.getOwnerComponent().getRouter();
+			
 			oRouter.getRoute("shiftReport").attachPatternMatched(function(oEvent){
+				this.__all_langs = this.getView().getModel("i18n").getProperty("allLanguages");
 				this.__shiftId = oEvent.getParameter("arguments").shiftId;
 				this.__scheduleId = oEvent.getParameter("arguments").scheduleId;
 				this.__currentName = this.__all_langs;
@@ -159,8 +161,9 @@
 			
 			oModel.post("rest/shiftReport/report/" + this.__reportId+ "/placenent/" + guid + "/count/" + currentCount, "POST", {})
 			.then(function(resp) {
-				console.log("POST of count done");
-			}.bind(this)).catch(function(error){
+				debugger;
+				oModel.setProperty(oBC.getPath() + "/calculatedCount", currentCount);
+			}).catch(function(error){
 				console.log("POST of count failed");
 			});
 			
@@ -186,6 +189,36 @@
 			oBC.getModel().setProperty(sPath + "/count", this.__count);
 			
 			this.__count = -1;
+		},
+		
+		calcutateReportItem : function(sId, oContext) {
+			var oUIControl = this.byId("reportItem").clone(sId);
+			var oTreeObject = oContext.getObject();
+			oTreeObject.calculatedCount = this.calculateChildren(oTreeObject);
+			return oUIControl;		
+		},
+		
+		calculateChildren : function (oTree) {
+			var count = 0;
+			var aChildren = oTree['children'];
+			if(aChildren != undefined) {
+				for(var i=0; i< aChildren.length; i++) {
+					var aNextChildren = aChildren[i];
+					if(aNextChildren != undefined) {
+						var childCount = this.calculateChildren(aNextChildren);
+						count += childCount;
+					}
+				}				
+			}
+
+			
+			var currentCount = oTree.count;
+			if(currentCount != undefined){
+				count += currentCount;	
+			}
+			
+			return count;
+			
 		}
 	});
 });

@@ -1,7 +1,7 @@
 <mvc:View controllerName="org.eae.tools.controller.PlacementsReportWorklist"
 	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m" xmlns:u="sap.ui.unified" >
 	<semantic:FullscreenPage id="placementsReportsWorklist"
-		navButtonPress="onNavBack" showNavButton="true" title="{i18n>managePlacementsReports}" showFooter="false">
+		navButtonPress="onNavBack" showNavButton="false" title="{i18n>managePlacementsReports}" showFooter="false">
 		<semantic:content>
 		
 			<Table id="table" class="sapUiResponsiveMargin sapUiNoMarginTop"
