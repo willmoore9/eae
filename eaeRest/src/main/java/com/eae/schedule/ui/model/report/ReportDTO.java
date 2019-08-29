@@ -1,7 +1,9 @@
 package com.eae.schedule.ui.model.report;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.eae.schedule.model.Constants;
 import com.eae.schedule.model.Placement;
@@ -17,22 +19,33 @@ public class ReportDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private ShiftReport report;
+	private String reportGuid;
+	private int videosCount;
+	private int placementsCount;
 	private BaseDTO root;
 	private String lang;
 	
 	public ReportDTO(ShiftReport report, List<Placement> allPlacements, List<PublicationLanguage> languages, String lang) {
 		this.report = report;
+		this.reportGuid = this.report.getGuid();
 		this.root = new BaseDTO(); 
 		this.lang = lang;
+
+    	Set<String> types = new HashSet<>();
+    	
+    	for(Placement pl : allPlacements) {
+    		types.add(pl.getType());
+    	}
+		
 		languages.forEach((language) -> {
 			String nodeLang = language.getGuid();
 			BaseDTO langChild = new  BaseDTO();
-			langChild.setDisplayCode(language.getWtCode());
+			langChild.setDisplayCode(language.getOriginaLangName());
 			langChild.setType(Constants.LANG);
 			
-			buildLeafStructure(langChild, allPlacements, nodeLang, Constants.PUBLICATION_TYPE_BROCHURE);
-			buildLeafStructure(langChild, allPlacements, nodeLang, Constants.PUBLICATION_TYPE_VIDEO);
-			buildLeafStructure(langChild, allPlacements, nodeLang, Constants.PUBLICATION_TYPE_TRACT);
+			for(String type : types) {
+				buildLeafStructure(langChild, allPlacements, nodeLang, type);
+			}
 			
 			root.addChild(langChild);
 		});		
@@ -63,8 +76,17 @@ public class ReportDTO implements Serializable {
 				}
 				
 				leaf.setDisplayCode(display);
-				leaf.setKey(this.report.getGuid());
-				leaf.setCount(this.getCountOfPlacements(placement));
+				leaf.setType(placement.getType());
+				
+				Integer count = this.getCountOfPlacements(placement);
+				
+				if(placement.getType().equalsIgnoreCase(Constants.PUBLICATION_TYPE_VIDEO) && count != null ) {
+					this.videosCount += count;
+				} else if( count != null){
+					this.placementsCount += count;
+				}
+				
+				leaf.setCount(count);
 				branch.addChild(leaf);
 			}
 		});
@@ -83,11 +105,13 @@ public class ReportDTO implements Serializable {
 	}
 	
 	
-	public ShiftReport getReport() {
-		return report;
+	public String getReportGuid() {
+		return reportGuid;
 	}
 
+
 	public void setReport(ShiftReport report) {
+		this.reportGuid = report.getGuid();
 		this.report = report;
 	}
 
@@ -99,6 +123,24 @@ public class ReportDTO implements Serializable {
 	public void setRoot(BaseDTO root) {
 		this.root = root;
 	}
-	
-	
+
+
+	public int getVideosCount() {
+		return videosCount;
+	}
+
+
+	public void setVideosCount(int videoCount) {
+		this.videosCount = videoCount;
+	}
+
+
+	public int getPlacementsCount() {
+		return placementsCount;
+	}
+
+
+	public void setPlacementsCount(int placementsCount) {
+		this.placementsCount = placementsCount;
+	}
 }

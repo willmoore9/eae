@@ -2,6 +2,7 @@ package com.eae.schedule.model;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -101,7 +102,7 @@ public class Publisher extends BaseObject implements Serializable {
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = email.toLowerCase(Locale.ENGLISH);
 	}
 
 	public String getTelephone() {

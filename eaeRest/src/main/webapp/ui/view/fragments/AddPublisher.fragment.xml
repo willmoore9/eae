@@ -28,7 +28,7 @@
 				<Label text="{i18n>congregation}" />
 				<Input value="{/ui/createPublisher/congregation}" />
 				<Label text="{i18n>email}" />
-				<Input value="{/ui/createPublisher/email}" />
+				<Input value="{/ui/createPublisher/email}" type="sap.m.InputType.Email"/>
 				<Label text="{i18n>phoneNumber}" />
 				<Input value="{/ui/createPublisher/phoneNumber}" />
 				<Label text="{i18n>isAdmin}" />

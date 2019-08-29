@@ -24,7 +24,7 @@ public class PublicationLanguage extends BaseObject implements Serializable {
 	private String wtCode;
 	
 	@Basic
-	@Column(name="LANG_NAME",length = 64)
+	@Column(name="LANG_NAME",length = 128)
 	private String langName;
 	
 	@Basic

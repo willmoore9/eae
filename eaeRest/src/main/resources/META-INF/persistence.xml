@@ -15,6 +15,7 @@
 		<class>com.eae.schedule.model.CartDeliveryKey</class>
 		<class>com.eae.schedule.model.Consent</class>
 		<class>com.eae.schedule.model.PublicationLanguage</class>
+		<class>com.eae.schedule.model.Placement</class>
 		<class>com.eae.schedule.model.PlacementTitle</class>
 		<class>com.eae.schedule.model.ShiftReport</class>
 		<class>com.eae.schedule.model.ShiftReportItem</class>

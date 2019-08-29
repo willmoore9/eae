@@ -28,7 +28,7 @@ public class PlacementaController {
 	@RequestMapping(name="/", method=RequestMethod.GET)
 	public Response<Placement> getAll() {
 		Response<Placement> response = new Response<Placement>();
-		List<Placement> placements = placementsRepo.findAll();
+		List<Placement> placements = (List<Placement>) placementsRepo.findAll();
 		response.setSuccessful(true);
 		response.setObjects(placements);
 		return response;
@@ -37,7 +37,7 @@ public class PlacementaController {
 	@RequestMapping(value="/create", method=RequestMethod.POST, consumes={"application/json"}, produces={"application/json"})
 	public Response<Placement> getCreate(@RequestBody Placement placement) {
 		Response<Placement> response = new Response<Placement>();
-		placementsRepo.saveAndFlush(placement);
+		placementsRepo.save(placement);
 		response.addObject(placement);
 		response.setSuccessful(true);
 		return response;
@@ -100,7 +100,7 @@ public class PlacementaController {
     		}
     	}
     	
-    	placement = this.placementsRepo.saveAndFlush(placement);
+    	placement = this.placementsRepo.save(placement);
     			
     	response.setSuccessful(true);
     	response.setObject(placement);

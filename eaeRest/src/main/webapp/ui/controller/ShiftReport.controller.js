@@ -26,6 +26,9 @@
 				this.__currentName = this.__all_langs;
 				this.refreshTable(this.__scheduleId, this.__shiftId);
 				this.__currentPath = "/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId + "/root";
+				
+				this.getView().byId("reportOverview").bindElement("/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId);
+				
 			}.bind(this));
 
 		},
@@ -49,7 +52,7 @@
 			var oModel = this.getView().getModel();
 			oModel.post("rest/shiftReport/report/" + scheduleId + "/" + shiftId, "GET", {"lang" : lang}).then(
 				function(data) {
-					this.__reportId = data.object.report.guid;
+					this.__reportId = data.object.reportGuid;
 					oModel.createPath(path);
 					oModel.setProperty(path, data.object);
 					sap.ui.core.BusyIndicator.hide();
@@ -110,7 +113,8 @@
 		onEditCount : function(oBindingContext) {
 			if(!this._oModufyReportItemDialog) {
 				this._oModufyReportItemDialog = sap.ui.xmlfragment("modifyReportItem", "org.eae.tools.view.fragments.ModifyReportItemCount", this);
-				this.getView().addDependent(this._oModufyReportItemDialog);	
+				this.getView().addDependent(this._oModufyReportItemDialog);
+				this._oModufyReportItemDialog.attachBeforeOpen(this.beforeModifyReportEvent.bind(this));
 			}
 			this._oModufyReportItemDialog.setBindingContext(oBindingContext);
 			this._oModufyReportItemDialog.open();
@@ -158,12 +162,25 @@
 			var guid = oBC.getObject().guid;
 			console.log("onConfirmReportItemModify " + currentCount);
 			this.__count = -1;
-			
 			oModel.post("rest/shiftReport/report/" + this.__reportId+ "/placenent/" + guid + "/count/" + currentCount, "POST", {})
 			.then(function(resp) {
-				debugger;
 				oModel.setProperty(oBC.getPath() + "/calculatedCount", currentCount);
-			}).catch(function(error){
+				
+				var path = "/ShiftReport/schedule/" + this.__scheduleId + "/shift/" + this.__shiftId;
+				
+				if(this.__currentType === "VIDEO") {
+					var videosCount = oModel.getProperty(path + "/videosCount");
+					var diff = currentCount - this.__beforeCount;
+					videosCount += diff;
+					oModel.setProperty(path + "/videosCount", videosCount)
+				} else {
+					var placememtsCount = oModel.getProperty(path + "/placementsCount");
+					var diff = currentCount - this.__beforeCount;
+					placememtsCount += diff;
+					oModel.setProperty(path + "/placementsCount", placememtsCount)
+				}
+				
+			}.bind(this)).catch(function(error){
 				console.log("POST of count failed");
 			});
 			
@@ -219,6 +236,18 @@
 			
 			return count;
 			
+		},
+		
+		beforeModifyReportEvent : function(oEvent) {
+			var oModel = this.getView().getModel();
+			var oBC = oEvent.oSource.getBindingContext();
+			var oCurrentObject = oBC.getObject();
+			var currentCount = oCurrentObject.count;
+			var currentType = oCurrentObject.type;
+			this.__beforeCount = currentCount;
+			this.__currentType = currentType;
+			console.log(this.__currentType);
+			console.log(this.__beforeCount);
 		}
 	});
 });

@@ -22,9 +22,9 @@
 				singleContainerFullSize="true" >
 				<f:content>
 					<Label text="{i18n>videos}" />
-					<Text value="2" />
+					<Text text="{videosCount}" />
 					<Label text="{i18n>placements}" />
-					<Text value="1" />
+					<Text text="{placementsCount}" />
 				</f:content>
 			</f:SimpleForm>
 		</semantic:titleHeading>

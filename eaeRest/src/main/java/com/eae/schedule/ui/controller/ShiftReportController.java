@@ -131,7 +131,7 @@ public class ShiftReportController {
 														 @RequestParam(value = "lang", required = false) String lang
 			) {
 	
-    	List<Placement> allPlacements = this.placementsRepo.findAll();
+    	List<Placement> allPlacements = (List<Placement>) this.placementsRepo.findAll();
     	List<PublicationLanguage> allLanguages = this.langRepo.findAll();
     	
     	CartSchedule schedule = this.cartScheduleRepo.findById(scheduleId).get();
