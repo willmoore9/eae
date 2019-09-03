@@ -1,10 +1,10 @@
 package com.eae.schedule.ui.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +23,6 @@ import com.eae.schedule.repo.CartScheduleRepository;
 import com.eae.schedule.repo.PlacementsRepository;
 import com.eae.schedule.repo.PublicationLangsRepository;
 import com.eae.schedule.repo.ShiftReportItemRepository;
-import com.eae.schedule.repo.ShiftReportPageableRepository;
 import com.eae.schedule.repo.ShiftReportRepository;
 import com.eae.schedule.repo.ShiftRepository;
 import com.eae.schedule.ui.model.Response;
@@ -53,16 +52,17 @@ public class ShiftReportController {
 	private PublicationLangsRepository langRepo;
 	
 	@Autowired
-	private ShiftReportPageableRepository pageableShiftRepo;
+	private ShiftReportRepository pageableShiftRepo;
 	
 	@RequestMapping(name="/", method=RequestMethod.GET)
-	public Response<ShiftReportDTO> getAll(@RequestParam(name="page", required=false, defaultValue="0") int page) {
+	public Response<ShiftReportDTO> getAll(
+			@RequestParam(name="starts", required=false, defaultValue="") String from,
+			@RequestParam(name="ends", required=false, defaultValue="") String to
+			) {
 		Response<ShiftReportDTO> response = new Response<ShiftReportDTO>();
-		PageRequest pageRequest = PageRequest.of(0, 20);
-		Page<ShiftReport> placements = pageableShiftRepo.findAll(pageRequest);
+		List<ShiftReport> reports = pageableShiftRepo.findByStartsAfterAndEndsBefore(new Date(Long.parseLong(from)), new Date(Long.parseLong(to)), Sort.by("starts"));
 		response.setTotal( pageableShiftRepo.count() );
 		response.setSuccessful(true);
-		List<ShiftReport> reports = placements.getContent();
 		
 		for(ShiftReport report : reports) {
 			ShiftReportDTO dto = new ShiftReportDTO();
