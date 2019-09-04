@@ -32,6 +32,20 @@
 					</TileContent>
 				</tileContent>
 			</GenericTile>
+			
+			
+			<GenericTile
+				class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+				header="{i18n>viewAllReports}" press="navigateToShiftsReport"
+				visible="{= ${/PublisherData/Publisher/email} !== 'ANONYMOUS' }">
+				<tileContent>
+					<TileContent unit="">
+						<content>
+							<ImageContent src="sap-icon://manager-insight" />
+						</content>
+					</TileContent>
+				</tileContent>
+			</GenericTile>
 
 
 <!-- 			<GenericTile
@@ -119,19 +133,6 @@
 					<TileContent unit="" footer="">
 						<content>
 							<ImageContent src="sap-icon://appointment" />
-						</content>
-					</TileContent>
-				</tileContent>
-			</GenericTile>
-			
-			<GenericTile
-				class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-				header="{i18n>viewPlacementsReport}"
-				press="navigateToPlacementsReport">
-				<tileContent>
-					<TileContent unit="" footer="">
-						<content>
-							<ImageContent src="sap-icon://manager-insight" />
 						</content>
 					</TileContent>
 				</tileContent>

@@ -72,6 +72,7 @@
         <sec:intercept-url pattern="/rest/shifts/addRequestAssign/**" access="hasAuthority('PUBLISHER')"/>
         <sec:intercept-url pattern="/rest/shifts/removeRequestAssign/**" access="hasAuthority('PUBLISHER')"/>
         <sec:intercept-url pattern="/rest/landing/**" access="hasAuthority('PUBLISHER')"/>
+        <sec:intercept-url pattern="/rest/shiftReport/delete/*" access="hasAuthority('ADMIN')"/>
         <sec:logout logout-url="/logout" delete-cookies="JSESSIONID" logout-success-url="/#login" />
         <sec:csrf disabled="true" />
     </sec:http>

@@ -72,7 +72,7 @@
 	  "routes": [
 		{
 		  "pattern": "home",
-		  "name": "home",
+		  "name": "landingPage",
 		  "target": "landing"
 		},
 		{

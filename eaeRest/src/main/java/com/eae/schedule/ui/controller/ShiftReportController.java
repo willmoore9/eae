@@ -60,7 +60,7 @@ public class ShiftReportController {
 			@RequestParam(name="ends", required=false, defaultValue="") String to
 			) {
 		Response<ShiftReportDTO> response = new Response<ShiftReportDTO>();
-		List<ShiftReport> reports = pageableShiftRepo.findByStartsAfterAndEndsBefore(new Date(Long.parseLong(from)), new Date(Long.parseLong(to)), Sort.by("starts"));
+		List<ShiftReport> reports = pageableShiftRepo.findByStartsAfterAndEndsBefore(new Date(Long.parseLong(from)), new Date(Long.parseLong(to)), Sort.by("starts").descending());
 		response.setTotal( pageableShiftRepo.count() );
 		response.setSuccessful(true);
 		

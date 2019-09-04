@@ -18,7 +18,7 @@
 				</headerToolbar>
 				<columns>
 					<Column id="nameColumn">
-						<Text id="englihName" text="{i18n>englishName}" />
+						<Text id="englishName" text="{i18n>englishName}" />
 					</Column>
 					<Column id="typeColumn">
 						<Text id="type" text="{i18n>placementType}" />

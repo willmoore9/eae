@@ -51,7 +51,7 @@ sap.ui.define([
 				sap.ui.core.BusyIndicator.hide();
 				var oRouter = this.getOwnerComponent().getRouter();
 				sap.ui.core.BusyIndicator.show(1000);
-				oRouter.navTo("");
+				oRouter.navTo("landingPage");
 			}.bind(this));
 			
 		}

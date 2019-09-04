@@ -31,7 +31,7 @@
 				</headerToolbar>
 				<columns>
 					<Column id="trolleys">
-						<Text text="{i18n>trolleys}" />
+						<Text text="{i18n>cart}" />
 					</Column>
 					<Column id="date">
 						<Text id="reportFrom" text="{i18n>date}" />
@@ -40,10 +40,10 @@
 						<Text text="{i18n>time}" />
 					</Column>
 					<Column id="placementsCount">
-						<Text text="{i18n>placementsCount}" />
+						<Text text="{i18n>placements}" />
 					</Column>
 					<Column id="videosCount">
-						<Text text="{i18n>videosCount}" />
+						<Text text="{i18n>videos}" />
 					</Column>
 				</columns>
 				<items>
